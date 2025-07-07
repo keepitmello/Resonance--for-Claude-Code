@@ -1,6 +1,6 @@
 {
-  "name": "@resonance/claude-commands",
-  "version": "1.0.0",
+  "name": "claude-resonance",
+  "version": "1.0.2",
   "description": "🚀 Resonance™ for Claude Code - AI TDD workflow with Opus-Sonnet collaboration",
   "keywords": [
     "claude-code",
@@ -14,16 +14,16 @@
   ],
   "author": "Resonance Team",
   "license": "MIT",
-  "homepage": "https://github.com/yourusername/resonance#readme",
+  "homepage": "https://github.com/keepitmello/Resonance--for-Claude-Code#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/resonance.git"
+    "url": "https://github.com/keepitmello/Resonance--for-Claude-Code.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/resonance/issues"
+    "url": "https://github.com/keepitmello/Resonance--for-Claude-Code/issues"
   },
   "bin": {
-    "resonance-install": "./bin/install.js"
+    "resonance": "./bin/install.js"
   },
   "files": [
     "commands/",

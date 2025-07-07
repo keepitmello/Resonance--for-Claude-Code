@@ -64,25 +64,31 @@ Opus: "같이 설계해봐요..."
 
 ## 🚀 빠른 설치
 
-### NPM 패키지 (추천) ⚡
+### ⚡ NPM 패키지 (한 줄로 끝!)
 ```bash
-# 한 줄로 설치 완료
-npx @resonance/claude-commands
-
-# 또는 글로벌 설치
-npm install -g @resonance/claude-commands
-resonance-install
+npx claude-resonance
 ```
 
-### 수동 설치
+**시스템 요구사항:**
+- **macOS 전용** (macOS 15.5+에서 테스트됨)
+- **Claude Code**가 기본 위치(`~/.claude/`)에 설치되어 있어야 함
+- npm/npx 사용 가능한 터미널
+
+### 🔧 수동 설치 (대안)
 ```bash
 # 레포지토리 클론
-git clone https://github.com/yourusername/resonance.git
-cd resonance
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
 
 # 설치 및 활성화
 ./activate-simple.sh
 ```
+
+### 🚨 호환성 안내
+- **현재 macOS 전용** - Windows/Linux 지원 예정
+- **Claude Code**가 `~/.claude/commands/`에 설치되어 있어야 함
+- Claude Code가 다른 위치에 있다면 수동 설치 사용
+- 설치 스크립트가 기존 파일을 자동으로 백업
 
 ## 🔄 근본적인 변화
 
@@ -235,10 +241,10 @@ cycles/2025-07-07/
 ## 🚀 지금 시작하세요
 
 ```bash
-git clone https://github.com/yourusername/resonance.git
-cd resonance
-./activate-simple.sh
+npx claude-resonance
 ```
+
+**⚠️ macOS 전용** | Claude Code가 `~/.claude/`에 있어야 함
 
 Claude Code에서:
 

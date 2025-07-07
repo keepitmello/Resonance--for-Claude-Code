@@ -60,68 +60,33 @@ Opus: "Let's design it together..."
 </tr>
 </table>
 
-## 🎯 Choose Your Version
-
-This workflow comes in two flavors, choose based on your needs:
-
-### 🎪 Simple Version
-Perfect for developers who want to start immediately without complex Git setups.
-
-- ✅ **No Git worktree knowledge required**
-- ✅ **Works with standard branches**
-- ✅ **Minimal setup**
-- ✅ **Great for beginners**
-
-[📖 Simple Version Guide](./versions/simple/README.md) | [🚀 Quick Start](./versions/simple/QUICKSTART.md)
-
-### ⚡ Worktree Version
-For power users who need parallel development and advanced Git features.
-
-- ✅ **True parallel development**
-- ✅ **Event-driven checkpoints**
-- ✅ **Automatic Git commits**
-- ✅ **Never lose context**
-
-[📖 Worktree Version Guide](./versions/worktree/README.md) | [🚀 Quick Start](./versions/worktree/QUICKSTART.md)
-
-## 🤔 Which Version Should I Use?
-
-| Feature | Simple | Worktree |
-|---------|---------|----------|
-| **Setup Time** | 2 minutes | 10 minutes |
-| **Git Experience Required** | Basic | Intermediate |
-| **Parallel Work** | Sequential only | True parallel |
-| **Context Preservation** | JSON checkpoints | Git + checkpoints |
-| **Automatic Commits** | No | Yes |
-| **Branch Switching** | Manual stashing | Clean switches |
-
 ## 🚀 Quick Installation
 
-### NPM Package (Recommended) ⚡
+### ⚡ NPM Package (One Command!)
 ```bash
-# One-liner installation
-npx @resonance/claude-commands
-
-# Or install globally
-npm install -g @resonance/claude-commands
-resonance-install
+npx claude-resonance
 ```
 
-### Manual Installation
+**System Requirements:**
+- **macOS only** (tested on macOS 15.5+)
+- **Claude Code** installed in standard location (`~/.claude/`)
+- Terminal with npm/npx access
+
+### 🔧 Manual Installation (Alternative)
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/resonance.git
-cd resonance
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
 
-# For Simple version
+# Install and activate
 ./activate-simple.sh
-
-# For Worktree version
-./activate-worktree.sh
-
-# Switch between versions anytime
-./switch-version.sh
 ```
+
+### 🚨 Compatibility Notes
+- **Currently macOS only** - Windows/Linux support planned
+- **Requires Claude Code** to be installed in `~/.claude/commands/`
+- If Claude Code is in a different location, use manual installation
+- Installation script automatically backs up existing files
 
 ## 🔄 The Fundamental Shift
 
@@ -173,68 +138,6 @@ Traditional AI Coding:                AI TDD Workflow:
 ## 🤝 Real Collaboration, Not Templates
 
 <details>
-<summary>Example: Building a Rate Limiter</summary>
-
-```
-You: /cycle-plan "Add rate limiting"
-
-Opus: "Rate limiting for what - API endpoints, user actions, or something else?"
-You: "API endpoints"
-
-Opus: "What's your current traffic like? Need Redis or can we use in-memory?"
-You: "About 1000 req/sec, we have Redis"
-
-Opus: "Per-user limits or global? What happens when limit is hit?"
-You: "Per-user, return 429 with retry-after header"
-
-Opus: "Should certain endpoints be exempt? Like health checks?"
-You: "Oh good point, yes /health and /metrics"
-
-[ultrathink activated...]
-
-Opus: "Created comprehensive plan with:
-- Token bucket algorithm 
-- Redis-based distributed limiting
-- Exempt endpoints configuration
-- Test cases for burst scenarios
-- Graceful degradation strategy"
-```
-
-**Notice:** Opus didn't assume. It asked. It understood. It planned WITH you.
-
-</details>
-
-<details>
-<summary>Example: Code Review That Actually Helps</summary>
-
-```
-[After Sonnet implements the rate limiter...]
-
-opus> /cycle-check
-
-Opus: "Looking at the implementation... The token bucket works well, but I notice 
-something. What happens if Redis goes down?"
-
-You: "Oh, good catch. Maybe fallback to local limiting?"
-
-Opus: "That could work, but then you might get inconsistent limits across 
-servers. What's more important - staying within exact limits or keeping 
-the service running?"
-
-You: "Keeping it running, definitely"
-
-Opus: "Then let's add a circuit breaker. When Redis fails, we temporarily 
-allow more requests but log it. Also, I see the tests don't cover the 
-race condition when two requests hit at exactly the same millisecond..."
-
-[Creates tasks for Sonnet to address these issues]
-```
-
-**Not just "LGTM" - actual collaborative improvement.**
-
-</details>
-
-<details>
 <summary>Example: React Context Performance Crisis</summary>
 
 ```
@@ -262,47 +165,17 @@ React.memo for render optimization."
 
 </details>
 
-## 📸 See It In Action
-
-<details>
-<summary>🎬 Simple Version Demo</summary>
+## 📸 Real Results
 
 ```bash
-# Start a new cycle with Opus
-opus> /cycle-plan "Add payment validation"
-# → Creates a detailed TDD plan
+# 4-Hour Work Session
+✅ 6 new files created, 2 modified  
+✅ 100% test coverage (16 test cases)
+✅ Commit: 10 files changed, 3,148 insertions
+✅ Estimated 5 hours → Completed in 4 hours
 
-# Switch to Sonnet for implementation
-sonnet> /cycle-start
-# → Reads the plan and starts coding with tests
-
-# Back to Opus for review
-opus> /cycle-check
-# → Critical code review and improvements
+All progress preserved in cycles/ directory with timestamps
 ```
-
-</details>
-
-<details>
-<summary>🎬 Worktree Version Demo</summary>
-
-```bash
-# Opus creates plan with Git strategy
-opus> /cycle-plan "Refactor authentication"
-# → Creates plan + Git worktree setup
-
-# Sonnet implements with automatic checkpoints
-sonnet> /cycle-start
-# → Every test/change creates a Git commit
-# → Work in isolated worktree
-# → Never lose progress
-
-# Opus reviews with full Git history
-opus> /cycle-check
-# → Reviews code AND Git commit patterns
-```
-
-</details>
 
 ## 🚨 Emergency Production Recovery
 
@@ -355,10 +228,6 @@ cycles/
     └── 0900-payment-api-v2-plan.md      # Continue exactly where you left off
 ```
 
-**Every decision, every struggle, every breakthrough - timestamped and preserved.**
-
-Not buried in chat history. Not lost in context resets. Real files you can `grep`, `git blame`, and learn from.
-
 **Key**: When Auto-Compact erases context, checkpoint.json lets you resume exactly where you left off
 - Completed tasks and ongoing work
 - Decisions made and reasoning  
@@ -395,33 +264,7 @@ Not buried in chat history. Not lost in context resets. Real files you can `grep
 
 </details>
 
-## 🌟 Key Features
-
-### Both Versions Share:
-- 🧪 **True TDD**: Red-Green-Refactor with AI
-- 🎭 **Dual AI Models**: Opus (architect) + Sonnet (builder)
-- 📝 **Rich Documentation**: Every decision documented
-- 🔄 **Continuous Integration**: Built-in quality checks
-- 🌍 **i18n Support**: English and Korean
-- 🔥 **Beat 20k Limit**: Continue working across context resets with checkpoint.json
-
-### Worktree Version Adds:
-- 🌳 **Git Worktrees**: Parallel development without stashing
-- ⚡ **Event-driven Commits**: Automatic commits on test/change/discovery
-- 🏷️ **Smart Tagging**: Milestone and solution tags
-- 🔍 **Git-based Recovery**: Never lose context with Git history
-
-## 📊 Real Results
-
-### 📸 Actual 4-Hour Work Session
-```bash
-✅ 6 new files created, 2 modified  
-✅ 100% test coverage (16 test cases)
-✅ Commit: 10 files changed, 3,148 insertions
-✅ Estimated 5 hours → Completed in 4 hours
-
-All progress preserved in cycles/ directory with timestamps
-```
+## 📊 Before vs After
 
 <table>
 <tr>
@@ -448,46 +291,19 @@ All progress preserved in cycles/ directory with timestamps
 </tr>
 </table>
 
-
-## 🤝 Contributing
-
-We love contributions! Whether it's:
-
-- 🐛 Bug reports
-- 💡 Feature requests
-- 📖 Documentation improvements
-- 🌍 Translations
-- 🎨 UI/UX suggestions
-
-Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-## 📜 License
-
-MIT - see [LICENSE](./LICENSE) for details.
-
-## 🙏 Acknowledgments
-
-- Claude (Anthropic) for making this workflow possible
-- The TDD community for methodology inspiration
-- Git worktree contributors for the amazing tool
-- Early adopters for invaluable feedback
-
-## 📊 Before vs After
-
-**Before**: Context loss → Test-fix infinite loop → Frustration  
-**After 1 Week**: Context preserved → TDD completion → Flow state
-
 ## 🚀 Start Now - Transform Your AI Workflow
 
 ```bash
-# Option 1: NPM (Recommended)
-npx @resonance/claude-commands
+# Option 1: NPM (One Command!)
+npx claude-resonance
 
-# Option 2: Manual
-git clone https://github.com/yourusername/resonance.git
-cd resonance
-./activate-simple.sh  # Start simple, upgrade later
+# Option 2: Manual Installation
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+./activate-simple.sh
 ```
+
+**⚠️ macOS only** | Requires Claude Code in `~/.claude/`
 
 Then in Claude Code:
 ```
