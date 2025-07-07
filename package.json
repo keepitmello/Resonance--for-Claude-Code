@@ -1,0 +1,42 @@
+{
+  "name": "@resonance/claude-commands",
+  "version": "1.0.0",
+  "description": "🚀 Resonance™ for Claude Code - AI TDD workflow with Opus-Sonnet collaboration",
+  "keywords": [
+    "claude-code",
+    "ai",
+    "tdd",
+    "workflow",
+    "opus",
+    "sonnet",
+    "mcp",
+    "automation"
+  ],
+  "author": "Resonance Team",
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/resonance#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/resonance.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/resonance/issues"
+  },
+  "bin": {
+    "resonance-install": "./bin/install.js"
+  },
+  "files": [
+    "commands/",
+    "bin/",
+    "README.md",
+    "README-ko.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0",
+    "prepublishOnly": "echo \"Ready to publish Resonance commands!\""
+  },
+  "preferGlobal": true
+}
