@@ -1,5 +1,7 @@
 # 🚀 Resonance™ for Claude Code
 
+> **⚠️ 중요 업데이트 (2025년 7월 8일)**: 7월 8일에 설치하신 분들은 `npm update -g claude-resonance` 또는 `npx claude-resonance` 명령어로 즉시 업데이트해주세요.
+
 > Auto-Compact로 컨텍스트가 날아갔나요? 끝없이 버그 수정 중인가요?  
 > **체계적인 Resonance™ 워크플로우로 해결하세요.**
 

@@ -1,5 +1,7 @@
 # 🚀 Resonance™ for Claude Code
 
+> **⚠️ IMPORTANT UPDATE (July 8, 2025)**: If you installed on July 8, please update immediately with `npm update -g claude-resonance` or `npx claude-resonance`.
+
 > Lost context from Auto-Compact? Stuck in endless bug fixing?  
 > **Solve it with the systematic Resonance™ workflow.**
 
