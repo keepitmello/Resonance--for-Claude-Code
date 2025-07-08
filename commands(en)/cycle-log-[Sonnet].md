@@ -51,13 +51,29 @@ Honest documentation of challenges and decisions enables better future plans.
 - Technical decisions with rationale
 - Honest assessment of what's incomplete
 
-### 4. Save the Log
+### 4. Save the Log (CRITICAL - NEVER SKIP!)
+
+**CRITICAL FIRST STEPS**:
+1. **CHECK EXISTING FILES**: Look for plan/checkpoint files in cycle folder to identify existing timestamp
+2. **GET CURRENT TIME**: Run `date '+%Y-%m-%d %H:%M:%S'` for document content timestamp
+3. **FILE NAMING RULE**: Use existing plan timestamp for filename, current time for content
 
 **File naming**: Match the plan timestamp!
 - Plan: `1430-payment-api-plan.md`
 - Log: `1430-payment-api-log.md` (same timestamp)
 
-Use Write tool to save - never just output to console.
+**CRITICAL FINAL STEPS**:
+1. **SAVE AS FILE**: Use Write tool to save as `cycles/YYYY-MM-DD/[PLAN_TIMESTAMP]-topic-log.md`
+   - **ALWAYS match existing plan file timestamp** (e.g., if plan is `1430-xyz-plan.md`, log is `1430-xyz-log.md`)
+   - **NEVER** use current time for filename, only for document content
+   - **NEVER** just output to console
+2. Reference the original plan file (e.g., "Based on: 1430-payment-api-plan.md")
+
+**COMMON MISTAKES TO AVOID**:
+- ❌ Using current time for filename instead of matching plan timestamp  
+- ❌ Not checking existing cycle files first
+- ❌ Just showing the log without saving to file
+- ❌ Using wrong date/time format
 
 *See examples/log-examples.md for reference*
 

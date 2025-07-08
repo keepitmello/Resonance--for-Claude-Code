@@ -71,13 +71,33 @@ Write in Korean for all checkpoint content.
 - 현재 TDD 단계와 테스트 상태
 - 막힌 부분과 돌파구
 
-**Update frequently**:
-- 20-30분마다
-- 각 TDD 단계 전환 후
-- 막혔거나 "아하!" 순간 후
-- 새로운 접근 시도 전
+**Update Frequency (MANDATORY)**:
+- **Every 20-30 minutes** regardless of progress
+- **After each test** (pass or fail)
+- **After each TDD phase transition**
+- **Before trying new approach**
+- **After any "aha!" moment**
+- **When stuck for >10 minutes**
+- **After 2-3 file edits**
+- **Before any risky change**
 
-*See examples/checkpoint-examples.md for structure*
+**What to Document (BE SPECIFIC)**:
+```json
+// BAD - Too vague
+"currentContext": {
+  "whatImDoing": "결제 구현 중"
+}
+
+// GOOD - Rich context
+"currentContext": {
+  "whatImDoing": "Stripe 웹훅 이벤트 처리 로직 구현 중",
+  "whyThisApproach": "idempotency key로 중복 처리 방지",
+  "keyFiles": ["src/webhooks/stripe.ts", "src/services/payment.ts"],
+  "criticalCode": "const key = crypto.createHash('sha256').update(event.id).digest('hex');"
+}
+```
+
+*See examples/checkpoint-examples.md for detailed structure*
 
 ## CONTEXT RECOVERY
 

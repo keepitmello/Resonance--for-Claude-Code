@@ -1,6 +1,6 @@
 # 🚀 Resonance™ for Claude Code
 
-> **⚠️ IMPORTANT UPDATE (July 8, 2025)**: If you installed on July 8, please update immediately with `npm update -g claude-resonance` or `npx claude-resonance`. We're actively updating prompts - check GitHub frequently for updates.
+> **⚠️ IMPORTANT UPDATE (January 8, 2025)**: Version 1.4.0 released! Major improvements to command structure. Update with `npm update -g claude-resonance` or use `npx claude-resonance` for the latest version.
 
 > Lost context from Auto-Compact? Stuck in endless bug fixing?  
 > **Solve it with the systematic Resonance™ workflow.**
@@ -135,6 +135,13 @@ Traditional AI Coding:           AI TDD Workflow:
                                          ▼
                                  Verified & Refined!
 ```
+
+## 🌟 What's New in v1.4.0
+
+- **Principle-Driven Design**: Commands now focus on core principles rather than rigid templates
+- **Separated Examples**: All examples moved to `examples/` folders for cleaner, more flexible guidelines
+- **Enhanced Korean Support**: Korean version now uses English system prompts for better performance
+- **Philosophy Documentation**: Added [PHILOSOPHY.md](./PHILOSOPHY.md) explaining the core concepts
 
 ## 🚀 Quick Installation
 

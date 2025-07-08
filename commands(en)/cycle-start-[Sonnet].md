@@ -67,13 +67,33 @@ Write checkpoints as if you'll have complete memory loss in 30 minutes.
 - Current TDD phase and test status
 - Blockers and breakthroughs
 
-**Update frequently**:
-- Every 20-30 minutes
-- After each TDD phase transition
-- When stuck or after "aha!" moments
-- Before trying new approaches
+**Update Frequency (MANDATORY)**:
+- **Every 20-30 minutes** regardless of progress
+- **After each test** (pass or fail)
+- **After each TDD phase transition**
+- **Before trying new approach**
+- **After any "aha!" moment**
+- **When stuck for >10 minutes**
+- **After 2-3 file edits**
+- **Before any risky change**
 
-*See examples/checkpoint-examples.md for structure*
+**What to Document (BE SPECIFIC)**:
+```json
+// BAD - Too vague
+"currentContext": {
+  "whatImDoing": "Implementing payment"
+}
+
+// GOOD - Rich context
+"currentContext": {
+  "whatImDoing": "Implementing Stripe webhook event processing logic",
+  "whyThisApproach": "Prevent duplicate processing with idempotency key",
+  "keyFiles": ["src/webhooks/stripe.ts", "src/services/payment.ts"],
+  "criticalCode": "const key = crypto.createHash('sha256').update(event.id).digest('hex');"
+}
+```
+
+*See examples/checkpoint-examples.md for detailed structure*
 
 
 
