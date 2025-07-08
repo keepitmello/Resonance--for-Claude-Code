@@ -77,6 +77,92 @@ function selectLanguage() {
   });
 }
 
+// Version checking and migration logic
+function isLegacyVersion() {
+  const CONFIG_FILE = path.join(os.homedir(), ".claude", "resonance-config.json");
+  const COMMANDS_DIR = path.join(os.homedir(), ".claude", "commands");
+  
+  try {
+    // Check if commands directory exists
+    if (!fs.existsSync(COMMANDS_DIR)) return false;
+    
+    // Check for worktree artifacts in command files
+    const commandFiles = fs.readdirSync(COMMANDS_DIR).filter(file => file.endsWith('.md'));
+    for (const file of commandFiles) {
+      const filePath = path.join(COMMANDS_DIR, file);
+      try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        // Look for git worktree specific patterns
+        if (/(git worktree|\.git\/worktrees|worktree.*checkout|branch.*worktree)/i.test(content)) {
+          return true;
+        }
+      } catch (err) {
+        // Skip files that can't be read
+        continue;
+      }
+    }
+    
+    // Check config version if exists
+    if (fs.existsSync(CONFIG_FILE)) {
+      try {
+        const config = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
+        // If version is less than 1.2.0, it's legacy
+        if (config.version && config.version.startsWith('1.0') || config.version.startsWith('1.1')) {
+          return true;
+        }
+      } catch (err) {
+        // If config is corrupted, assume legacy
+        return true;
+      }
+    }
+    
+    return false;
+  } catch (err) {
+    return false;
+  }
+}
+
+function performMigration(language) {
+  const COMMANDS_DIR = path.join(os.homedir(), ".claude", "commands");
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
+  const migrationBackupDir = path.join(COMMANDS_DIR, "backup", `migration-v1.2-${timestamp}`);
+  
+  console.log(
+    language === "ko" 
+      ? "\n🔄 레거시 버전에서 마이그레이션 중..."
+      : "\n🔄 Migrating from legacy version..."
+  );
+  
+  // Create migration backup directory
+  fs.mkdirSync(migrationBackupDir, { recursive: true });
+  
+  // Move legacy command files to migration backup
+  const commandFiles = fs.readdirSync(COMMANDS_DIR).filter(file => file.endsWith('.md'));
+  let migratedCount = 0;
+  
+  for (const file of commandFiles) {
+    const filePath = path.join(COMMANDS_DIR, file);
+    try {
+      const content = fs.readFileSync(filePath, 'utf8');
+      if (/(git worktree|\.git\/worktrees|worktree.*checkout|branch.*worktree)/i.test(content)) {
+        // Move legacy file to backup
+        fs.renameSync(filePath, path.join(migrationBackupDir, file));
+        migratedCount++;
+        console.log(`  📦 ${file} → migration backup`);
+      }
+    } catch (err) {
+      // Skip files that can't be processed
+      continue;
+    }
+  }
+  
+  console.log(
+    language === "ko"
+      ? `\n✅ ${migratedCount}개 레거시 파일을 백업했습니다: ${migrationBackupDir}`
+      : `\n✅ Backed up ${migratedCount} legacy files to: ${migrationBackupDir}`
+  );
+}
+
 async function install() {
   const language = await selectLanguage();
   const SOURCE_DIR = path.join(__dirname, "..", `commands(${language})`);
@@ -93,6 +179,22 @@ async function install() {
         : "Starting installation...") +
       "\n"
   );
+
+  // Check for legacy version and perform migration if needed
+  if (isLegacyVersion()) {
+    console.log(
+      language === "ko"
+        ? "\n⚠️  레거시 버전이 감지되었습니다!"
+        : "\n⚠️  Legacy version detected!"
+    );
+    console.log(
+      language === "ko"
+        ? "   git worktree 기반에서 간단한 폴더 구조로 업그레이드합니다."
+        : "   Upgrading from git worktree-based to simple folder structure."
+    );
+    
+    performMigration(language);
+  }
 
   // Claude Code가 설치되어 있는지 확인
   if (!fs.existsSync(path.join(os.homedir(), ".claude"))) {
@@ -172,16 +274,36 @@ async function install() {
     );
   });
 
-  // Save language configuration
+  // Save language configuration with version update
   console.log(
     language === "ko"
       ? "\n⚙️  언어 설정 저장 중..."
       : "\n⚙️  Saving language configuration..."
   );
+  
+  // Read existing config to preserve migration history
+  let existingConfig = {};
+  if (fs.existsSync(CONFIG_FILE)) {
+    try {
+      existingConfig = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
+    } catch (err) {
+      // If config is corrupted, start fresh
+      existingConfig = {};
+    }
+  }
+  
+  const wasLegacy = isLegacyVersion();
   const config = {
     language: language,
     installedAt: new Date().toISOString(),
-    version: "1.0.0",
+    version: "1.2.2", // Updated to current version
+    ...(wasLegacy && {
+      migration: {
+        from: existingConfig.version || "1.1.x",
+        timestamp: new Date().toISOString(),
+        type: "worktree-to-simple"
+      }
+    })
   };
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
 
