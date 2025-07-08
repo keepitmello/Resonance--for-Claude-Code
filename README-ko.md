@@ -1,6 +1,6 @@
 # 🚀 Resonance™ for Claude Code
 
-> **⚠️ 중요 업데이트 (2025년 7월 8일)**: 7월 8일에 설치하신 분들은 `npm update -g claude-resonance` 또는 `npx claude-resonance` 명령어로 즉시 업데이트해주세요. 프롬프트를 계속 업데이트하고 있으니 GitHub를 자주 확인해주세요.
+> **⚠️ 중요 업데이트 (2025년 1월 8일)**: 버전 1.4.0 출시! 커맨드 구조가 크게 개선되었습니다. `npm update -g claude-resonance`로 업데이트하거나 `npx claude-resonance`로 최신 버전을 사용하세요.
 
 > Auto-Compact로 컨텍스트가 날아갔나요? 끝없이 버그 수정 중인가요?  
 > **체계적인 Resonance™ 워크플로우로 해결하세요.**
@@ -14,7 +14,7 @@
 
 **Opus-Sonnet-그리고 당신, 3인 협업 체계.**
 
-[English](./README.md) | [한국어](./README-ko.md) | [문서](./docs/README-ko.md)
+[English](./README.md) | [한국어](./README-ko.md) | [철학](./PHILOSOPHY.md) | [문서](./docs/README-ko.md)
 
 </div>
 
@@ -88,6 +88,10 @@ Opus: "분석 완료! 이렇게 설계했어:
 </tr>
 </table>
 
+## 📚 Resonance 이해하기
+
+Resonance 철학과 기존 AI 코딩과의 근본적인 차이점을 더 깊이 이해하려면 [철학 문서](./PHILOSOPHY.md)를 참고하세요.
+
 ## 🔄 근본적인 변화
 
 ```
@@ -134,6 +138,13 @@ Opus: "분석 완료! 이렇게 설계했어:
                                          ▼
                                  검증되고 개선된 코드!
 ```
+
+## 🌟 v1.4.0 주요 변경사항
+
+- **원칙 중심 설계**: 경직된 템플릿 대신 핵심 원칙에 집중하는 커맨드
+- **예제 분리**: 모든 예제를 `examples/` 폴더로 이동하여 더 깨끗하고 유연한 가이드라인 제공
+- **한국어 지원 강화**: 성능 최적화를 위해 영어 시스템 프롬프트 사용
+- **철학 문서화**: 핵심 개념을 설명하는 [PHILOSOPHY.md](./PHILOSOPHY.md) 추가
 
 ## 🚀 빠른 설치
 
