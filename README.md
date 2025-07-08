@@ -141,6 +141,16 @@ Traditional AI Coding:           AI TDD Workflow:
 - Session 1: Opus mode (planning/review)
 - Session 2: Sonnet mode (implementation)
 
+### 🎯 Auto-open Both Sessions
+
+```bash
+npx resonance-start
+```
+
+This command automatically opens Opus and Sonnet sessions in separate terminals!
+
+### 📝 Manual Setup
+
 After installation, restart Claude Code and start the Resonance workflow with these commands:
 
 ### 📝 /cycle-plan (Opus Session)
@@ -207,6 +217,8 @@ Choose your language during installation (English/한국어).
 
 ### 🔧 Manual Installation (Alternative)
 
+#### macOS
+
 ```bash
 # Clone the repository
 git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
@@ -216,12 +228,33 @@ cd Resonance--for-Claude-Code
 ./activate-simple.sh
 ```
 
+#### Windows (WSL)
+
+**Important**: Run all commands inside WSL terminal, not PowerShell or CMD.
+
+```bash
+# Open WSL terminal (Ubuntu/Debian recommended)
+# Clone the repository
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# Copy command files to Claude Code directory
+# For English:
+cp commands\(en\)/*.md ~/.claude/commands/
+
+# For Korean:
+cp commands\(ko\)/*.md ~/.claude/commands/
+
+# Restart Claude Code
+```
+
 ### 🚨 Compatibility Notes
 
-- **Currently macOS only** - Windows/Linux support planned
+- **macOS**: Full automatic installation support
+- **Windows**: Manual installation only (must use WSL)
+- **Linux**: Manual installation (coming soon)
 - **Requires Claude Code** to be installed in `~/.claude/commands/`
-- If Claude Code is in a different location, use manual installation
-- Installation script automatically backs up existing files
+- Installation script automatically backs up existing files (macOS only)
 
 ## 🤝 Real Collaboration, Not Templates
 

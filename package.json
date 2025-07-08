@@ -1,6 +1,6 @@
 {
   "name": "claude-resonance",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "🚀 Resonance™ for Claude Code - AI TDD workflow with Opus-Sonnet collaboration",
   "keywords": [
     "claude-code",
@@ -23,7 +23,8 @@
     "url": "https://github.com/keepitmello/Resonance--for-Claude-Code/issues"
   },
   "bin": {
-    "resonance": "./bin/install.js"
+    "resonance": "./bin/install.js",
+    "resonance-start": "./bin/resonance-start.sh"
   },
   "files": [
     "commands(ko)/",

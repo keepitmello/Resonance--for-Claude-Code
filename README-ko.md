@@ -140,6 +140,16 @@ Opus: "분석 완료! 이렇게 설계했어:
 - 세션 1: Opus 모드 (계획/리뷰)
 - 세션 2: Sonnet 모드 (구현)
 
+### 🎯 자동으로 두 세션 열기
+
+```bash
+npx resonance-start
+```
+
+위 명령어가 자동으로 Opus와 Sonnet 세션을 각각 새 터미널에서 열어줍니다!
+
+### 📝 수동으로 열기
+
 설치 완료 후 Claude Code를 재실행하고, 아래 커맨드로 Resonance 워크플로우를 시작하세요:
 
 ### 📝 /cycle-plan (Opus 세션)
@@ -206,6 +216,8 @@ npx claude-resonance
 
 ### 🔧 수동 설치 (대안)
 
+#### macOS
+
 ```bash
 # 레포지토리 클론
 git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
@@ -215,12 +227,33 @@ cd Resonance--for-Claude-Code
 ./activate-simple.sh
 ```
 
+#### Windows (WSL)
+
+**중요**: 모든 명령어는 WSL 터미널에서 실행해야 합니다. PowerShell이나 CMD가 아닙니다.
+
+```bash
+# WSL 터미널 열기 (Ubuntu/Debian 권장)
+# 레포지토리 클론
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# Claude Code 디렉토리에 커맨드 파일 복사
+# 영어 버전:
+cp commands\(en\)/*.md ~/.claude/commands/
+
+# 한국어 버전:
+cp commands\(ko\)/*.md ~/.claude/commands/
+
+# Claude Code 재시작
+```
+
 ### 🚨 호환성 안내
 
-- **현재 macOS 전용** - Windows/Linux 지원 예정
+- **macOS**: 자동 설치 완벽 지원
+- **Windows**: 수동 설치만 가능 (WSL 필수)
+- **Linux**: 수동 설치 (곧 지원 예정)
 - **Claude Code**가 `~/.claude/commands/`에 설치되어 있어야 함
-- Claude Code가 다른 위치에 있다면 수동 설치 사용
-- 설치 스크립트가 기존 파일을 자동으로 백업
+- 설치 스크립트가 기존 파일을 자동으로 백업 (macOS만 해당)
 
 ## 🤝 협업 사례
 

@@ -74,6 +74,7 @@ function selectLanguage() {
 async function install() {
   const language = await selectLanguage();
   const SOURCE_DIR = path.join(__dirname, "..", `commands(${language})`);
+  const CONFIG_FILE = path.join(os.homedir(), ".claude", "resonance-config.json");
 
   console.log(
     "\n" +
@@ -160,6 +161,19 @@ async function install() {
       `  ✅ ${file} ${language === "ko" ? "설치 완료" : "installed"}`
     );
   });
+
+  // Save language configuration
+  console.log(
+    language === "ko"
+      ? "\n⚙️  언어 설정 저장 중..."
+      : "\n⚙️  Saving language configuration..."
+  );
+  const config = {
+    language: language,
+    installedAt: new Date().toISOString(),
+    version: "1.0.0"
+  };
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
 
   console.log(
     language === "ko"
