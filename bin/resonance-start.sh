@@ -162,6 +162,9 @@ echo "$MSG_CLAUDE_FOUND: $CLAUDE_CMD"
 SUCCESS_COUNT=0
 TOTAL_TERMINALS=2
 
+# Store temp directory globally for VSCode
+TEMP_DIR="/tmp/resonance_$$"
+
 # Function to open new terminal window based on terminal app
 open_terminal() {
     local title=$1
@@ -201,54 +204,80 @@ EOF
             echo "   ⚠️  Failed to open iTerm window"
         fi
     elif [[ "$TERM_PROGRAM" == "vscode" ]]; then
-        # VSCode/Cursor/Windsurf terminal
+        # VSCode/Cursor/Windsurf terminal - Can't automate, provide helper script
         echo "$MSG_VSCODE_DETECTED"
         
-        # Find the code command for VSCode variants
-        local code_cmd=""
-        if command -v code &> /dev/null; then
-            code_cmd="code"
-        elif [[ -x "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" ]]; then
-            code_cmd="/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
-        elif [[ -x "/Applications/Cursor.app/Contents/Resources/app/bin/code" ]]; then
-            code_cmd="/Applications/Cursor.app/Contents/Resources/app/bin/code"
-        elif [[ -x "/Applications/Windsurf.app/Contents/Resources/app/bin/code" ]]; then
-            code_cmd="/Applications/Windsurf.app/Contents/Resources/app/bin/code"
+        # Create temporary helper scripts (only once)
+        if [[ ! -d "$TEMP_DIR" ]]; then
+            mkdir -p "$TEMP_DIR"
         fi
         
-        if [[ -n "$code_cmd" ]]; then
-            # Create new terminal tab and send command
-            echo "$MSG_CREATING_TERMINAL: $title"
-            
-            # Create terminal, rename it, and send command
-            # Note: rename requires the terminal to be active
-            "$code_cmd" --command "workbench.action.terminal.new" \
-                       --command "workbench.action.terminal.rename" \
-                       --args "{\"title\":\"$title\"}" \
-                       --command "workbench.action.terminal.sendSequence" \
-                       --args "{\"text\":\"$command\\u000D\"}" 2>/dev/null
-            
-            if [[ $? -eq 0 ]]; then
-                echo "$MSG_TERMINAL_SUCCESS"
-                
-                # Terminal created successfully - count as success
-                # (Process check is unreliable in VSCode terminal)
-                ((SUCCESS_COUNT++))
-                echo "$MSG_TERMINAL_READY: '$title'"
-                # Extract just the model name
-                local model_name=$(echo "$command" | sed -n 's/.*--model \([^ ]*\).*/\1/p')
-                echo "$MSG_RUNNING_MODEL: $model_name"
-            else
-                echo "$MSG_AUTO_FAIL"
-                echo "$MSG_COMMAND: $command"
-            fi
+        # Extract model name for script naming
+        local model_name=$(echo "$command" | sed -n 's/.*--model \([^ ]*\).*/\1/p')
+        
+        # Create model-specific starter script
+        local start_script="$TEMP_DIR/start-$model_name.sh"
+        cat > "$start_script" <<EOF
+#!/bin/bash
+echo "🚀 Starting $title..."
+$command
+EOF
+        chmod +x "$start_script"
+        
+        if [[ "$LANGUAGE" == "ko" ]]; then
+            echo ""
+            echo "   📋 VSCode/Cursor에서는 자동 터미널 생성이 제한됩니다."
+            echo "   대신 아래 방법 중 하나를 선택하세요:"
+            echo ""
+            echo "   방법 1: 빠른 복사-붙여넣기"
+            echo "   ────────────────────────"
+            echo "   1. 새 터미널 열기: Cmd+Shift+\` 또는 터미널 패널의 '+' 클릭"
+            echo "   2. 아래 명령어 복사해서 실행:"
+            echo ""
+            # Calculate box width
+            local cmd_len=${#command}
+            local box_width=$((cmd_len + 4))
+            local top_line="   ╔$(printf '═%.0s' $(seq 1 $box_width))╗"
+            local bot_line="   ╚$(printf '═%.0s' $(seq 1 $box_width))╝"
+            echo "$top_line"
+            echo "   ║  $command  ║"
+            echo "$bot_line"
+            echo ""
+            echo "   3. 터미널 이름 변경: 터미널 탭 우클릭 → 'Rename' → '$title'"
+            echo ""
+            echo "   방법 2: 스크립트 실행"
+            echo "   ──────────────────"
+            echo "   새 터미널에서 실행: $start_script"
+            echo ""
         else
-            # Fallback to manual instructions
-            echo "   ⚡ Quick start for VSCode:"
-            echo "   1. Split terminal: Cmd+\\ or click '+' icon"
-            echo "   2. Run: $command"
-            echo "   3. Rename tab to: $title (right-click → Rename)"
+            echo ""
+            echo "   📋 VSCode/Cursor has limited terminal automation support."
+            echo "   Please use one of these methods:"
+            echo ""
+            echo "   Method 1: Quick Copy-Paste"
+            echo "   ─────────────────────────"
+            echo "   1. Open new terminal: Cmd+Shift+\` or click '+' in terminal panel"
+            echo "   2. Copy and run this command:"
+            echo ""
+            # Calculate box width
+            local cmd_len=${#command}
+            local box_width=$((cmd_len + 4))
+            local top_line="   ╔$(printf '═%.0s' $(seq 1 $box_width))╗"
+            local bot_line="   ╚$(printf '═%.0s' $(seq 1 $box_width))╝"
+            echo "$top_line"
+            echo "   ║  $command  ║"
+            echo "$bot_line"
+            echo ""
+            echo "   3. Rename terminal: Right-click tab → 'Rename' → '$title'"
+            echo ""
+            echo "   Method 2: Run Script"
+            echo "   ───────────────────"
+            echo "   In new terminal, run: $start_script"
+            echo ""
         fi
+        
+        # Still count as partial success since we provided the command
+        ((SUCCESS_COUNT++))
     else
         # Fallback: just echo instructions
         echo "Please open a new terminal and run: $command"
@@ -317,6 +346,24 @@ if [[ "$TERM_PROGRAM" == "vscode" ]]; then
     echo "$MSG_SPLIT_TERMINAL"
     echo "$MSG_TERMINAL_DROPDOWN"
     echo ""
+    
+    # Show quick start scripts location
+    if [[ -d "$TEMP_DIR" ]]; then
+        if [[ "$LANGUAGE" == "ko" ]]; then
+            echo "🚀 빠른 시작 스크립트가 생성되었습니다:"
+            echo "   • Opus:   $TEMP_DIR/start-opus.sh"
+            echo "   • Sonnet: $TEMP_DIR/start-sonnet.sh"
+            echo ""
+            echo "   각 터미널에서 위 스크립트를 실행하세요!"
+        else
+            echo "🚀 Quick start scripts created:"
+            echo "   • Opus:   $TEMP_DIR/start-opus.sh"
+            echo "   • Sonnet: $TEMP_DIR/start-sonnet.sh"
+            echo ""
+            echo "   Run these scripts in separate terminals!"
+        fi
+        echo ""
+    fi
 fi
 
 echo "$MSG_HAPPY_CODING"
