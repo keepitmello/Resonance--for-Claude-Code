@@ -14,7 +14,7 @@
 
 **Opus-Sonnet-and You, 3-person collaboration system.**
 
-[English](./README.md) | [한국어](./README-ko.md) | [Documentation](./docs/README.md)
+[English](./README.md) | [한국어](./README-ko.md) | [Philosophy](./PHILOSOPHY.md) | [Documentation](./docs/README.md)
 
 </div>
 
@@ -87,6 +87,10 @@ Plan saved to cycles/2025-07-08/1430-payment-api-plan.md!"
 </td>
 </tr>
 </table>
+
+## 📚 Understanding Resonance
+
+For a deeper understanding of the Resonance philosophy and how it fundamentally differs from traditional AI coding, see our [Philosophy Documentation](./PHILOSOPHY.md).
 
 ## 🔄 The Fundamental Shift
 

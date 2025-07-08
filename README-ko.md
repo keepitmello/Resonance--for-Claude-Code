@@ -14,7 +14,7 @@
 
 **Opus-Sonnet-그리고 당신, 3인 협업 체계.**
 
-[English](./README.md) | [한국어](./README-ko.md) | [문서](./docs/README-ko.md)
+[English](./README.md) | [한국어](./README-ko.md) | [철학](./PHILOSOPHY.md) | [문서](./docs/README-ko.md)
 
 </div>
 
@@ -87,6 +87,10 @@ Opus: "분석 완료! 이렇게 설계했어:
 </td>
 </tr>
 </table>
+
+## 📚 Resonance 이해하기
+
+Resonance 철학과 기존 AI 코딩과의 근본적인 차이점을 더 깊이 이해하려면 [철학 문서](./PHILOSOPHY.md)를 참고하세요.
 
 ## 🔄 근본적인 변화
 
