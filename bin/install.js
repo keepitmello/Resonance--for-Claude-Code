@@ -194,6 +194,9 @@ async function install() {
       "║  sonnet> /cycle-start   (테스트 기반 구현)                    ║"
     );
     console.log(
+      "║  sonnet> /cycle-log     (작업 내용 문서화)                    ║"
+    );
+    console.log(
       "║  opus> /cycle-check     (코드 품질 검토)                      ║"
     );
     console.log(
@@ -217,6 +220,9 @@ async function install() {
     );
     console.log(
       "║  sonnet> /cycle-start   (Test-driven implementation)          ║"
+    );
+    console.log(
+      "║  sonnet> /cycle-log     (Document your work)                  ║"
     );
     console.log(
       "║  opus> /cycle-check     (Quality review)                      ║"
