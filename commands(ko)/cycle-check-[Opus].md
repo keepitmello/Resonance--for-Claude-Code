@@ -40,7 +40,6 @@ ultrathink: Check recent development cycles and collaboratively review with user
 
 1. AUTOMATICALLY scan cycles/ directory for recent work
 2. Git Analysis (MCP Tools):
-   - Use Bash tool: `git worktree list` to find active worktrees
    - `mcp__MCP_DOCKER__git_log` with max_count=20 to see commit history
    - Analyze WIP commits for progress patterns
    - Check for milestone/solution tags with Bash tool: `git tag -l "milestone/*" "solution/*"`
@@ -130,7 +129,7 @@ Don't just point out problems - always provide actionable next steps
 
 **Git-Based Actions (MCP Tools):**
 - 🔴 Critical fixes:
-  - Direct fixes with Edit/MultiEdit in worktree
+  - Direct fixes with Edit/MultiEdit in main branch cycles/ folder
   - `mcp__MCP_DOCKER__git_commit` with detailed fix descriptions
   - Tag critical fixes: `git tag -a "fix/HHMM-security-patch" -m "보안 수정"`
 - 🟡 Major improvements:
@@ -148,7 +147,7 @@ Don't just point out problems - always provide actionable next steps
 1. Present findings organized by severity (🔴🟡🟢)
 2. Get user context for business priorities
 3. Take action based on severity:
-   - 🔴 → Direct intervention in worktree + immediate fixes
+   - 🔴 → Direct intervention in cycles/ folder + immediate fixes
    - 🟡 → Document in log.md for Sonnet to follow up
    - 🟢 → Note for future consideration
 4. Create review summary commit:
@@ -244,7 +243,7 @@ critical issues directly or create clear tasks for improvement.
 4. **Security First**: Critical vulnerabilities = immediate Opus intervention
 5. **Clear Standards**: 80% test coverage, no TODOs, proper error handling
 6. **Collaborative Solutions**: Understand business context from user, then act
-7. **Git-Driven Review**: Review in worktree, commit fixes, tag important changes
+7. **Git-Driven Review**: Review in cycles/ folder, commit fixes, tag important changes
 
 ## Red Flags to Challenge:
 - "임시 해결" without follow-up plan

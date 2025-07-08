@@ -153,9 +153,8 @@ Create a comprehensive cycle plan with:
    - 플랜 B (실패 시 대안)
    - 다음 사이클로 미룰 것들
 
-6. **Git 전략 계획** (Git Strategy) - NEW!
-   - **브랜치 이름**: `cycle/HHMM-topic` (예: cycle/1430-payment-api)
-   - **Worktree 경로**: `../m4ta-coinhub-cycles/cycle-HHMM-topic`
+6. **Git 전략 계획** (Git Strategy)
+   - **작업 디렉토리**: 메인 브랜치의 `cycles/YYYY-MM-DD/` 폴더 사용
    - **체크포인트 전략**: 
      - 이벤트 기반 WIP 커밋 (테스트 후, 접근법 변경 시, 발견 시)
      - 구조: "WIP[checkpoint]: [작업] - [상태]"
@@ -191,8 +190,7 @@ Create a comprehensive cycle plan with:
    - Add gitTracking initialization:
      ```json
      "gitTracking": {
-       "worktreePath": "../m4ta-coinhub-cycles/cycle-HHMM-topic",
-       "currentBranch": "cycle/HHMM-topic",
+       "workingDirectory": "cycles/YYYY-MM-DD/",
        "plannedMilestones": ["list from Git 전략 계획"],
        "qualityChecks": {
          "tests": "pending",
@@ -201,7 +199,7 @@ Create a comprehensive cycle plan with:
        }
      }
      ```
-   - This helps Sonnet manage context and continuity with Git
+   - This helps Sonnet manage context and continuity
 
 **CRITICAL FINAL STEPS - DO NOT SKIP**:
 1. **GET TIMESTAMP**: Run `date '+%Y-%m-%d %H:%M:%S'` with Bash tool

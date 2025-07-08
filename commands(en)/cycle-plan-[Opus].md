@@ -154,8 +154,7 @@ Create a comprehensive cycle plan with:
    - Items to defer to next cycle
 
 6. **Git Strategy Plan** - NEW!
-   - **Branch name**: `cycle/HHMM-topic` (e.g., cycle/1430-payment-api)
-   - **Worktree path**: `../m4ta-coinhub-cycles/cycle-HHMM-topic`
+   - **Working directory**: Main branch `cycles/YYYY-MM-DD/` folder
    - **Checkpoint strategy**: 
      - Event-based WIP commits (after tests, approach changes, discoveries)
      - Structure: "WIP[checkpoint]: [task] - [status]"
@@ -191,8 +190,8 @@ Create a comprehensive cycle plan with:
    - Add gitTracking initialization:
      ```json
      "gitTracking": {
-       "worktreePath": "../m4ta-coinhub-cycles/cycle-HHMM-topic",
-       "currentBranch": "cycle/HHMM-topic",
+       "workingDirectory": "cycles/YYYY-MM-DD/",
+       "currentBranch": "main",
        "plannedMilestones": ["list from Git Strategy Plan"],
        "qualityChecks": {
          "tests": "pending",

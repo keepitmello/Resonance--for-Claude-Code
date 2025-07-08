@@ -46,7 +46,7 @@ console.log(
   "    |                                                                |"
 );
 console.log(
-  "    |              AI TDD workflow with Opus-Sonnet-You             |"
+  "    |              AI TDD workflow with Opus-Sonnet-You              |"
 );
 console.log(
   "    |                                                                |"
@@ -80,7 +80,11 @@ function selectLanguage() {
 async function install() {
   const language = await selectLanguage();
   const SOURCE_DIR = path.join(__dirname, "..", `commands(${language})`);
-  const CONFIG_FILE = path.join(os.homedir(), ".claude", "resonance-config.json");
+  const CONFIG_FILE = path.join(
+    os.homedir(),
+    ".claude",
+    "resonance-config.json"
+  );
 
   console.log(
     "\n" +
@@ -177,7 +181,7 @@ async function install() {
   const config = {
     language: language,
     installedAt: new Date().toISOString(),
-    version: "1.0.0"
+    version: "1.0.0",
   };
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
 
@@ -192,39 +196,39 @@ async function install() {
     "+===============================================================+"
   );
   console.log(
-    "|                                                               |"
+    "|                                                                 |"
   );
   if (language === "ko") {
     console.log(
-      "|                    💡 사용법                                  |"
+      "|                    💡 사용법                                    |"
     );
     console.log(
       "|                                                               |"
     );
     console.log(
-      "|  Claude Code에서:                                             |"
+      "|  Claude Code에서:                                              |"
     );
     console.log(
       "|                                                               |"
     );
     console.log(
-      "|  opus> /cycle-plan      (작업 계획 수립)                      |"
+      "|  opus> /cycle-plan      (작업 계획 수립)                          |"
     );
     console.log(
-      "|  sonnet> /cycle-start   (테스트 기반 구현)                    |"
+      "|  sonnet> /cycle-start   (테스트 기반 구현)                        |"
     );
     console.log(
-      "|  sonnet> /cycle-log     (작업 내용 문서화)                    |"
+      "|  sonnet> /cycle-log     (작업 내용 문서화)                        |"
     );
     console.log(
-      "|  opus> /cycle-check     (코드 품질 검토)                      |"
+      "|  opus> /cycle-check     (코드 품질 검토)                          |"
     );
     console.log(
-      "|                                                               |"
+      "|                                                                |"
     );
   } else {
     console.log(
-      "|                     💡 Usage                                  |"
+      "|                     💡 Usage                                   |"
     );
     console.log(
       "|                                                               |"
@@ -259,15 +263,9 @@ async function install() {
     console.log(
       "\n✨ Opus가 질문하고, Sonnet이 구현하는 AI TDD 워크플로우를 경험해보세요!"
     );
-    console.log(
-      "\n📌 중요: Claude Code 세션을 2개 열어야 합니다:"
-    );
-    console.log(
-      "   - 세션 1: Opus 모드 (계획/리뷰)"
-    );
-    console.log(
-      "   - 세션 2: Sonnet 모드 (구현)"
-    );
+    console.log("\n📌 중요: Claude Code 세션을 2개 열어야 합니다:");
+    console.log("   - 세션 1: Opus 모드 (계획/리뷰)");
+    console.log("   - 세션 2: Sonnet 모드 (구현)");
     console.log(
       "\n🔄 재시작: Claude Code를 재시작하면 명령어를 사용할 수 있습니다."
     );
@@ -275,15 +273,9 @@ async function install() {
     console.log(
       "\n✨ Experience AI TDD workflow with Opus asking and Sonnet implementing!"
     );
-    console.log(
-      "\n📌 Important: You need to open 2 Claude Code sessions:"
-    );
-    console.log(
-      "   - Session 1: Opus mode (planning/review)"
-    );
-    console.log(
-      "   - Session 2: Sonnet mode (implementation)"
-    );
+    console.log("\n📌 Important: You need to open 2 Claude Code sessions:");
+    console.log("   - Session 1: Opus mode (planning/review)");
+    console.log("   - Session 2: Sonnet mode (implementation)");
     console.log("\n🔄 Restart: Restart Claude Code to use the commands.");
   }
 

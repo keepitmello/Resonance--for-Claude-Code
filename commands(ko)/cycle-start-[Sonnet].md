@@ -25,12 +25,10 @@ Think hard: Start implementation cycle.
 1. **FIRST**: Get current date/time with `date '+%Y-%m-%d %H:%M:%S'`
 2. Scan cycles/YYYY-MM-DD/ for latest HHMM-topic-plan.md file
 3. Read the plan thoroughly
-4. Setup Git Worktree (MCP Tools):
+4. Setup Working Environment:
    - Check current status: Use `mcp__MCP_DOCKER__git_status` tool
-   - Create cycle branch: Use `mcp__MCP_DOCKER__create_branch` with branch="cycle/HHMM-topic"
-   - Check worktree status: Use Bash tool with `git worktree list`
-   - Create worktree: Use Bash tool with `git worktree add ../m4ta-coinhub-cycles/cycle-HHMM-topic cycle/HHMM-topic`
-   - Move to worktree directory for all work
+   - Create cycles directory: Use Bash tool with `mkdir -p cycles/YYYY-MM-DD`
+   - All work stays in main branch within cycles/ folder
    - Initialize: Use `mcp__MCP_DOCKER__git_commit` with message="🚀 Cycle Start: [topic]" (allow-empty)
 5. Check for existing HHMM-topic-checkpoint.json for this plan
 6. If no checkpoint exists:
@@ -51,8 +49,7 @@ Example initial checkpoint:
     "planFile": "1430-payment-api-plan.md"
   },
   "gitTracking": {
-    "worktreePath": "../m4ta-coinhub-cycles/cycle-1430-payment-api",
-    "currentBranch": "cycle/1430-payment-api",
+    "workingDirectory": "cycles/YYYY-MM-DD/",
     "commits": [],
     "lastCommitSHA": "",
     "lastPush": null,
