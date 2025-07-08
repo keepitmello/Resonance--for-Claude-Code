@@ -296,7 +296,7 @@ async function install() {
   const config = {
     language: language,
     installedAt: new Date().toISOString(),
-    version: "1.2.2", // Updated to current version
+    version: "1.5.0", // Updated to current version
     ...(wasLegacy && {
       migration: {
         from: existingConfig.version || "1.1.x",
