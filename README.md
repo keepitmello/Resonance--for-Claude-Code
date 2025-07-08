@@ -51,48 +51,40 @@ You: [Test again] "Still broken..."
 
 ```
 You: "Implement payment API"
-Opus: "Which payment providers?"
-You: "Stripe and PayPal"
-Opus: "Need fallback on failure?"
-You: "Hmm, didn't think of that..."
-Opus: "Let's design it together..."
+Opus: "Real money is involved here, we need to be careful.
+What happens if the same payment gets processed twice?"
+You: "Uh... does that happen?"
+Opus: "Often, especially with network retries.
+Also, what about refunds and partial cancellations?"
+
+[After gathering sufficient information...]
+
+Opus: "Great, I understand completely now!
+Enter 'ultrathink' for detailed design."
+You: "ultrathink"
+
+[Phase 2: Deep analysis...]
+
+Opus: "Analysis complete! Here's the design:
+
+🧪 Test Scenarios (5)
+1. Normal payment flow
+2. Duplicate request prevention (idempotency key)
+3. Network timeout handling  
+4. Partial refund validation
+5. Webhook failure retry
+
+🏗️ Implementation Strategy
+- Abstract with PaymentService interface
+- DB transactions for consistency
+- Error logging and monitoring
+
+Plan saved to cycles/2025-07-08/1430-payment-api-plan.md!"
 ```
 
 </td>
 </tr>
 </table>
-
-## 🚀 Quick Installation
-
-### ⚡ NPM Package (One Command!)
-
-```bash
-npx claude-resonance
-```
-
-**System Requirements:**
-
-- **macOS only** (tested on macOS 15.5+)
-- **Claude Code** installed in standard location (`~/.claude/`)
-- Terminal with npm/npx access
-
-### 🔧 Manual Installation (Alternative)
-
-```bash
-# Clone the repository
-git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
-cd Resonance--for-Claude-Code
-
-# Install and activate
-./activate-simple.sh
-```
-
-### 🚨 Compatibility Notes
-
-- **Currently macOS only** - Windows/Linux support planned
-- **Requires Claude Code** to be installed in `~/.claude/commands/`
-- If Claude Code is in a different location, use manual installation
-- Installation script automatically backs up existing files
 
 ## 🔄 The Fundamental Shift
 
@@ -142,10 +134,80 @@ Traditional AI Coding:           AI TDD Workflow:
                                  Verified & Refined!
 ```
 
+## 🚀 How to Use
+
+After installation, restart Claude Code and start the Resonance workflow with these commands:
+
+### 📝 /cycle-plan (Opus Session)
+
+Opus session actively communicates with users, asks sufficient questions, analyzes thoroughly, then establishes plans with documentation and creates checkpoints. By designing with Test-Driven Development approach, it induces primarily validated code unlike conventional AI coding.
+
+```bash
+opus> /cycle-plan "implement payment API"
+# Phase 1: Understand requirements through dialogue
+# Enter "ultrathink" to proceed to Phase 2
+# Phase 2: Deep analysis and TDD planning
+# Saves to cycles/YYYY-MM-DD/HHMM-topic-plan.md
+```
+
+### 🔨 /cycle-start (Sonnet Session)
+
+Sonnet session, based on Opus's design, develops like a junior developer - filling checkpoints with 'judgments' about why implemented that way, what parts were difficult or ambiguous. Even when Auto-Compact occurs, context is not lost thanks to separate checkpoints.
+
+```bash
+sonnet> /cycle-start
+# Reads plan.md and starts TDD implementation
+# Creates/updates checkpoint.json
+# Records detailed progress every 20-30 minutes
+```
+
+### ✅ /cycle-check (Opus Session)
+
+Once work is completed, return to Opus session to review whether it proceeded well according to the initial design and check if any additional work is needed.
+
+```bash
+opus> /cycle-check
+# Reviews Sonnet's implementation
+# Critical code quality analysis
+# Provides improvement feedback
+```
+
+## 🚀 Quick Installation
+
+### ⚡ NPM Package (One Command!)
+
+```bash
+npx claude-resonance
+```
+
+**System Requirements:**
+
+- **macOS only** (tested on macOS 15.5+)
+- **Claude Code** installed in standard location (`~/.claude/`)
+- Terminal with npm/npx access
+
+### 🔧 Manual Installation (Alternative)
+
+```bash
+# Clone the repository
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# Install and activate
+./activate-simple.sh
+```
+
+### 🚨 Compatibility Notes
+
+- **Currently macOS only** - Windows/Linux support planned
+- **Requires Claude Code** to be installed in `~/.claude/commands/`
+- If Claude Code is in a different location, use manual installation
+- Installation script automatically backs up existing files
+
 ## 🤝 Real Collaboration, Not Templates
 
 <details>
-<summary>Example: React Context Performance Issue Resolution</summary>
+<summary>Example 1: React Context Performance Issue Resolution</summary>
 
 ```
 You: /cycle-plan "Add order book data to real-time trading system"
@@ -157,7 +219,7 @@ You: "So what should I do?"
 
 Opus: "How about splitting contexts?
 - MarketDataContext: Prices (less frequent)
-- OrderBookContext: Order book (very frequent)  
+- OrderBookContext: Order book (very frequent)
 - TradingContext: Risk management (per-user)
 
 Network delays might deliver stale data out of order."
@@ -176,7 +238,7 @@ React.memo for render optimization."
 
 ```bash
 # 4-Hour Work Session
-✅ 6 new files, 2 modified  
+✅ 6 new files, 2 modified
 ✅ 100% test coverage (16 test cases)
 ✅ Commit: 10 files changed, 3,148 insertions
 ✅ Estimated 5 hours → Completed in 4 hours
@@ -187,7 +249,7 @@ All progress preserved in cycles/ directory with timestamps
 ## 🚨 AI Collaboration in Emergency Situations
 
 <details>
-<summary>🔥 Production Bug: 4-Hour Complete Recovery</summary>
+<summary>Example 2: 🔥 Production Bug: 4-Hour Complete Recovery</summary>
 
 **Situation**: Deposit bug affecting 35 transactions, 19 users impacted
 
@@ -209,7 +271,7 @@ sonnet> /cycle-start
 ⚠️ Additional report: "Got double refund..."
 🚀 Immediate fix: Found duplicate application bug, added correction
 
-opus> /cycle-check  
+opus> /cycle-check
 Opus: "Implement prevention immediately"
 ✅ DB trigger blocks deposit+fee combinations
 ✅ Suspicious pattern real-time monitoring
@@ -256,10 +318,11 @@ npx claude-resonance
 In Claude Code:
 
 ```
-opus> /cycle-plan
-"Work planning"
-sonnet> /cycle-start
-"Start implementation"
+you > opus /cycle-plan
+
+you > sonnet /cycle-start
+
+you > opus /cycle-check
 
 ```
 

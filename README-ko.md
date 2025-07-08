@@ -34,7 +34,7 @@ Claude Code에서 Plan → Act 모드 사용 중 이런 문제들이 있었나�
 ### ❌ 지금의 현실
 
 ```
-나: "결제 API 구현해줘"
+나: "API 구현해줘"
 AI: "500줄 코드 여기있어요!"
 나: [테스트해봄] "에러 나는데..."
 AI: "아 그거 수정했어요!"
@@ -51,48 +51,40 @@ AI: "이것도 고쳤어요!"
 
 ```
 나: "결제 API 구현해줘"
-Opus: "어떤 결제 서비스 쓰실 거예요?"
-나: "Stripe이랑 PayPal"
-Opus: "실패 시 폴백 필요하신가요?"
-나: "어... 그거 생각 못했네"
-Opus: "같이 설계해봐요..."
+Opus: "실제 돈이 오가는 거니까 신중해야 해요.
+같은 결제가 두 번 처리되면 어떻게 할 거예요?"
+나: "어... 그런 경우가 있나?"
+Opus: "네트워크 오류로 재시도할 때 자주 발생해요.
+또 환불이나 부분 취소는요?"
+
+[충분한 정보 수집 후...]
+
+Opus: "좋아, 이제 완전히 이해했어!
+'ultrathink'라고 입력하면 상세 설계 들어갈게."
+나: "ultrathink"
+
+[Phase 2: 깊은 분석...]
+
+Opus: "분석 완료! 이렇게 설계했어:
+
+🧪 테스트 시나리오 (5개)
+1. 정상 결제 플로우
+2. 중복 요청 방지 (idempotency key)
+3. 네트워크 타임아웃 처리
+4. 부분 환불 검증
+5. Webhook 실패 재시도
+
+🏗️ 구현 전략
+- PaymentService 인터페이스로 추상화
+- DB 트랜잭션으로 일관성 보장
+- 에러 로깅 및 모니터링
+
+계획을 cycles/2025-07-08/1430-payment-api-plan.md에 저장했어!"
 ```
 
 </td>
 </tr>
 </table>
-
-## 🚀 빠른 설치
-
-### ⚡ NPM 패키지 (한 줄로 끝!)
-
-```bash
-npx claude-resonance
-```
-
-**시스템 요구사항:**
-
-- **macOS 전용** (macOS 15.5+에서 테스트됨)
-- **Claude Code**가 기본 위치(`~/.claude/`)에 설치되어 있어야 함
-- npm/npx 사용 가능한 터미널
-
-### 🔧 수동 설치 (대안)
-
-```bash
-# 레포지토리 클론
-git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
-cd Resonance--for-Claude-Code
-
-# 설치 및 활성화
-./activate-simple.sh
-```
-
-### 🚨 호환성 안내
-
-- **현재 macOS 전용** - Windows/Linux 지원 예정
-- **Claude Code**가 `~/.claude/commands/`에 설치되어 있어야 함
-- Claude Code가 다른 위치에 있다면 수동 설치 사용
-- 설치 스크립트가 기존 파일을 자동으로 백업
 
 ## 🔄 근본적인 변화
 
@@ -141,10 +133,80 @@ cd Resonance--for-Claude-Code
                                  검증되고 개선된 코드!
 ```
 
-## 🤝 템플릿이 아닌 진짜 협업
+## 🚀 사용법
+
+설치 완료 후 Claude Code를 재실행하고, 아래 커맨드로 Resonance 워크플로우를 시작하세요:
+
+### 📝 /cycle-plan (Opus 세션)
+
+Opus 세션은 사용자와 능동적으로 소통하여 충분히 질문하고 분석한 후 계획을 수립하여 문서화하고, 체크포인트를 제작합니다. 테스트 주도 개발 방식으로 설계하여 기존 AI 코딩과는 다르게 1차적으로 검증이 된 코드를 유도합니다.
+
+```bash
+opus> /cycle-plan "결제 API 구현"
+# Phase 1: 대화로 요구사항 파악
+# "ultrathink" 입력으로 Phase 2 진입
+# Phase 2: 깊은 분석과 TDD 계획 수립
+# cycles/YYYY-MM-DD/HHMM-topic-plan.md 저장
+```
+
+### 🔨 /cycle-start (Sonnet 세션)
+
+Sonnet 세션은 Opus의 설계를 바탕으로, 주니어 개발자처럼, 왜 그렇게 구현했는지, 어떤 부분이 어렵거나 모호했는지 등의 '판단'들을 체크포인트에 채워가며 개발합니다. Auto-Compact가 진행되어도 별도의 체크포인트를 바탕으로 context가 손실되지 않습니다.
+
+```bash
+sonnet> /cycle-start
+# plan.md 읽고 TDD 구현 시작
+# checkpoint.json 생성/업데이트
+# 20-30분마다 상세 진행상황 기록
+```
+
+### ✅ /cycle-check (Opus 세션)
+
+작업이 완료되면, 다시 Opus 세션으로 돌아와서 초기 설계와 맞게 잘 진행되었는지, 추가 작업이 필요한 부분은 없는지 검토를 진행합니다.
+
+```bash
+opus> /cycle-check
+# Sonnet 구현 결과 검토
+# 코드 품질 비판적 분석
+# 개선 사항 피드백
+```
+
+## 🚀 빠른 설치
+
+### ⚡ NPM 패키지 (한 줄로 끝!)
+
+```bash
+npx claude-resonance
+```
+
+**시스템 요구사항:**
+
+- **macOS 전용** (macOS 15.5+에서 테스트됨)
+- **Claude Code**가 기본 위치(`~/.claude/`)에 설치되어 있어야 함
+- npm/npx 사용 가능한 터미널
+
+### 🔧 수동 설치 (대안)
+
+```bash
+# 레포지토리 클론
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# 설치 및 활성화
+./activate-simple.sh
+```
+
+### 🚨 호환성 안내
+
+- **현재 macOS 전용** - Windows/Linux 지원 예정
+- **Claude Code**가 `~/.claude/commands/`에 설치되어 있어야 함
+- Claude Code가 다른 위치에 있다면 수동 설치 사용
+- 설치 스크립트가 기존 파일을 자동으로 백업
+
+## 🤝 협업 사례
 
 <details>
-<summary>예시: React Context 성능 문제 해결</summary>
+<summary>사례 1: React Context 성능 문제 해결</summary>
 
 ```
 나: /cycle-plan "실시간 거래 시스템에 호가 데이터 추가"
@@ -171,22 +233,8 @@ React.memo로 리렌더링 최적화해요."
 
 </details>
 
-## 📸 실제 성과
-
-```bash
-# 4시간 작업 결과
-✅ 신규 파일 6개, 수정 2개
-✅ 테스트 커버리지 100% (16개 케이스)
-✅ 커밋: 10 files changed, 3,148 insertions
-✅ 예상 5시간 → 실제 4시간 완료
-
-모든 과정이 cycles/ 디렉토리에 타임스탬프와 함께 보존
-```
-
-## 🚨 긴급 상황에서의 AI 협업
-
 <details>
-<summary>🔥 프로덕션 버그 4시간 완전 복구</summary>
+<summary>사례 2: 🔥 프로덕션 버그 4시간 완전 복구</summary>
 
 **상황**: deposit 버그로 35건 거래 오류, 19명 사용자 피해
 
@@ -255,10 +303,11 @@ npx claude-resonance
 Claude Code에서:
 
 ```
-opus> /cycle-plan
-"작업 계획"
-sonnet> /cycle-start
-"구현 시작"
+you > opus /cycle-plan
+
+you > sonnet /cycle-start
+
+you > opus /cycle-check
 
 ```
 
