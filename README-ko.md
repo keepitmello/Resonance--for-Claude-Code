@@ -213,16 +213,12 @@ cp commands\(ko\)/*.md ~/.claude/commands/
 
 ### 🎯 자동으로 두 세션 열기
 
-전역 설치 후 사용:
+설치 완료 후 자동으로 두 세션을 열려면:
 ```bash
-# 먼저 전역 설치
-npm install -g claude-resonance
-
-# 그다음 실행
 resonance-start
 ```
 
-또는 npx로 바로 실행:
+또는 설치 없이 npx로 바로 실행:
 ```bash
 npx -p claude-resonance resonance-start
 ```
