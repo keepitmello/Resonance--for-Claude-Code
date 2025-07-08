@@ -161,7 +161,19 @@ This command automatically opens Opus and Sonnet sessions in separate terminals!
 
 ### 📝 Manual Setup
 
-After installation, restart Claude Code and start the Resonance workflow with these commands:
+After installation, you need to open two separate terminals:
+
+1. Open first terminal and run:
+   ```bash
+   claude --model opus
+   ```
+
+2. Open second terminal and run:
+   ```bash
+   claude --model sonnet
+   ```
+
+Then start the Resonance workflow with these commands:
 
 ### 📝 /cycle-plan (Opus Session)
 

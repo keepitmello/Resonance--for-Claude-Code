@@ -160,7 +160,19 @@ npx -p claude-resonance resonance-start
 
 ### 📝 수동으로 열기
 
-설치 완료 후 Claude Code를 재실행하고, 아래 커맨드로 Resonance 워크플로우를 시작하세요:
+설치 완료 후 터미널을 두 개 열어야 합니다:
+
+1. 첫 번째 터미널을 열고 실행:
+   ```bash
+   claude --model opus
+   ```
+
+2. 두 번째 터미널을 열고 실행:
+   ```bash
+   claude --model sonnet
+   ```
+
+그다음 아래 커맨드로 Resonance 워크플로우를 시작하세요:
 
 ### 📝 /cycle-plan (Opus 세션)
 
