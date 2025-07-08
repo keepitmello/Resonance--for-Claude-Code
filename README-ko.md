@@ -142,8 +142,18 @@ Opus: "분석 완료! 이렇게 설계했어:
 
 ### 🎯 자동으로 두 세션 열기
 
+전역 설치 후 사용:
 ```bash
-npx resonance-start
+# 먼저 전역 설치
+npm install -g claude-resonance
+
+# 그다음 실행
+resonance-start
+```
+
+또는 npx로 바로 실행:
+```bash
+npx -p claude-resonance resonance-start
 ```
 
 위 명령어가 자동으로 Opus와 Sonnet 세션을 각각 새 터미널에서 열어줍니다!
@@ -200,13 +210,27 @@ opus> /cycle-check
 
 ## 🚀 빠른 설치
 
-### ⚡ NPM 패키지 (한 줄로 끝!)
+### ⚡ NPM 패키지
 
+**방법 1: 바로 실행 (설치 없이)**
 ```bash
 npx claude-resonance
 ```
 
+**방법 2: 전역 설치 (권장)**
+```bash
+# 전역 설치
+npm install -g claude-resonance
+
+# 설치 실행
+resonance
+```
+
 설치 시 언어를 선택할 수 있습니다 (한국어/English).
+
+> **npx vs npm -g 차이:**
+> - `npx`: 매번 최신 버전 다운로드 후 실행 (느리지만 항상 최신)
+> - `npm -g`: 한 번 설치 후 빠르게 실행 (수동 업데이트 필요)
 
 **시스템 요구사항:**
 
@@ -347,7 +371,12 @@ cycles/2025-07-07/
 ## 🚀 지금 시작하세요
 
 ```bash
+# 빠른 시작 (설치 없이)
 npx claude-resonance
+
+# 또는 자주 사용한다면 전역 설치
+npm install -g claude-resonance
+resonance
 ```
 
 **⚠️ macOS 전용** | Claude Code가 `~/.claude/`에 있어야 함

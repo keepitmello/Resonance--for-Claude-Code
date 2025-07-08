@@ -143,8 +143,18 @@ Traditional AI Coding:           AI TDD Workflow:
 
 ### 🎯 Auto-open Both Sessions
 
+After global installation, use:
 ```bash
-npx resonance-start
+# Install globally first
+npm install -g claude-resonance
+
+# Then run
+resonance-start
+```
+
+Or run directly with npx:
+```bash
+npx -p claude-resonance resonance-start
 ```
 
 This command automatically opens Opus and Sonnet sessions in separate terminals!
@@ -201,13 +211,27 @@ opus> /cycle-check
 
 ## 🚀 Quick Installation
 
-### ⚡ NPM Package (One Command!)
+### ⚡ NPM Package
 
+**Option 1: Direct execution (no installation)**
 ```bash
 npx claude-resonance
 ```
 
+**Option 2: Global installation (recommended)**
+```bash
+# Install globally
+npm install -g claude-resonance
+
+# Run installation
+resonance
+```
+
 Choose your language during installation (English/한국어).
+
+> **npx vs npm -g:**
+> - `npx`: Downloads and runs latest version each time (slower, always up-to-date)
+> - `npm -g`: Installs once, runs faster (need to update manually)
 
 **System Requirements:**
 
@@ -362,7 +386,12 @@ cycles/2025-07-07/
 ## 🚀 Start Now
 
 ```bash
+# Quick start (no installation)
 npx claude-resonance
+
+# Or install globally for frequent use
+npm install -g claude-resonance
+resonance
 ```
 
 **⚠️ macOS only** | Requires Claude Code in `~/.claude/`
