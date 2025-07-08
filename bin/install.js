@@ -16,37 +16,43 @@ const rl = readline.createInterface({
 // Show banner with ASCII art
 console.log("");
 console.log(
-  "    ╭─────────────────────────────────────────────────────────────────╮"
+  "    +----------------------------------------------------------------+"
 );
 console.log(
-  "    │                                                                 │"
+  "    |                                                                |"
 );
 console.log(
-  "    │   ╔═╗  ╔═╗  ╔═╗  ╔═╗  ╔╗╔  ╔═╗  ╔╗╔  ╔═╗  ╔═╗                 │"
+  "    |    ____  _____ ____   ___  _   _    _    _   _  ____ _____     |"
 );
 console.log(
-  "    │   ╠╦╝  ║╣   ╚═╗  ║ ║  ║║║  ╠═╣  ║║║  ║    ║╣                  │"
+  "    |   |  _ \\| ____/ ___| / _ \\| \\ | |  / \\  | \\ | |/ ___| ____|    |"
 );
 console.log(
-  "    │   ╩╚═  ╚═╝  ╚═╝  ╚═╝  ╝╚╝  ╩ ╩  ╝╚╝  ╚═╝  ╚═╝  ™              │"
+  "    |   | |_) |  _| \\___ \\| | | |  \\| | / _ \\ |  \\| | |   |  _|      |"
 );
 console.log(
-  "    │                                                                 │"
+  "    |   |  _ <| |___ ___) | |_| | |\\  |/ ___ \\| |\\  | |___| |___     |"
 );
 console.log(
-  "    │                       for Claude Code ✨                      │"
+  "    |   |_| \\_\\_____|____/ \\___/|_| \\_/_/   \\_\\_| \\_|\\____|_____|    |"
 );
 console.log(
-  "    │                                                                 │"
+  "    |                                                                |"
 );
 console.log(
-  "    │              AI TDD workflow with Opus-Sonnet-You               │"
+  "    |                      for Claude Code                           |"
 );
 console.log(
-  "    │                                                                 │"
+  "    |                                                                |"
 );
 console.log(
-  "    ╰─────────────────────────────────────────────────────────────────╯"
+  "    |              AI TDD workflow with Opus-Sonnet-You             |"
+);
+console.log(
+  "    |                                                                |"
+);
+console.log(
+  "    +----------------------------------------------------------------+"
 );
 console.log("");
 
@@ -183,70 +189,70 @@ async function install() {
 
   // Show success banner
   console.log(
-    "╔═══════════════════════════════════════════════════════════════╗"
+    "+===============================================================+"
   );
   console.log(
-    "║                                                               ║"
+    "|                                                               |"
   );
   if (language === "ko") {
     console.log(
-      "║                    💡 사용법                                  ║"
+      "|                    💡 사용법                                  |"
     );
     console.log(
-      "║                                                               ║"
+      "|                                                               |"
     );
     console.log(
-      "║  Claude Code에서:                                             ║"
+      "|  Claude Code에서:                                             |"
     );
     console.log(
-      "║                                                               ║"
+      "|                                                               |"
     );
     console.log(
-      "║  opus> /cycle-plan      (작업 계획 수립)                      ║"
+      "|  opus> /cycle-plan      (작업 계획 수립)                      |"
     );
     console.log(
-      "║  sonnet> /cycle-start   (테스트 기반 구현)                    ║"
+      "|  sonnet> /cycle-start   (테스트 기반 구현)                    |"
     );
     console.log(
-      "║  sonnet> /cycle-log     (작업 내용 문서화)                    ║"
+      "|  sonnet> /cycle-log     (작업 내용 문서화)                    |"
     );
     console.log(
-      "║  opus> /cycle-check     (코드 품질 검토)                      ║"
+      "|  opus> /cycle-check     (코드 품질 검토)                      |"
     );
     console.log(
-      "║                                                               ║"
+      "|                                                               |"
     );
   } else {
     console.log(
-      "║                     💡 Usage                                  ║"
+      "|                     💡 Usage                                  |"
     );
     console.log(
-      "║                                                               ║"
+      "|                                                               |"
     );
     console.log(
-      "║  In Claude Code:                                              ║"
+      "|  In Claude Code:                                              |"
     );
     console.log(
-      "║                                                               ║"
+      "|                                                               |"
     );
     console.log(
-      "║  opus> /cycle-plan      (Plan your work)                      ║"
+      "|  opus> /cycle-plan      (Plan your work)                      |"
     );
     console.log(
-      "║  sonnet> /cycle-start   (Test-driven implementation)          ║"
+      "|  sonnet> /cycle-start   (Test-driven implementation)          |"
     );
     console.log(
-      "║  sonnet> /cycle-log     (Document your work)                  ║"
+      "|  sonnet> /cycle-log     (Document your work)                  |"
     );
     console.log(
-      "║  opus> /cycle-check     (Quality review)                      ║"
+      "|  opus> /cycle-check     (Quality review)                      |"
     );
     console.log(
-      "║                                                               ║"
+      "|                                                               |"
     );
   }
   console.log(
-    "╚═══════════════════════════════════════════════════════════════╝"
+    "+===============================================================+"
   );
 
   if (language === "ko") {
