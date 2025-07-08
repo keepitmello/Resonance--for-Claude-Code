@@ -70,7 +70,7 @@ Opus: "Analysis complete! Here's the design:
 🧪 Test Scenarios (5)
 1. Normal payment flow
 2. Duplicate request prevention (idempotency key)
-3. Network timeout handling  
+3. Network timeout handling
 4. Partial refund validation
 5. Webhook failure retry
 
@@ -137,6 +137,7 @@ Traditional AI Coding:           AI TDD Workflow:
 ## 🚀 How to Use
 
 **📌 Important: You need to open 2 Claude Code sessions**
+
 - Session 1: Opus mode (planning/review)
 - Session 2: Sonnet mode (implementation)
 
@@ -324,12 +325,15 @@ npx claude-resonance
 In each Claude Code session:
 
 ```
-# Session 1 (Opus mode)
+# Session 1 (Opus plans)
 you > opus /cycle-plan
-you > opus /cycle-check
 
-# Session 2 (Sonnet mode)
+
+# Session 2 (Sonnet works)
 you > sonnet /cycle-start
+
+# Session 1 (Opus checks)
+you > opus /cycle-check
 ```
 
 Opus asks questions, understands deeply, and creates plans.
