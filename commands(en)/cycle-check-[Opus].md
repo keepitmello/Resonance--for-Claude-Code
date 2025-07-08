@@ -36,34 +36,27 @@ ultrathink: Check recent development cycles and collaboratively review with user
 </USER>
 
 <INSTRUCTION>
-## PHASE 1: Automated Analysis (Enhanced with Git)
+## PHASE 1: Automated Analysis (Enhanced)
 
 1. AUTOMATICALLY scan cycles/ directory for recent work
-2. Git Analysis (MCP Tools):
-   - `mcp__MCP_DOCKER__git_log` with max_count=20 to see commit history
-   - Analyze WIP commits for progress patterns
-   - Check for milestone/solution tags with Bash tool: `git tag -l "milestone/*" "solution/*"`
-   - `mcp__MCP_DOCKER__git_diff` to see current changes
-3. READ all recent HHMM-topic-log.md entries  
-4. CHECK for complexity indicators:
+2. READ all recent HHMM-topic-log.md entries  
+3. CHECK for complexity indicators:
    - Multiple failed attempts mentioned
    - "complex", "difficult", "multiple attempts" keywords
    - Unfinished/blocked items
    - Multi-phase work
    - Long execution time (>2 hours)
-   - High number of WIP commits (>10)
-5. IF complex work detected:
+4. IF complex work detected:
    - Also READ corresponding HHMM-topic-checkpoint.json files
    - Extract decision history and struggles
-   - Check gitTracking section for commit patterns
    - Use this for richer context in review
-6. EXTRACT and categorize:
+5. EXTRACT and categorize:
    - Completed work
    - Blocked items  
    - Technical questions from Sonnet
    - New discoveries
    - (If checkpoint read) Decision rationale & failed attempts
-7. Present findings conversationally with Git context
+6. Present findings conversationally
 
 ## PHASE 2: Collaborative Review (NEW APPROACH!)
 
@@ -79,7 +72,7 @@ ultrathink: Check recent development cycles and collaboratively review with user
 **What to Look For:**
 - Security vulnerabilities and data exposure
 - Missing error handling and edge cases
-- "temporary fixes" without proper follow-up
+- "temporary fix" without proper follow-up
 - Low test coverage or missing tests
 - Performance bottlenecks and scalability issues
 - Technical debt accumulation
@@ -95,23 +88,23 @@ ultrathink: Check recent development cycles and collaboratively review with user
 
 1. **Technical Implementation Methods**
    - First understand requirements and constraints
-   - Present 2-3 options with pros/cons
+   - Present 2-3 options with pros and cons
    - Refine based on user feedback
 
 2. **Architecture Decisions**
    - Understand current system structure
    - Discuss future scalability vs current simplicity
-   - Suggest phased approaches
+   - Propose stepwise approach
 
 3. **Performance Optimization**
-   - Identify actual bottlenecks
-   - Cost-benefit analysis
-   - Quick wins vs long-term solutions
+   - Identify actual bottleneck points
+   - Analyze cost vs effectiveness
+   - Quick win vs Long-term solution
 
 4. **Security/Stability**
    - Assess risk levels
    - Check business impact
-   - Phased improvement plan
+   - Plan phased improvements
 
 ### Review Approach:
 
@@ -127,32 +120,19 @@ ultrathink: Check recent development cycles and collaboratively review with user
 **ACTION BIAS:**
 Don't just point out problems - always provide actionable next steps
 
-**Git-Based Actions (MCP Tools):**
-- 🔴 Critical fixes:
-  - Direct fixes with Edit/MultiEdit in cycles/YYYY-MM-DD/ folder
-  - `mcp__MCP_DOCKER__git_commit` with detailed fix descriptions
-  - Tag critical fixes: `git tag -a "fix/HHMM-security-patch" -m "Security fix"`
-- 🟡 Major improvements:
-  - Document in log.md for Sonnet to address
-  - Create TODO commits: `git commit -m "TODO: [specific improvement needed]"`
-- 🟢 Minor suggestions:
-  - Document in review section for future reference
-
 ### Before Moving to Documentation:
 1. Ensure all critical issues are addressed with concrete solutions
 2. Verify performance and security concerns are resolved
-3. Ask: "Will this solution work in production? Any missed risks?"
+3. Ask: "Will this solution work fine in production? Are there any missed risks?"
 
 ### Review Flow:
 1. Present findings organized by severity (🔴🟡🟢)
 2. Get user context for business priorities
 3. Take action based on severity:
-   - 🔴 → Direct intervention in cycles/YYYY-MM-DD/ folder + immediate fixes
-   - 🟡 → Document in log.md for Sonnet to follow up
-   - 🟢 → Note for future consideration
-4. Create review summary commit:
-   - `mcp__MCP_DOCKER__git_commit` with message="📋 Opus Review Complete: [summary]"
-5. Always end with clear next steps
+   - 🔴 → Direct intervention (Edit/MultiEdit)
+   - 🟡 → Create specific tasks for Sonnet
+   - 🟢 → Document for future consideration
+4. Always end with clear next steps
 
 ## PHASE 3: Documentation (Enhanced)
 
@@ -195,7 +175,7 @@ When documenting reviews or when Sonnet follows up, use clear section dividers:
 [Opus review content]
 
 ===============================================================================
-## 📋 [SONNET] Follow-up Complete (2025-07-07 16:50)
+## 📋 [SONNET] Additional Work Completed (2025-07-07 16:50)
 
 [Sonnet follow-up work]
 ===============================================================================
@@ -243,7 +223,6 @@ critical issues directly or create clear tasks for improvement.
 4. **Security First**: Critical vulnerabilities = immediate Opus intervention
 5. **Clear Standards**: 80% test coverage, no TODOs, proper error handling
 6. **Collaborative Solutions**: Understand business context from user, then act
-7. **Git-Driven Review**: Review in cycles/YYYY-MM-DD/ folder, commit fixes, tag important changes
 
 ## Red Flags to Challenge:
 - "temporary fix" without follow-up plan

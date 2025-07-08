@@ -36,34 +36,27 @@ ultrathink: Check recent development cycles and collaboratively review with user
 </USER>
 
 <INSTRUCTION>
-## PHASE 1: Automated Analysis (Enhanced with Git)
+## PHASE 1: Automated Analysis (Enhanced)
 
 1. AUTOMATICALLY scan cycles/ directory for recent work
-2. Git Analysis (MCP Tools):
-   - `mcp__MCP_DOCKER__git_log` with max_count=20 to see commit history
-   - Analyze WIP commits for progress patterns
-   - Check for milestone/solution tags with Bash tool: `git tag -l "milestone/*" "solution/*"`
-   - `mcp__MCP_DOCKER__git_diff` to see current changes
-3. READ all recent HHMM-topic-log.md entries  
-4. CHECK for complexity indicators:
+2. READ all recent HHMM-topic-log.md entries  
+3. CHECK for complexity indicators:
    - Multiple failed attempts mentioned
    - "복잡함", "어려움", "여러 시도" keywords
    - Unfinished/blocked items
    - Multi-phase work
    - Long execution time (>2 hours)
-   - High number of WIP commits (>10)
-5. IF complex work detected:
+4. IF complex work detected:
    - Also READ corresponding HHMM-topic-checkpoint.json files
    - Extract decision history and struggles
-   - Check gitTracking section for commit patterns
    - Use this for richer context in review
-6. EXTRACT and categorize:
+5. EXTRACT and categorize:
    - Completed work
    - Blocked items  
    - Technical questions from Sonnet
    - New discoveries
    - (If checkpoint read) Decision rationale & failed attempts
-7. Present findings conversationally with Git context
+6. Present findings conversationally
 
 ## PHASE 2: Collaborative Review (NEW APPROACH!)
 
@@ -127,17 +120,6 @@ ultrathink: Check recent development cycles and collaboratively review with user
 **ACTION BIAS:**
 Don't just point out problems - always provide actionable next steps
 
-**Git-Based Actions (MCP Tools):**
-- 🔴 Critical fixes:
-  - Direct fixes with Edit/MultiEdit in main branch cycles/ folder
-  - `mcp__MCP_DOCKER__git_commit` with detailed fix descriptions
-  - Tag critical fixes: `git tag -a "fix/HHMM-security-patch" -m "보안 수정"`
-- 🟡 Major improvements:
-  - Document in log.md for Sonnet to address
-  - Create TODO commits: `git commit -m "TODO: [specific improvement needed]"`
-- 🟢 Minor suggestions:
-  - Document in review section for future reference
-
 ### Before Moving to Documentation:
 1. Ensure all critical issues are addressed with concrete solutions
 2. Verify performance and security concerns are resolved
@@ -147,12 +129,10 @@ Don't just point out problems - always provide actionable next steps
 1. Present findings organized by severity (🔴🟡🟢)
 2. Get user context for business priorities
 3. Take action based on severity:
-   - 🔴 → Direct intervention in cycles/ folder + immediate fixes
-   - 🟡 → Document in log.md for Sonnet to follow up
-   - 🟢 → Note for future consideration
-4. Create review summary commit:
-   - `mcp__MCP_DOCKER__git_commit` with message="📋 Opus Review Complete: [summary]"
-5. Always end with clear next steps
+   - 🔴 → Direct intervention (Edit/MultiEdit)
+   - 🟡 → Create specific tasks for Sonnet
+   - 🟢 → Document for future consideration
+4. Always end with clear next steps
 
 ## PHASE 3: Documentation (Enhanced)
 
@@ -243,7 +223,6 @@ critical issues directly or create clear tasks for improvement.
 4. **Security First**: Critical vulnerabilities = immediate Opus intervention
 5. **Clear Standards**: 80% test coverage, no TODOs, proper error handling
 6. **Collaborative Solutions**: Understand business context from user, then act
-7. **Git-Driven Review**: Review in cycles/ folder, commit fixes, tag important changes
 
 ## Red Flags to Challenge:
 - "임시 해결" without follow-up plan

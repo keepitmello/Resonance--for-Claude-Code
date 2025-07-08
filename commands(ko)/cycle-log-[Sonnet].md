@@ -27,23 +27,6 @@ ultrathink: Document the completed cycle for: {{CYCLE_TOPIC}}
 
 **한 줄 요약**: [무엇을 구현/수정했는지 사실만 - 수식어 금지]
 
-**Git 작업 내역** (MCP Tools로 자동 수집):
-```bash
-# 브랜치: cycle/HHMM-topic
-# 커밋 수: N개 (git log --oneline | wc -l)
-# 작업 시간: HH시간 MM분 (첫 커밋 ~ 마지막 커밋)
-
-# 주요 커밋들:
-abc123 WIP[checkpoint]: 결제 검증 로직 - 50%
-def456 WIP[checkpoint]: 동시성 처리 추가 - 70%
-ghi789 milestone: 기본 기능 완성
-jkl012 fix: race condition 해결
-
-# 태그:
-- milestone/HHMM-basic-complete
-- solution/HHMM-advisory-lock
-```
-
 **주요 변경사항**:
 ```diff
 + src/services/NewService.ts (신규)
@@ -159,11 +142,7 @@ validate(amount: Decimal) {
 **CRITICAL FIRST STEPS**:
 1. **CHECK EXISTING FILES**: Look for plan/checkpoint files in cycle folder to identify existing timestamp
 2. **GET CURRENT TIME**: Run `date '+%Y-%m-%d %H:%M:%S'` for document content timestamp
-3. **COLLECT GIT INFO** (간소화):
-   - Use `mcp__MCP_DOCKER__git_log` with max_count=10 to get recent commits
-   - Use Bash tool: `git tag -l "milestone/*" "solution/*"` for important tags
-   - Extract key commits from checkpoint.json gitTracking
-4. **FILE NAMING RULE**: Use existing plan timestamp for filename, current time for content
+3. **FILE NAMING RULE**: Use existing plan timestamp for filename, current time for content
 
 **DOCUMENTATION GUIDELINES**:
 1. Be HONEST about failures and struggles
@@ -249,15 +228,8 @@ When creating the log:
    - "why": "reasoning" → Explain decisions  
    - "learning": "insights" → Share wisdom
    - "codeExample": "actual code" → Include snippets
-   - "gitTracking": {
-       "commits": [...] → Show progression through WIP commits
-       "tags": [...] → Highlight key breakthrough moments
-   }
    ```
 3. Transform checkpoint data into narrative:
-   - Combine checkpoint struggles with Git commit messages
-   - Show how WIP commits evolved into solutions
-   - Link milestones to actual code changes
    - Don't just list what you did
    - Tell the STORY of how you solved it
    - Include the failed attempts and why they failed

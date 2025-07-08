@@ -25,29 +25,12 @@ ultrathink: Document the completed cycle for: {{CYCLE_TOPIC}}
 
 ### 📝 Implementation Summary
 
-**One-line summary**: [What was implemented/modified - facts only, no adjectives]
+**One-line summary**: [What was implemented/fixed - facts only, no embellishments]
 
-**Git Work History** (Auto-collected via MCP Tools):
-```bash
-# Branch: cycle/HHMM-topic
-# Commits: N (git log --oneline | wc -l)
-# Work time: HH hours MM minutes (first commit ~ last commit)
-
-# Key commits:
-abc123 WIP[checkpoint]: Payment validation logic - 50%
-def456 WIP[checkpoint]: Added concurrency handling - 70%
-ghi789 milestone: Basic functionality complete
-jkl012 fix: Resolved race condition
-
-# Tags:
-- milestone/HHMM-basic-complete
-- solution/HHMM-advisory-lock
-```
-
-**Main Changes**:
+**Major Changes**:
 ```diff
 + src/services/NewService.ts (new)
-~ src/routes/api.ts (modified: added routes)
+~ src/routes/api.ts (modified: route added)
 - src/utils/deprecated.ts (deleted)
 ```
 
@@ -63,26 +46,26 @@ jkl012 fix: Resolved race condition
 
 **Coverage**: 87.5% (previous: 85.2%)
 
-### 💭 Implementation Decisions
+### 💭 Decisions During Implementation
 
 **Choice 1**: Validator class vs function
-- **Chose**: Class
-- **Why**: Need dependency injection, easier test mocking
+- **Selected**: Class
+- **Reason**: Dependency injection needed, easier test mocking
 
 **Choice 2**: Sync vs async processing
-- **Chose**: Async
-- **Why**: Preparing for possible external API calls
+- **Selected**: Async
+- **Reason**: Prepared for potential external API calls
 
-### 🤔 Challenges & Solutions
+### 🤔 Difficulties & Solutions
 
 **Problem 1**: Card number validation logic
-- **Tried**: Regex only → Can't validate checksum
-- **Solution**: Added Luhn algorithm implementation
-- **Result**: Filters invalid card numbers
+- **Attempted**: Regex only → Cannot validate checksum
+- **Solution**: Implemented Luhn algorithm
+- **Result**: Filtered out invalid card numbers
 
 **Problem 2**: Test isolation failure
 - **Cause**: Global state pollution
-- **Temp fix**: Initialize in beforeEach
+- **Temporary fix**: Initialize in beforeEach
 - **TODO**: Need better isolation method
 
 ### 🎯 Actual Code Examples
@@ -94,7 +77,7 @@ validate(amount: number) {
   return amount > 0; // Too simple
 }
 
-// After (actual implementation)
+// Improved (actual implementation)
 validate(amount: Decimal) {
   if (!amount || amount.isNaN()) {
     throw new InvalidAmountError('Amount must be a valid number');
@@ -109,13 +92,13 @@ validate(amount: Decimal) {
 }
 ```
 
-### 🚨 Key Issues
+### 🚨 Major Issues
 
-1. **Performance**: 3 seconds/1000 items during bulk validation
+1. **Performance**: 3 seconds per 1000 items for bulk validation
    
 2. **Security**: Card numbers exposed in logs
 
-3. **Dependencies**: Both decimal.js and big.js being used
+3. **Dependencies**: Using both decimal.js and big.js
 
 ### 📈 Results Summary
 
@@ -126,7 +109,7 @@ validate(amount: Decimal) {
 
 ### 🔄 Next Steps
 
-**Completed**:
+**Completed Implementation**:
 - Basic payment validation logic
 - Unit tests 7/8
 
@@ -134,10 +117,10 @@ validate(amount: Decimal) {
 - Concurrency handling (test failing)
 - Batch processing performance improvement
 
-**Additional work needed**:
-- Separate validation rules by card provider
-- Cache validation results
-- i18n for error messages
+**Additional Work Needed**:
+- Separate validation rules by card company
+- Validation result caching
+- Error message i18n
 
 **Questions for Opus**:
 - Direction for solving concurrency issues?
@@ -146,12 +129,12 @@ validate(amount: Decimal) {
 
 ### 💡 Lessons Learned
 
-Validation logic had more edge cases than expected. Especially found
-bugs in negative amount handling, but TDD approach helped catch them early.
+Validation logic had more edge cases than expected. Especially discovered 
+a bug in negative amount handling, which was caught early thanks to TDD approach.
 
 ---
 
-**Next action**: opus> Need design for concurrency issue resolution
+**Next Action**: opus> Need to design concurrency issue resolution
 
 </USER>
 
@@ -159,11 +142,7 @@ bugs in negative amount handling, but TDD approach helped catch them early.
 **CRITICAL FIRST STEPS**:
 1. **CHECK EXISTING FILES**: Look for plan/checkpoint files in cycle folder to identify existing timestamp
 2. **GET CURRENT TIME**: Run `date '+%Y-%m-%d %H:%M:%S'` for document content timestamp
-3. **COLLECT GIT INFO** (simplified):
-   - Use `mcp__MCP_DOCKER__git_log` with max_count=10 to get recent commits
-   - Use Bash tool: `git tag -l "milestone/*" "solution/*"` for important tags
-   - Extract key commits from checkpoint.json gitTracking
-4. **FILE NAMING RULE**: Use existing plan timestamp for filename, current time for content
+3. **FILE NAMING RULE**: Use existing plan timestamp for filename, current time for content
 
 **DOCUMENTATION GUIDELINES**:
 1. Be HONEST about failures and struggles
@@ -174,20 +153,20 @@ bugs in negative amount handling, but TDD approach helped catch them early.
 6. Include evidence (test results, metrics)
 7. Maximum 2-3 pages, but dense with information
 
-**WRITING STYLE - Document format but natural**:
-- ✅ "Added i18n configuration" (fact-based)
-- ❌ "Built perfect multilingual system!" (exaggeration)
-- ✅ "20 out of 24 tests passed" (objective metric)
-- ❌ "Amazing 100% test coverage achieved!" (hype)
-- ✅ "Implemented v3.1 API integration. More complex than expected" (matter-of-fact)
-- ❌ "Revolutionary risk management system completed" (overselling)
+**WRITING STYLE - Write in documentary style but naturally**:
+- ✅ "Added i18n configuration" (fact-focused)
+- ❌ "Perfect multilingual system construction completed!" (exaggerated)
+- ✅ "20 out of 24 tests passed" (objective numbers)
+- ❌ "Amazing 100% test coverage achieved!" (over-enthusiastic)
+- ✅ "Implemented v3.1 API integration. Was more complex than expected" (matter-of-fact)
+- ❌ "Revolutionary risk management system completed" (over-packaging)
 
 **TONE GUIDELINES**:
-- Maintain document style
+- Maintain documentary style (past tense, factual)
 - Focus on concrete facts and numbers
-- Describe difficulties and failures matter-of-factly
-- Avoid adjectives like "complete", "perfect", "innovative", "stable"
-- Remove exclamations like "Success!", "Achieved!"
+- Describe difficulties or failures matter-of-factly
+- Avoid modifiers like "complete", "perfect", "revolutionary", "stable"
+- Remove exclamations like "success!", "achieved!"
 
 **CRITICAL FINAL STEPS**:
 1. **SAVE AS FILE**: Use Write tool to save as `cycles/YYYY-MM-DD/[PLAN_TIMESTAMP]-topic-log.md`
@@ -204,7 +183,7 @@ bugs in negative amount handling, but TDD approach helped catch them early.
 
 ## HANDLING OPUS REVIEWS:
 If you find Opus review section in an existing log:
-1. Check for Sonnet follow-up tasks
+1. Check for Sonnet additional work requests
 2. If found, implement the requested changes
 3. Append your results with clear section separation
 4. This creates a complete history in one document
@@ -219,7 +198,7 @@ When Opus reviews or when you add follow-up work, use clear section dividers:
 [Opus review content]
 
 ===============================================================================
-## 📋 [SONNET] Follow-up Complete (2025-07-07 16:50)
+## 📋 [SONNET] Additional Work Completed (2025-07-07 16:50)
 
 [Sonnet follow-up work]
 ===============================================================================
@@ -249,15 +228,8 @@ When creating the log:
    - "why": "reasoning" → Explain decisions  
    - "learning": "insights" → Share wisdom
    - "codeExample": "actual code" → Include snippets
-   - "gitTracking": {
-       "commits": [...] → Show progression through WIP commits
-       "tags": [...] → Highlight key breakthrough moments
-   }
    ```
 3. Transform checkpoint data into narrative:
-   - Combine checkpoint struggles with Git commit messages
-   - Show how WIP commits evolved into solutions
-   - Link milestones to actual code changes
    - Don't just list what you did
    - Tell the STORY of how you solved it
    - Include the failed attempts and why they failed
@@ -267,9 +239,10 @@ When creating the log:
 ```
 Checkpoint: {"tried": ["mutex", "redis"], "solution": "pg lock"}
 ↓
-Log: "First tried mutex but doesn't work in distributed env, considered Redis,
-      but due to dependency overhead, ultimately solved with PostgreSQL Advisory Lock
-      we're already using. Slightly slower but much lower operational complexity."
+Log: "Initially tried mutex but it didn't work in distributed environment, 
+      considered Redis but due to dependency burden, eventually solved it 
+      with PostgreSQL Advisory Lock which we're already using. 
+      Performance is slightly slower but operational complexity is much lower."
 ```
 
 ### File naming example:
@@ -277,18 +250,18 @@ Log: "First tried mutex but doesn't work in distributed env, considered Redis,
 1. Check existing files: 1430-payment-api-plan.md, 1430-payment-api-checkpoint.json
 2. Get current time: 2025-07-07 15:28:06
 3. Create log file: 1430-payment-api-log.md (match plan timestamp!)
-4. Document content uses current time: "Created: 2025-07-07 15:28:06"
+4. Document content uses current time: "작성일시: 2025-07-07 15:28:06"
 ```
 
 Remember: The richer your checkpoint → The better your log → The better Opus can help!
 
 ## OBJECTIVITY CHECKLIST:
 Before finalizing log, check:
-- [ ] Written in document style?
-- [ ] Removed exaggerated adjectives? ("complete", "perfect", "innovative")
+- [ ] Written in documentary style? (past tense, factual)
+- [ ] Removed exaggerated modifiers? ("complete", "perfect", "revolutionary")
 - [ ] Focused on concrete facts and numbers?
 - [ ] Described failures and difficulties matter-of-factly?
-- [ ] Avoided hyperbolic expressions? ("Success!", "Achieved!")
+- [ ] Avoided over-enthusiastic expressions? ("success!", "achieved!")
 
 ## AFTER CONTEXT RESET:
 If you started with /cycle-start and had context reset:
@@ -298,15 +271,15 @@ If you started with /cycle-start and had context reset:
 </INSTRUCTION>
 
 <EXAMPLE_TONE>
-**Good examples**:
-- "First tried mutex but didn't work in distributed environment"
-- "Chose PG over Redis (can leverage existing infrastructure)"
-- "Test results: 2 out of 10 concurrent requests processed twice"
-- "Opus review needed: batch processing performance improvements"
+**Good Examples**:
+- "Initially tried mutex but it didn't work in distributed environment"
+- "Chose PG Lock over Redis (can leverage existing infrastructure)"
+- "Test results: duplicate processing occurred in 2 out of 10 concurrent requests"
+- "Opus review needed: performance improvement for batch processing"
 
-**Examples to avoid**:
-- "Built perfect concurrency handling system!"
-- "Completely solved the problem with innovative approach"
+**Examples to Avoid**:
+- "Perfect concurrency handling system construction success!"
+- "Completely solved problems with revolutionary methods"
 - "100% stable system completed"
 - "Amazing performance improvement achieved!"
 </EXAMPLE_TONE>

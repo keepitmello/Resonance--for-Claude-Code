@@ -25,17 +25,12 @@ Think hard: Start implementation cycle.
 1. **FIRST**: Get current date/time with `date '+%Y-%m-%d %H:%M:%S'`
 2. Scan cycles/YYYY-MM-DD/ for latest HHMM-topic-plan.md file
 3. Read the plan thoroughly
-4. Setup Git environment:
-   - Check current status: Use `mcp__MCP_DOCKER__git_status` tool
-   - Work in main branch cycles/YYYY-MM-DD/ folder
-   - Initialize: Use `mcp__MCP_DOCKER__git_commit` with message="🚀 Cycle Start: [topic]" (allow-empty)
-5. Check for existing HHMM-topic-checkpoint.json for this plan
-6. If no checkpoint exists:
+4. Check for existing HHMM-topic-checkpoint.json for this plan
+5. If no checkpoint exists:
    - Create HHMM-topic-checkpoint.json using Write tool
    - Initialize with current timestamp in metadata
    - Set contextResets: 0
    - Include plan filename reference
-   - Add git tracking info
    - **MUST save as file, not just output**
    
 Example initial checkpoint:
@@ -46,14 +41,6 @@ Example initial checkpoint:
     "lastUpdated": "[CURRENT_TIMESTAMP from step 1]",
     "contextResets": 0,
     "planFile": "1430-payment-api-plan.md"
-  },
-  "gitTracking": {
-    "workingDirectory": "cycles/YYYY-MM-DD/",
-    "currentBranch": "main",
-    "commits": [],
-    "lastCommitSHA": "",
-    "lastPush": null,
-    "tags": []
   },
   "currentContext": {
     "whatImDoing": "Starting implementation of [TOPIC]",
@@ -75,48 +62,48 @@ The checkpoint must capture WHY and HOW, not just WHAT:
     "planFile": "1430-payment-api-plan.md"
   },
   "currentContext": {
-    "whatImDoing": "Specifically what I'm working on right now",
+    "whatImDoing": "Specifically what I'm working on now",
     "whyThisApproach": "Reason for choosing this approach",
-    "keyFiles": ["core files being worked on"],
-    "criticalCode": "Must-remember code patterns or structures"
+    "keyFiles": ["Key files being worked on"],
+    "criticalCode": "Code patterns or structure that must be remembered"
   },
   "decisions": [
     {
       "timestamp": "14:35",
       "what": "Using PostgreSQL Advisory Lock instead of Redis",
-      "why": "Already using PG, avoiding new dependency overhead",
+      "why": "Already using PG, so adding new dependency is burdensome",
       "alternatives": ["Redis distributed lock", "In-memory mutex", "Message Queue"],
-      "tradeoffs": "Slightly slower but lower operational complexity",
-      "outcome": "Resolved concurrency issue, achieved 500 TPS"
+      "tradeoffs": "Slightly slower performance but lower operational complexity",
+      "outcome": "Solved concurrency issues, achieved 500 TPS"
     }
   ],
   "struggles": [
     {
       "timestamp": "15:20",
-      "problem": "Intermittent test failures (3 out of 10 runs)",
+      "problem": "Intermittent test failures (3 out of 10 times)",
       "context": "Race condition with 100 concurrent requests",
       "tried": [
-        {"attempt": "Added setTimeout delay", "result": "Made it more unstable"},
-        {"attempt": "Increased transaction isolation", "result": "Caused deadlocks"}
+        {"attempt": "setTimeout delay", "result": "More unstable"},
+        {"attempt": "Increased transaction isolation level", "result": "Deadlock occurred"}
       ],
       "solution": "Advisory Lock + retry logic (exponential backoff)",
-      "learning": "Explicit locks safer than optimistic locking in distributed env",
+      "learning": "In distributed environments, explicit locks are safer than optimistic locks",
       "codeExample": "await pg.query('SELECT pg_advisory_lock($1)', [lockId]);"
     }
   ],
   "progress": {
     "completed": ["Payment validation logic", "Concurrency handling"],
-    "inProgress": "Error handling improvements",
-    "blocked": "Performance testing (need load test environment)",
-    "discovered": ["Need for caching", "Consider batch processing"]
+    "inProgress": "Error handling improvement",
+    "blocked": "Performance testing (load testing environment needed)",
+    "discovered": ["Need for caching", "Batch processing consideration"]
   },
   "mustRemember": [
-    "lockId uses payment_id hash (collision prevention)",
-    "Keep transactions short (3 second timeout)",
-    "Clear user messaging on failures required"
+    "Use hash value of payment_id for lockId (prevent collision)",
+    "Keep transactions as short as possible (3 second timeout)",
+    "Need clear messages to users on failure"
   ],
   "nextSteps": {
-    "immediate": "Add multi-language error message support",
+    "immediate": "Add multi-language support for error messages",
     "soon": "Add performance monitoring metrics",
     "later": "Batch payment processing architecture"
   }
@@ -128,63 +115,25 @@ The checkpoint must capture WHY and HOW, not just WHAT:
 **CRITICAL**: Update checkpoint FREQUENTLY with RICH CONTEXT!
 
 ### Update Frequency (MANDATORY):
+- **Every 20-30 minutes** regardless of progress
 - **After each test** (pass or fail)
 - **Before trying new approach**
 - **After any "aha!" moment**
+- **When stuck for >10 minutes**
 - **After 2-3 file edits**
 - **Before any risky change**
-- **When completing a subtask**
-- **When switching context**
-
-### Checkpoint Process = Update + Commit (Auto-linked):
-**CRITICAL**: Every checkpoint update MUST include a Git commit!
-1. Check status: Use `mcp__MCP_DOCKER__git_status` tool
-2. Stage all changes: Use `mcp__MCP_DOCKER__git_add` with files=["*"] 
-3. Create WIP commit: Use `mcp__MCP_DOCKER__git_commit` with structured message:
-   ```
-   message: "WIP[checkpoint]: [task description] - [progress]%
-
-   Completed:
-   - Specific things completed
-   
-   In Progress:
-   - Current work
-   
-   Blockers:
-   - Challenges or issues
-   
-   Next:
-   - Immediate next task"
-   ```
-4. Update checkpoint.json with commit info:
-   ```json
-   "gitTracking": {
-     "commits": [
-       {
-         "sha": "[from git rev-parse HEAD]",
-         "time": "[current time]",
-         "message": "[commit message first line]",
-         "event": "[test_pass/test_fail/approach_change/discovery/file_edits]"
-       }
-     ],
-     "lastCommitSHA": "[latest SHA]"
-   }
-   ```
-5. Tag important discoveries (optional):
-   - Major breakthrough: `git tag -a "solution/HHMM-algorithm-fix" -m "Key solution found"`
-   - Key milestone: `git tag -a "milestone/HHMM-tests-passing" -m "All tests passing"`
 
 ### What to Document (BE SPECIFIC):
 ```json
 // BAD - Too vague
 "currentContext": {
-  "whatImDoing": "Working on payment"
+  "whatImDoing": "Implementing payment"
 }
 
 // GOOD - Rich context
 "currentContext": {
-  "whatImDoing": "Implementing Stripe webhook event handler",
-  "whyThisApproach": "Using idempotency key to prevent duplicates, DB transaction for consistency",
+  "whatImDoing": "Implementing Stripe webhook event processing logic",
+  "whyThisApproach": "Prevent duplicate processing with idempotency key, ensure consistency with DB transactions",
   "keyFiles": ["src/webhooks/stripe.ts", "src/services/payment.ts"],
   "criticalCode": "const idempotencyKey = crypto.createHash('sha256').update(event.id).digest('hex');"
 }
@@ -197,9 +146,9 @@ The checkpoint must capture WHY and HOW, not just WHAT:
 {
   "timestamp": "15:45",
   "event": "test_failure",
-  "context": "2 out of 10 concurrent payments processed twice",
-  "hypothesis": "Lock acquisition timing issue suspected",
-  "nextTry": "Add state recheck before lock acquisition"
+  "context": "2 duplicate processed when 10 concurrent payment requests",
+  "hypothesis": "Suspected lock acquisition timing issue",
+  "nextTry": "Add status recheck logic before lock acquisition"
 }
 ```
 
@@ -207,11 +156,11 @@ The checkpoint must capture WHY and HOW, not just WHAT:
 ```json
 {
   "timestamp": "16:00", 
-  "decision": "Switch event processing from sync to queue-based async",
+  "decision": "Changed event processing from sync to queue-based async",
   "trigger": "Cannot process within Stripe timeout (3 seconds)",
   "considered": ["Optimize processing logic", "Parallel processing", "Queue introduction"],
-  "chose": "Bull queue",
-  "because": "Built-in retry logic, monitoring UI, team has experience"
+  "chose": "Use Bull queue",
+  "because": "Built-in retry logic, monitoring UI provided, team has experience"
 }
 ```
 
@@ -224,17 +173,10 @@ The checkpoint must capture WHY and HOW, not just WHAT:
 ## AFTER CONTEXT RESET:
 If contextResets > 0 in checkpoint:
 1. First action: Read HHMM-topic-checkpoint.json
-2. Use Git to recover context:
-   - `mcp__MCP_DOCKER__git_log` with max_count=10 to see recent commits
-   - `mcp__MCP_DOCKER__git_diff` to see current uncommitted changes
-   - Read WIP commit messages for context (they contain Completed/In Progress/Blockers/Next)
-   - Check last commit SHA against checkpoint's lastCommitSHA
-3. Read relevant code files mentioned in checkpoint
-4. Check TodoRead for current state
-5. Resume from nextSteps.immediate
-6. Increment contextResets counter
-7. Create recovery commit: 
-   - `mcp__MCP_DOCKER__git_commit` with message="🔄 Context Reset Recovery #N"
+2. Read relevant code files mentioned
+3. Check TodoRead for current state
+4. Resume from nextSteps.immediate
+5. Increment contextResets counter
 
 ## CRITICAL: CHECKPOINT AS YOUR EXTERNAL BRAIN
 

@@ -25,18 +25,12 @@ Think hard: Start implementation cycle.
 1. **FIRST**: Get current date/time with `date '+%Y-%m-%d %H:%M:%S'`
 2. Scan cycles/YYYY-MM-DD/ for latest HHMM-topic-plan.md file
 3. Read the plan thoroughly
-4. Setup Working Environment:
-   - Check current status: Use `mcp__MCP_DOCKER__git_status` tool
-   - Create cycles directory: Use Bash tool with `mkdir -p cycles/YYYY-MM-DD`
-   - All work stays in main branch within cycles/ folder
-   - Initialize: Use `mcp__MCP_DOCKER__git_commit` with message="🚀 Cycle Start: [topic]" (allow-empty)
-5. Check for existing HHMM-topic-checkpoint.json for this plan
-6. If no checkpoint exists:
+4. Check for existing HHMM-topic-checkpoint.json for this plan
+5. If no checkpoint exists:
    - Create HHMM-topic-checkpoint.json using Write tool
    - Initialize with current timestamp in metadata
    - Set contextResets: 0
    - Include plan filename reference
-   - Add git tracking info
    - **MUST save as file, not just output**
    
 Example initial checkpoint:
@@ -47,13 +41,6 @@ Example initial checkpoint:
     "lastUpdated": "[CURRENT_TIMESTAMP from step 1]",
     "contextResets": 0,
     "planFile": "1430-payment-api-plan.md"
-  },
-  "gitTracking": {
-    "workingDirectory": "cycles/YYYY-MM-DD/",
-    "commits": [],
-    "lastCommitSHA": "",
-    "lastPush": null,
-    "tags": []
   },
   "currentContext": {
     "whatImDoing": "Starting implementation of [TOPIC]",
@@ -128,51 +115,13 @@ The checkpoint must capture WHY and HOW, not just WHAT:
 **CRITICAL**: Update checkpoint FREQUENTLY with RICH CONTEXT!
 
 ### Update Frequency (MANDATORY):
+- **Every 20-30 minutes** regardless of progress
 - **After each test** (pass or fail)
 - **Before trying new approach**
 - **After any "aha!" moment**
+- **When stuck for >10 minutes**
 - **After 2-3 file edits**
 - **Before any risky change**
-- **When completing a subtask**
-- **When switching context**
-
-### Checkpoint Process = Update + Commit (자동 연동):
-**CRITICAL**: Every checkpoint update MUST include a Git commit!
-1. Check status: Use `mcp__MCP_DOCKER__git_status` tool
-2. Stage all changes: Use `mcp__MCP_DOCKER__git_add` with files=["*"] 
-3. Create WIP commit: Use `mcp__MCP_DOCKER__git_commit` with structured message:
-   ```
-   message: "WIP[checkpoint]: [작업내용] - [진행률]%
-
-   완료:
-   - 구체적으로 완료한 것들
-   
-   진행중:
-   - 현재 작업 중인 부분
-   
-   막힌점:
-   - 어려움이나 이슈
-   
-   다음:
-   - 즉시 할 작업"
-   ```
-4. Update checkpoint.json with commit info:
-   ```json
-   "gitTracking": {
-     "commits": [
-       {
-         "sha": "[from git rev-parse HEAD]",
-         "time": "[current time]",
-         "message": "[commit message first line]",
-         "event": "[test_pass/test_fail/approach_change/discovery/file_edits]"
-       }
-     ],
-     "lastCommitSHA": "[latest SHA]"
-   }
-   ```
-5. Tag important discoveries (선택적):
-   - Major breakthrough: `git tag -a "solution/HHMM-algorithm-fix" -m "핵심 해결책"`
-   - Key milestone: `git tag -a "milestone/HHMM-tests-passing" -m "모든 테스트 통과"`
 
 ### What to Document (BE SPECIFIC):
 ```json
@@ -224,17 +173,10 @@ The checkpoint must capture WHY and HOW, not just WHAT:
 ## AFTER CONTEXT RESET:
 If contextResets > 0 in checkpoint:
 1. First action: Read HHMM-topic-checkpoint.json
-2. Use Git to recover context:
-   - `mcp__MCP_DOCKER__git_log` with max_count=10 to see recent commits
-   - `mcp__MCP_DOCKER__git_diff` to see current uncommitted changes
-   - Read WIP commit messages for context (they contain 완료/진행중/막힌점/다음)
-   - Check last commit SHA against checkpoint's lastCommitSHA
-3. Read relevant code files mentioned in checkpoint
-4. Check TodoRead for current state
-5. Resume from nextSteps.immediate
-6. Increment contextResets counter
-7. Create recovery commit: 
-   - `mcp__MCP_DOCKER__git_commit` with message="🔄 Context Reset Recovery #N"
+2. Read relevant code files mentioned
+3. Check TodoRead for current state
+4. Resume from nextSteps.immediate
+5. Increment contextResets counter
 
 ## CRITICAL: CHECKPOINT AS YOUR EXTERNAL BRAIN
 

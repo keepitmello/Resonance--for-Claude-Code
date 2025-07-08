@@ -153,21 +153,7 @@ Create a comprehensive cycle plan with:
    - 플랜 B (실패 시 대안)
    - 다음 사이클로 미룰 것들
 
-6. **Git 전략 계획** (Git Strategy)
-   - **작업 디렉토리**: 메인 브랜치의 `cycles/YYYY-MM-DD/` 폴더 사용
-   - **체크포인트 전략**: 
-     - 이벤트 기반 WIP 커밋 (테스트 후, 접근법 변경 시, 발견 시)
-     - 구조: "WIP[checkpoint]: [작업] - [상태]"
-   - **마일스톤 태그 계획**:
-     - `milestone/HHMM-basic-complete` - 기본 구현 완료
-     - `milestone/HHMM-tests-pass` - 모든 테스트 통과
-     - `solution/HHMM-[key-solution]` - 핵심 해결책 발견 시
-   - **품질 기준**:
-     - 테스트 통과 필수
-     - 커버리지 목표 (최소 80%)
-     - 린트/타입체크 통과
-
-7. **파일 저장 (CRITICAL - NEVER SKIP!)** 
+6. **파일 저장 (CRITICAL - NEVER SKIP!)** 
    - **MUST DO FIRST**: Use Bash to get current date/time:
      ```bash
      date '+%Y-%m-%d %H:%M:%S'
@@ -182,23 +168,11 @@ Create a comprehensive cycle plan with:
      Created: 2025-01-07 14:30:00
      ```
 
-8. **체크포인트 준비** (For complex tasks)
+7. **체크포인트 준비** (For complex tasks)
    - If task has multiple phases or components:
    - Also create: `HHMM-topic-checkpoint.json`
    - Initialize phases from action items
    - Include decision points and risk areas
-   - Add gitTracking initialization:
-     ```json
-     "gitTracking": {
-       "workingDirectory": "cycles/YYYY-MM-DD/",
-       "plannedMilestones": ["list from Git 전략 계획"],
-       "qualityChecks": {
-         "tests": "pending",
-         "coverage": "pending",
-         "lint": "pending"
-       }
-     }
-     ```
    - This helps Sonnet manage context and continuity
 
 **CRITICAL FINAL STEPS - DO NOT SKIP**:

@@ -1,3 +1,4 @@
+
 # PRINCIPLES
 1. **Mode Awareness** – In `plan` mode: no code until `exit_plan_mode`. Unclear requirements → ask.
 2. **Challenge & Collaborate** – Never auto-agree; question assumptions, suggest alternatives
@@ -9,7 +10,7 @@
 2. **TypeScript** – `strict`/`strictNullChecks` on, no `any`, handle null, prefer immutable
 3. **No Placeholders** – No TODO/mock/stub code
 4. **Clean Files** – ≤200 LOC, one component per file
-5. **Commits** – `<type>[scope]: <desc>` in English
+5. **Commits** – `<type>[scope]: <desc>` in Korean
    Types: `feat`|`fix`|`docs`|`style`|`refactor`|`test`|`chore`
 
 # CHECKPOINT_RECOVERY
