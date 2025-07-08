@@ -72,4 +72,4 @@ console.log('  ');
 console.log('  opus> /cycle-check');
 console.log('  "품질 검토"');
 console.log('\n✨ Opus가 질문하고, Sonnet이 구현하는 AI TDD 워크플로우를 경험해보세요!');
-console.log('\n📚 자세한 사용법: https://github.com/yourusername/resonance');
+console.log('\n📚 자세한 사용법: https://github.com/keepitmello/Resonance--for-Claude-Code');

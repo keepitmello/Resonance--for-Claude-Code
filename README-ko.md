@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![Made with Claude](https://img.shields.io/badge/Made%20with-Claude-purple.svg)](https://claude.ai)
-[![Resonance](https://img.shields.io/badge/Resonance-for%20Claude%20Code-blue.svg)](https://github.com/yourusername/resonance)
+[![Resonance](https://img.shields.io/badge/Resonance-for%20Claude%20Code-blue.svg)](https://github.com/keepitmello/Resonance--for-Claude-Code)
 
 **Opus-Sonnet-그리고 당신, 3인 협업 체계.**
 
@@ -271,6 +271,6 @@ Sonnet이 테스트와 함께 구현해요. 풍부한 작업 로그로 컨텍스
 
 ### 체계적인 AI TDD 워크플로우로 작업의 질을 향상하세요.
 
-[⭐ GitHub에서 스타 주기](https://github.com/yourusername/resonance) | [🐦 트위터에 공유](https://twitter.com/intent/tweet?text=Resonance%20for%20Claude%20Code%20발견!%20먼저%20물어보고%2C%20테스트%20코드%20작성하고%2C%20체계적인%20작업%20관리하는%20AI%20TDD%20워크플로우.%20%23AI코딩%20게임체인저%20%F0%9F%9A%80&url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fresonance)
+[⭐ GitHub에서 스타 주기](https://github.com/keepitmello/Resonance--for-Claude-Code) | [🐦 트위터에 공유](https://twitter.com/intent/tweet?text=Resonance%20for%20Claude%20Code%20발견!%20먼저%20물어보고%2C%20테스트%20코드%20작성하고%2C%20체계적인%20작업%20관리하는%20AI%20TDD%20워크플로우.%20%23AI코딩%20게임체인저%20%F0%9F%9A%80&url=https%3A%2F%2Fgithub.com%2Fkeepitmello%2FResonance--for-Claude-Code)
 
 </div>
