@@ -136,6 +136,7 @@ Opus: "분석 완료! 이렇게 설계했어:
 ## 🚀 사용법
 
 **📌 중요: Claude Code 세션을 2개 열어야 합니다**
+
 - 세션 1: Opus 모드 (계획/리뷰)
 - 세션 2: Sonnet 모드 (구현)
 
@@ -162,6 +163,18 @@ sonnet> /cycle-start
 # plan.md 읽고 TDD 구현 시작
 # checkpoint.json 생성/업데이트
 # 20-30분마다 상세 진행상황 기록
+```
+
+### 📋 /cycle-log (Sonnet 세션)
+
+구현 작업을 마무리하면서 무엇을 했는지, 어떤 결정을 내렸는지, 무엇을 배웠는지 문서화합니다. 이 로그는 다음 Opus 계획 세션에 중요한 자료가 됩니다.
+
+```bash
+sonnet> /cycle-log
+# 완료된 작업 문서화
+# 기술적 결정사항과 이유 기록
+# 실패와 성공 경험 공유
+# cycles/YYYY-MM-DD/HHMM-topic-log.md 저장
 ```
 
 ### ✅ /cycle-check (Opus 세션)
@@ -309,12 +322,17 @@ npx claude-resonance
 각 Claude Code 세션에서:
 
 ```
-# 세션 1 (Opus 모드)
+# 세션 1 (Opus 계획)
 you > opus /cycle-plan
-you > opus /cycle-check
 
-# 세션 2 (Sonnet 모드) 
+
+# 세션 2 (Sonnet 구현)
 you > sonnet /cycle-start
+
+you > sonnet /cycle-log
+
+# 세션 1 (Opus 체크)
+you > opus /cycle-check
 ```
 
 Opus가 질문하고, 깊이 이해하고, 계획을 만들어요.

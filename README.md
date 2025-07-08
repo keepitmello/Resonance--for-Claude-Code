@@ -166,6 +166,18 @@ sonnet> /cycle-start
 # Records detailed progress every 20-30 minutes
 ```
 
+### 📋 /cycle-log (Sonnet Session)
+
+Document what you did, why you made certain decisions, and what you learned as you wrap up implementation work. This log becomes crucial material for the next Opus planning session.
+
+```bash
+sonnet> /cycle-log
+# Document completed work
+# Record technical decisions and reasoning
+# Share failures and successes
+# Saves to cycles/YYYY-MM-DD/HHMM-topic-log.md
+```
+
 ### ✅ /cycle-check (Opus Session)
 
 Once work is completed, return to Opus session to review whether it proceeded well according to the initial design and check if any additional work is needed.
@@ -331,6 +343,9 @@ you > opus /cycle-plan
 
 # Session 2 (Sonnet works)
 you > sonnet /cycle-start
+
+finish work with
+you > sonnet /cycle-log
 
 # Session 1 (Opus checks)
 you > opus /cycle-check
