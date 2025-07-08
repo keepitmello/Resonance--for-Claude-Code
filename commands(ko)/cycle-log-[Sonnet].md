@@ -34,17 +34,35 @@ ultrathink: Document the completed cycle for: {{CYCLE_TOPIC}}
 - src/utils/deprecated.ts (삭제)
 ```
 
-### 🧪 테스트 결과
+### 🧪 TDD 프로세스 & 테스트 결과
 
+**TDD 사이클 준수**: ✅ Yes / ❌ No
+
+#### 🔴 RED Phase (테스트 먼저 작성)
 ```bash
-# 테스트 실행 결과
+# 처음 작성한 테스트들 (모두 실패해야 함)
+✗ should validate payment amount - Expected implementation
+✗ should reject negative values - No validator found  
+✗ should handle concurrent requests - Function not defined
+→ 8개 테스트 작성, 8개 실패 (정상)
+```
+
+#### 🟢 GREEN Phase (최소 구현)
+```bash
+# 구현 후 테스트 결과
 ✓ should validate payment amount (3ms)
 ✓ should reject negative values (2ms)
 ✗ should handle concurrent requests - FAILED
-  → 타임아웃 이슈로 실패
+→ 8개 중 7개 통과
 ```
 
-**커버리지**: 87.5% (이전: 85.2%)
+#### 🔵 REFACTOR Phase (코드 개선)
+- 중복 제거: validateAmount() 함수 추출
+- 가독성: 매직넘버를 상수로 변경
+- 테스트 여전히 통과: ✓
+
+**최종 커버리지**: 87.5% (이전: 85.2%)
+**TDD 위반사항**: 없음 (테스트를 먼저 작성함)
 
 ### 💭 구현 중 결정사항
 
@@ -127,10 +145,30 @@ validate(amount: Decimal) {
 - 배치 처리 아키텍처?
 - 카드번호 보안 정책?
 
+### 📊 TDD 실천 기록
+
+**Timeline:**
+- 14:00 - RED: payment.test.ts 작성 시작
+- 14:15 - RED: 8개 테스트 완성, 모두 실패 확인
+- 14:20 - GREEN: PaymentValidator 클래스 구현 시작
+- 14:35 - GREEN: 7/8 테스트 통과
+- 14:45 - REFACTOR: 매직넘버 제거, 함수 추출
+- 15:00 - 동시성 테스트 디버깅 중
+
+**TDD 효과:**
+- 음수 금액 버그를 구현 전에 발견
+- 명확한 인터페이스 설계
+- 리팩토링 시 안전망 제공
+
 ### 💡 배운 점
 
 검증 로직에 엣지케이스가 예상보다 많았음. 특히 음수 금액 처리에서 
 버그를 발견했는데, TDD 방식으로 작업해서 조기에 발견할 수 있었음.
+
+**TDD 관련 인사이트:**
+- 테스트를 먼저 쓰니 API 디자인이 더 명확해짐
+- Mocking이 복잡할 때는 인터페이스부터 정의하면 도움됨
+- 동시성 테스트는 RED 단계에서 충분히 고민해야 함
 
 ---
 
@@ -253,6 +291,14 @@ Log: "처음엔 mutex로 시도했는데 분산환경에서 안 돼서 Redis 고
 ```
 
 Remember: The richer your checkpoint → The better your log → The better Opus can help!
+
+## TDD COMPLIANCE CHECKLIST:
+Must verify before finalizing:
+- [ ] RED phase: 테스트를 먼저 작성했는가?
+- [ ] RED phase: 모든 테스트가 처음에 실패했는가?
+- [ ] GREEN phase: 최소한의 코드로 테스트를 통과시켰는가?
+- [ ] REFACTOR phase: 테스트를 유지하며 코드를 개선했는가?
+- [ ] checkpoint.json에 TDD 단계가 기록되었는가?
 
 ## OBJECTIVITY CHECKLIST:
 Before finalizing log, check:

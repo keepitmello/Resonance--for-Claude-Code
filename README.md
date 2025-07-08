@@ -1,6 +1,6 @@
 # 🚀 Resonance™ for Claude Code
 
-> **⚠️ IMPORTANT UPDATE (July 8, 2025)**: If you installed on July 8, please update immediately with `npm update -g claude-resonance` or `npx claude-resonance`.
+> **⚠️ IMPORTANT UPDATE (July 8, 2025)**: If you installed on July 8, please update immediately with `npm update -g claude-resonance` or `npx claude-resonance`. We're actively updating prompts - check GitHub frequently for updates.
 
 > Lost context from Auto-Compact? Stuck in endless bug fixing?  
 > **Solve it with the systematic Resonance™ workflow.**
@@ -216,16 +216,12 @@ cp commands\(ko\)/*.md ~/.claude/commands/
 
 ### 🎯 Auto-open Both Sessions
 
-After global installation, use:
+After installation, automatically open both sessions:
 ```bash
-# Install globally first
-npm install -g claude-resonance
-
-# Then run
 resonance-start
 ```
 
-Or run directly with npx:
+Or run without installation using npx:
 ```bash
 npx -p claude-resonance resonance-start
 ```
@@ -413,18 +409,16 @@ resonance
 In each Claude Code session:
 
 ```
-# Session 1 (Opus plans)
-you > opus /cycle-plan
+# Session 1 (In Opus session)
+/cycle-plan
 
+# Session 2 (In Sonnet session)
+/cycle-start
 
-# Session 2 (Sonnet works)
-you > sonnet /cycle-start
+/cycle-log
 
-finish work with
-you > sonnet /cycle-log
-
-# Session 1 (Opus checks)
-you > opus /cycle-check
+# Session 1 (Back to Opus session)
+/cycle-check
 ```
 
 Opus asks questions, understands deeply, and creates plans.

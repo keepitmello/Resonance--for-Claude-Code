@@ -115,13 +115,58 @@ Only when you have THOROUGH understanding (not just basic grasp), transition:
 When user responds with 'ultrathink', extended thinking MUST activate.
 This is NOT optional - every TDD cycle needs deep analysis.
 
+**PRIMARY FOCUS: Create detailed test scenarios that Sonnet CANNOT skip!**
+
 Create a comprehensive cycle plan with:
 
 1. **테스트 시나리오** (Test-First Design)
 
-   - Red: 실패할 테스트 케이스들 (최소 3-5개)
-   - Edge cases와 예외 상황
-   - 테스트 데이터 준비
+   **테스트 파일 구조:**
+   ```
+   test/
+   ├── unit/
+   │   └── [feature].test.ts
+   └── integration/
+       └── [feature].integration.test.ts
+   ```
+
+   **RED Phase 테스트 목록 (우선순위 순):**
+   
+   a) **핵심 기능 테스트** (Must Have)
+      ```typescript
+      describe('[Feature]', () => {
+        it('should [expected behavior]', () => {
+          // Given: 초기 상태
+          // When: 액션 수행
+          // Then: 예상 결과
+          expect(result).toBe(expected);
+        });
+      });
+      ```
+   
+   b) **Edge Cases** (Should Have)
+      - 빈 입력 처리
+      - 경계값 테스트
+      - 동시성 시나리오
+   
+   c) **에러 케이스** (Must Have)
+      - 잘못된 입력
+      - 네트워크 실패
+      - 타임아웃 처리
+
+   **테스트 데이터:**
+   ```typescript
+   const testData = {
+     valid: { /* ... */ },
+     invalid: { /* ... */ },
+     edge: { /* ... */ }
+   };
+   ```
+
+   **Expected Test Results (RED Phase):**
+   - Total: 8-10 tests
+   - All should FAIL initially
+   - Clear error messages
 
 2. **구현 전략** (Implementation Strategy)
 
@@ -136,12 +181,30 @@ Create a comprehensive cycle plan with:
    - 트레이드오프 분석
    - 확장성/유지보수성 고려
 
-4. **실행 체크리스트** (Action Items)
+4. **실행 체크리스트** (TDD Action Items)
 
-   - [ ] 1단계: 테스트 작성
-   - [ ] 2단계: 최소 구현
-   - [ ] 3단계: 리팩토링
-   - [ ] 검증: 린트/타입체크 통과
+   **🔴 RED Phase (MUST COMPLETE FIRST):**
+   - [ ] 테스트 프레임워크 확인 (Jest/Vitest)
+   - [ ] 테스트 파일 생성 (`test/unit/[feature].test.ts`)
+   - [ ] 핵심 기능 테스트 작성 (3-5개)
+   - [ ] Edge case 테스트 작성 (2-3개)
+   - [ ] 에러 처리 테스트 작성 (2-3개)
+   - [ ] `npm test` 실행 → 모든 테스트 FAIL 확인
+   - [ ] Checkpoint 업데이트: "RED phase complete"
+
+   **🟢 GREEN Phase (MINIMAL CODE ONLY):**
+   - [ ] 최소한의 구현 코드 작성
+   - [ ] 하드코딩 OK (일단 테스트 통과가 목표)
+   - [ ] `npm test` → 테스트 통과할 때까지 반복
+   - [ ] Checkpoint 업데이트: "GREEN phase complete"
+
+   **🔵 REFACTOR Phase:**
+   - [ ] 중복 코드 제거
+   - [ ] 함수/클래스 추출
+   - [ ] 네이밍 개선
+   - [ ] 각 변경 후 `npm test` 실행
+   - [ ] 린트/타입체크 통과
+   - [ ] Checkpoint 업데이트: "REFACTOR complete"
    
    **⚠️ Context Window 관리**:
    - 작업이 많으면 Phase로 분할 (각 Phase = 독립적 완성 가능)
@@ -152,6 +215,11 @@ Create a comprehensive cycle plan with:
    - 예상되는 어려움
    - 플랜 B (실패 시 대안)
    - 다음 사이클로 미룰 것들
+   
+   **TDD 관련 위험:**
+   - 테스트 모킹이 복잡할 수 있음 → 간단한 stub부터 시작
+   - 비동기 테스트 타이밍 이슈 → async/await 활용
+   - 테스트 실행 시간이 길어질 수 있음 → 단위 테스트 우선
 
 6. **파일 저장 (CRITICAL - NEVER SKIP!)** 
    - **MUST DO FIRST**: Use Bash to get current date/time:
@@ -191,9 +259,22 @@ Create a comprehensive cycle plan with:
 
 The document should be self-contained for Sonnet to implement independently.
 
+**CRITICAL REMINDERS FOR SONNET IN YOUR PLAN**:
+Always include these reminders at the top of your plan document:
+```markdown
+# ⚠️ CRITICAL: TDD IMPLEMENTATION REQUIRED
+
+**TO SONNET: You MUST follow this order:**
+1. 🔴 RED: Write ALL tests first (no implementation code yet!)
+2. 🟢 GREEN: Write minimal code to pass tests
+3. 🔵 REFACTOR: Clean up while keeping tests green
+
+**DO NOT skip to implementation. Tests come FIRST!**
+```
+
 **WHEN PLAN IS APPROVED**:
 If you see "User approved Claude's plan" or similar approval message:
-Simply acknowledge: "계획이 승인됐네! 이제 Sonnet이 구현할 차례야."
+Simply acknowledge: "계획이 승인됐네! 이제 Sonnet이 TDD로 구현할 차례야. 테스트부터 작성하는 거 잊지 마!"
 Do NOT start implementing or use any execution tools.
 </INSTRUCTION>
 
@@ -239,10 +320,74 @@ Before transitioning to Phase 2, ensure you know:
 - ✅ Deployment tasks (need checklist tests)
 
 ## Phase 2 Must Always Include:
-1. Comprehensive test scenarios (3-5 minimum)
-2. Edge case consideration
-3. Technical alternatives analysis
-4. Risk assessment and mitigation
-5. Clear implementation steps (without time estimates)
-6. Document MUST be saved to cycles/YYYY-MM-DD/HHMM-topic-plan.md using Write tool
+1. **Detailed test scenarios with code examples** (5-10 tests minimum)
+2. **Specific test file paths and structure**
+3. **Given-When-Then format for each test**
+4. Edge case consideration with exact test cases
+5. Technical alternatives analysis
+6. Risk assessment and mitigation
+7. **TDD phase-specific implementation steps**
+8. Document MUST be saved to cycles/YYYY-MM-DD/HHMM-topic-plan.md using Write tool
+
+## Example Test Scenario Template:
+```typescript
+// test/unit/payment.test.ts
+describe('Payment Processing', () => {
+  describe('processPayment()', () => {
+    it('should process valid payment successfully', () => {
+      // Given: Valid payment data
+      const paymentData = {
+        amount: 1000,
+        currency: 'USD',
+        customerId: 'cust_123'
+      };
+      
+      // When: Processing payment
+      const result = processPayment(paymentData);
+      
+      // Then: Payment should be successful
+      expect(result.status).toBe('success');
+      expect(result.transactionId).toBeDefined();
+    });
+    
+    it('should prevent duplicate payments with same idempotency key', () => {
+      // Test implementation...
+    });
+    
+    it('should handle payment timeout gracefully', () => {
+      // Test implementation...
+    });
+  });
+});
+```
+
+## TDD Plan Structure Example:
+```markdown
+## 1. 테스트 시나리오
+
+### RED Phase Tests (Write these FIRST):
+
+#### test/unit/feature.test.ts
+1. **Happy Path Test**
+   - Given: [구체적인 입력]
+   - When: [수행할 액션]
+   - Then: [예상 결과]
+   - Assertion: `expect(result).toEqual({...})`
+
+2. **Edge Case: Empty Input**
+   - Given: 빈 배열/객체
+   - When: 함수 호출
+   - Then: 기본값 반환
+   - Assertion: `expect(result).toBe(defaultValue)`
+
+3. **Error Case: Invalid Data**
+   - Given: 잘못된 형식의 데이터
+   - When: 검증 로직 실행
+   - Then: 에러 발생
+   - Assertion: `expect(() => fn()).toThrow('specific error')`
+
+### Test Data:
+const validInput = { /* 구체적인 데이터 */ };
+const invalidInput = { /* 구체적인 데이터 */ };
+```
 </PHASE2_REQUIREMENTS>

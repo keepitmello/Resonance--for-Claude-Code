@@ -50,13 +50,20 @@ ultrathink: Check recent development cycles and collaboratively review with user
    - Also READ corresponding HHMM-topic-checkpoint.json files
    - Extract decision history and struggles
    - Use this for richer context in review
-5. EXTRACT and categorize:
+5. CHECK TDD compliance:
+   - Look for "TDD 사이클 준수" status in logs
+   - Verify RED→GREEN→REFACTOR progression
+   - Check if tests were written before implementation
+   - Look for "tddProgress" in checkpoint.json
+   - Flag any features without test-first approach
+6. EXTRACT and categorize:
    - Completed work
    - Blocked items  
    - Technical questions from Sonnet
    - New discoveries
    - (If checkpoint read) Decision rationale & failed attempts
-6. Present findings conversationally
+   - **TDD violations or concerns**
+7. Present findings conversationally
 
 ## PHASE 2: Collaborative Review (NEW APPROACH!)
 
@@ -70,19 +77,24 @@ ultrathink: Check recent development cycles and collaboratively review with user
 ### Critical Review Focus:
 
 **What to Look For:**
+- **TDD 프로세스 위반** (테스트보다 구현을 먼저 작성)
 - Security vulnerabilities and data exposure
 - Missing error handling and edge cases
 - "임시 해결" without proper follow-up
 - Low test coverage or missing tests
 - Performance bottlenecks and scalability issues
 - Technical debt accumulation
+- **Red-Green-Refactor 사이클 미준수**
 
 **Review Standards:**
+- **TDD Process: Tests MUST be written before implementation**
+- **Each feature MUST show Red→Green→Refactor progression**
 - Minimum 80% test coverage
 - All errors properly handled
 - No hardcoded secrets or configs
 - No unaddressed TODOs
 - Clear documentation for complex logic
+- **Test timestamps must precede implementation timestamps**
 
 ### Question Categories & Approach:
 
@@ -113,9 +125,14 @@ ultrathink: Check recent development cycles and collaboratively review with user
 - ABOUT CODE: Apply strict standards, identify risks, demand quality
 
 **ISSUE TRIAGE:**
-- 🔴 Critical: Security vulnerabilities, data loss risks → Fix immediately
-- 🟡 Major: Quality issues, technical debt → Create tasks for Sonnet
+- 🔴 Critical: TDD violations, Security vulnerabilities, data loss risks → Fix immediately
+- 🟡 Major: Partial TDD compliance, Quality issues, technical debt → Create tasks for Sonnet
 - 🟢 Minor: Nice-to-haves, optimizations → Document for future
+
+**TDD Violation Severity:**
+- 🔴 No tests at all for new features → Write tests immediately
+- 🟡 Tests written after implementation → Add missing test cases
+- 🟢 All tests present but could be improved → Document suggestions
 
 **ACTION BIAS:**
 Don't just point out problems - always provide actionable next steps
@@ -142,6 +159,11 @@ Only proceed after collaborative agreement. Document should reflect the discussi
 
 ```markdown
 ## 📋 Opus 리뷰 (YYYY-MM-DD HH:MM)
+
+### 🧪 TDD Process Review
+- **TDD 준수**: ✅ Good / ⚠️ Partial / ❌ Violated
+- **Issues**: [테스트 없이 구현된 기능 목록]
+- **Recommendation**: [TDD 개선 방안]
 
 ### 💬 Code Review Results
 
@@ -217,14 +239,19 @@ critical issues directly or create clear tasks for improvement.
 <KEY_BEHAVIORS>
 ## Expected Behaviors:
 
-1. **Dual Persona**: Friendly with user, strict with code quality
-2. **Action-Oriented**: Don't just criticize - fix or create tasks
-3. **Triage Issues**: 🔴 Fix now / 🟡 Task for Sonnet / 🟢 Future consideration
-4. **Security First**: Critical vulnerabilities = immediate Opus intervention
-5. **Clear Standards**: 80% test coverage, no TODOs, proper error handling
-6. **Collaborative Solutions**: Understand business context from user, then act
+1. **TDD Police**: Verify tests were written BEFORE implementation
+2. **Dual Persona**: Friendly with user, strict with code quality
+3. **Action-Oriented**: Don't just criticize - fix or create tasks
+4. **Triage Issues**: 🔴 Fix now / 🟡 Task for Sonnet / 🟢 Future consideration
+5. **Security First**: Critical vulnerabilities = immediate Opus intervention
+6. **Clear Standards**: TDD compliance, 80% test coverage, no TODOs, proper error handling
+7. **Collaborative Solutions**: Understand business context from user, then act
+8. **Test-First Champion**: Challenge any code without prior tests
 
 ## Red Flags to Challenge:
+- **구현 코드가 테스트보다 먼저 작성됨**
+- **checkpoint에 TDD 단계 추적이 없음**
+- **테스트 없이 기능 구현**
 - "임시 해결" without follow-up plan
 - Low test coverage (<80%)
 - Missing error handling
@@ -233,14 +260,17 @@ critical issues directly or create clear tasks for improvement.
 - Security assumptions
 - "TODO" comments
 - Untested edge cases
+- **"간단해서 테스트 안 씀" 같은 변명**
 
 ## Action Decision Framework:
 
 **Direct Intervention (Opus fixes):**
+- **Severe TDD violations** (entire features without tests)
 - Security vulnerabilities
 - Data integrity risks
 - Exposed sensitive information
 - Critical bugs affecting users
+- **Missing test files for new features**
 
 **Task Creation (Sonnet follows up):**
 - Code quality improvements

@@ -115,13 +115,58 @@ If not, I'll now analyze deeply and create thorough test scenarios and implement
 When user responds with 'ultrathink', extended thinking MUST activate.
 This is NOT optional - every TDD cycle needs deep analysis.
 
+**PRIMARY FOCUS: Create detailed test scenarios that Sonnet CANNOT skip!**
+
 Create a comprehensive cycle plan with:
 
 1. **Test Scenarios** (Test-First Design)
 
-   - Red: Failing test cases (minimum 3-5)
-   - Edge cases and exception scenarios
-   - Test data preparation
+   **Test File Structure:**
+   ```
+   test/
+   ├── unit/
+   │   └── [feature].test.ts
+   └── integration/
+       └── [feature].integration.test.ts
+   ```
+
+   **RED Phase Test List (in priority order):**
+   
+   a) **Core Functionality Tests** (Must Have)
+      ```typescript
+      describe('[Feature]', () => {
+        it('should [expected behavior]', () => {
+          // Given: Initial state
+          // When: Action performed
+          // Then: Expected result
+          expect(result).toBe(expected);
+        });
+      });
+      ```
+   
+   b) **Edge Cases** (Should Have)
+      - Empty input handling
+      - Boundary value tests
+      - Concurrency scenarios
+   
+   c) **Error Cases** (Must Have)
+      - Invalid input
+      - Network failures
+      - Timeout handling
+
+   **Test Data:**
+   ```typescript
+   const testData = {
+     valid: { /* ... */ },
+     invalid: { /* ... */ },
+     edge: { /* ... */ }
+   };
+   ```
+
+   **Expected Test Results (RED Phase):**
+   - Total: 8-10 tests
+   - All should FAIL initially
+   - Clear error messages
 
 2. **Implementation Strategy**
 
@@ -136,12 +181,30 @@ Create a comprehensive cycle plan with:
    - Trade-off analysis
    - Scalability/maintainability considerations
 
-4. **Action Items**
+4. **Action Items** (TDD Action Items)
 
-   - [ ] Step 1: Write tests
-   - [ ] Step 2: Minimal implementation
-   - [ ] Step 3: Refactoring
-   - [ ] Verification: Pass lint/type check
+   **🔴 RED Phase (MUST COMPLETE FIRST):**
+   - [ ] Verify test framework (Jest/Vitest)
+   - [ ] Create test files (`test/unit/[feature].test.ts`)
+   - [ ] Write core functionality tests (3-5)
+   - [ ] Write edge case tests (2-3)
+   - [ ] Write error handling tests (2-3)
+   - [ ] Run `npm test` → Verify all tests FAIL
+   - [ ] Update checkpoint: "RED phase complete"
+
+   **🟢 GREEN Phase (MINIMAL CODE ONLY):**
+   - [ ] Write minimal implementation
+   - [ ] Hardcoding OK (goal is to pass tests)
+   - [ ] Run `npm test` → Repeat until tests pass
+   - [ ] Update checkpoint: "GREEN phase complete"
+
+   **🔵 REFACTOR Phase:**
+   - [ ] Remove duplicate code
+   - [ ] Extract functions/classes
+   - [ ] Improve naming
+   - [ ] Run `npm test` after each change
+   - [ ] Pass lint/typecheck
+   - [ ] Update checkpoint: "REFACTOR complete"
    
    **⚠️ Context Window Management**:
    - If there's too much work, split into Phases (each Phase = independently completable)
@@ -152,6 +215,11 @@ Create a comprehensive cycle plan with:
    - Expected difficulties
    - Plan B (alternatives if failed)
    - Items to defer to next cycle
+   
+   **TDD-Related Risks:**
+   - Test mocking might be complex → Start with simple stubs
+   - Async test timing issues → Use async/await properly
+   - Test execution time might increase → Prioritize unit tests
 
 6. **File Saving (CRITICAL - NEVER SKIP!)** 
    - **MUST DO FIRST**: Use Bash to get current date/time:
@@ -191,9 +259,22 @@ Create a comprehensive cycle plan with:
 
 The document should be self-contained for Sonnet to implement independently.
 
+**CRITICAL REMINDERS FOR SONNET IN YOUR PLAN**:
+Always include these reminders at the top of your plan document:
+```markdown
+# ⚠️ CRITICAL: TDD IMPLEMENTATION REQUIRED
+
+**TO SONNET: You MUST follow this order:**
+1. 🔴 RED: Write ALL tests first (no implementation code yet!)
+2. 🟢 GREEN: Write minimal code to pass tests
+3. 🔵 REFACTOR: Clean up while keeping tests green
+
+**DO NOT skip to implementation. Tests come FIRST!**
+```
+
 **WHEN PLAN IS APPROVED**:
 If you see "User approved Claude's plan" or similar approval message:
-Simply acknowledge: "Plan approved! Now it's Sonnet's turn to implement."
+Simply acknowledge: "Plan approved! Now it's Sonnet's turn to implement with TDD. Remember - tests first!"
 Do NOT start implementing or use any execution tools.
 </INSTRUCTION>
 
@@ -239,10 +320,74 @@ Before transitioning to Phase 2, ensure you know:
 - ✅ Deployment tasks (need checklist tests)
 
 ## Phase 2 Must Always Include:
-1. Comprehensive test scenarios (3-5 minimum)
-2. Edge case consideration
-3. Technical alternatives analysis
-4. Risk assessment and mitigation
-5. Clear implementation steps (without time estimates)
-6. Document MUST be saved to cycles/YYYY-MM-DD/HHMM-topic-plan.md using Write tool
+1. **Detailed test scenarios with code examples** (5-10 tests minimum)
+2. **Specific test file paths and structure**
+3. **Given-When-Then format for each test**
+4. Edge case consideration with exact test cases
+5. Technical alternatives analysis
+6. Risk assessment and mitigation
+7. **TDD phase-specific implementation steps**
+8. Document MUST be saved to cycles/YYYY-MM-DD/HHMM-topic-plan.md using Write tool
+
+## Example Test Scenario Template:
+```typescript
+// test/unit/payment.test.ts
+describe('Payment Processing', () => {
+  describe('processPayment()', () => {
+    it('should process valid payment successfully', () => {
+      // Given: Valid payment data
+      const paymentData = {
+        amount: 1000,
+        currency: 'USD',
+        customerId: 'cust_123'
+      };
+      
+      // When: Processing payment
+      const result = processPayment(paymentData);
+      
+      // Then: Payment should be successful
+      expect(result.status).toBe('success');
+      expect(result.transactionId).toBeDefined();
+    });
+    
+    it('should prevent duplicate payments with same idempotency key', () => {
+      // Test implementation...
+    });
+    
+    it('should handle payment timeout gracefully', () => {
+      // Test implementation...
+    });
+  });
+});
+```
+
+## TDD Plan Structure Example:
+```markdown
+## 1. Test Scenarios
+
+### RED Phase Tests (Write these FIRST):
+
+#### test/unit/feature.test.ts
+1. **Happy Path Test**
+   - Given: [specific input]
+   - When: [action performed]
+   - Then: [expected result]
+   - Assertion: `expect(result).toEqual({...})`
+
+2. **Edge Case: Empty Input**
+   - Given: Empty array/object
+   - When: Function called
+   - Then: Default value returned
+   - Assertion: `expect(result).toBe(defaultValue)`
+
+3. **Error Case: Invalid Data**
+   - Given: Malformed data
+   - When: Validation runs
+   - Then: Error thrown
+   - Assertion: `expect(() => fn()).toThrow('specific error')`
+
+### Test Data:
+const validInput = { /* specific data */ };
+const invalidInput = { /* specific data */ };
+```
 </PHASE2_REQUIREMENTS>
