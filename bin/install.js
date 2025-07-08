@@ -234,11 +234,29 @@ async function install() {
       "\n✨ Opus가 질문하고, Sonnet이 구현하는 AI TDD 워크플로우를 경험해보세요!"
     );
     console.log(
+      "\n📌 중요: Claude Code 세션을 2개 열어야 합니다:"
+    );
+    console.log(
+      "   - 세션 1: Opus 모드 (계획/리뷰)"
+    );
+    console.log(
+      "   - 세션 2: Sonnet 모드 (구현)"
+    );
+    console.log(
       "\n🔄 재시작: Claude Code를 재시작하면 명령어를 사용할 수 있습니다."
     );
   } else {
     console.log(
       "\n✨ Experience AI TDD workflow with Opus asking and Sonnet implementing!"
+    );
+    console.log(
+      "\n📌 Important: You need to open 2 Claude Code sessions:"
+    );
+    console.log(
+      "   - Session 1: Opus mode (planning/review)"
+    );
+    console.log(
+      "   - Session 2: Sonnet mode (implementation)"
     );
     console.log("\n🔄 Restart: Restart Claude Code to use the commands.");
   }

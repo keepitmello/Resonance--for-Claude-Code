@@ -136,6 +136,10 @@ Traditional AI Coding:           AI TDD Workflow:
 
 ## 🚀 How to Use
 
+**📌 Important: You need to open 2 Claude Code sessions**
+- Session 1: Opus mode (planning/review)
+- Session 2: Sonnet mode (implementation)
+
 After installation, restart Claude Code and start the Resonance workflow with these commands:
 
 ### 📝 /cycle-plan (Opus Session)
@@ -179,6 +183,8 @@ opus> /cycle-check
 ```bash
 npx claude-resonance
 ```
+
+Choose your language during installation (English/한국어).
 
 **System Requirements:**
 
@@ -315,15 +321,15 @@ npx claude-resonance
 
 **⚠️ macOS only** | Requires Claude Code in `~/.claude/`
 
-In Claude Code:
+In each Claude Code session:
 
 ```
+# Session 1 (Opus mode)
 you > opus /cycle-plan
-
-you > sonnet /cycle-start
-
 you > opus /cycle-check
 
+# Session 2 (Sonnet mode)
+you > sonnet /cycle-start
 ```
 
 Opus asks questions, understands deeply, and creates plans.

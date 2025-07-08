@@ -135,6 +135,10 @@ Opus: "분석 완료! 이렇게 설계했어:
 
 ## 🚀 사용법
 
+**📌 중요: Claude Code 세션을 2개 열어야 합니다**
+- 세션 1: Opus 모드 (계획/리뷰)
+- 세션 2: Sonnet 모드 (구현)
+
 설치 완료 후 Claude Code를 재실행하고, 아래 커맨드로 Resonance 워크플로우를 시작하세요:
 
 ### 📝 /cycle-plan (Opus 세션)
@@ -178,6 +182,8 @@ opus> /cycle-check
 ```bash
 npx claude-resonance
 ```
+
+설치 시 언어를 선택할 수 있습니다 (한국어/English).
 
 **시스템 요구사항:**
 
@@ -300,15 +306,15 @@ npx claude-resonance
 
 **⚠️ macOS 전용** | Claude Code가 `~/.claude/`에 있어야 함
 
-Claude Code에서:
+각 Claude Code 세션에서:
 
 ```
+# 세션 1 (Opus 모드)
 you > opus /cycle-plan
-
-you > sonnet /cycle-start
-
 you > opus /cycle-check
 
+# 세션 2 (Sonnet 모드) 
+you > sonnet /cycle-start
 ```
 
 Opus가 질문하고, 깊이 이해하고, 계획을 만들어요.
