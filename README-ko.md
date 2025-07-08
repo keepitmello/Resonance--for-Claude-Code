@@ -133,6 +133,77 @@ Opus: "분석 완료! 이렇게 설계했어:
                                  검증되고 개선된 코드!
 ```
 
+## 🚀 빠른 설치
+
+### ⚡ NPM 패키지
+
+**방법 1: 바로 실행 (설치 없이)**
+```bash
+npx claude-resonance
+```
+
+**방법 2: 전역 설치 (권장)**
+```bash
+# 전역 설치
+npm install -g claude-resonance
+
+# 설치 실행
+resonance
+```
+
+설치 시 언어를 선택할 수 있습니다 (한국어/English).
+
+> **npx vs npm -g 차이:**
+> - `npx`: 매번 최신 버전 다운로드 후 실행 (느리지만 항상 최신)
+> - `npm -g`: 한 번 설치 후 빠르게 실행 (수동 업데이트 필요)
+
+**시스템 요구사항:**
+
+- **macOS 전용** (macOS 15.5+에서 테스트됨)
+- **Claude Code**가 기본 위치(`~/.claude/`)에 설치되어 있어야 함
+- npm/npx 사용 가능한 터미널
+
+### 🔧 수동 설치 (대안)
+
+#### macOS
+
+```bash
+# 레포지토리 클론
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# 설치 및 활성화
+./activate-simple.sh
+```
+
+#### Windows (WSL)
+
+**중요**: 모든 명령어는 WSL 터미널에서 실행해야 합니다. PowerShell이나 CMD가 아닙니다.
+
+```bash
+# WSL 터미널 열기 (Ubuntu/Debian 권장)
+# 레포지토리 클론
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# Claude Code 디렉토리에 커맨드 파일 복사
+# 영어 버전:
+cp commands\(en\)/*.md ~/.claude/commands/
+
+# 한국어 버전:
+cp commands\(ko\)/*.md ~/.claude/commands/
+
+# Claude Code 재시작
+```
+
+### 🚨 호환성 안내
+
+- **macOS**: 자동 설치 완벽 지원
+- **Windows**: 수동 설치만 가능 (WSL 필수)
+- **Linux**: 수동 설치 (곧 지원 예정)
+- **Claude Code**가 `~/.claude/commands/`에 설치되어 있어야 함
+- 설치 스크립트가 기존 파일을 자동으로 백업 (macOS만 해당)
+
 ## 🚀 사용법
 
 **📌 중요: Claude Code 세션을 2개 열어야 합니다**
@@ -219,77 +290,6 @@ opus> /cycle-check
 # 코드 품질 비판적 분석
 # 개선 사항 피드백
 ```
-
-## 🚀 빠른 설치
-
-### ⚡ NPM 패키지
-
-**방법 1: 바로 실행 (설치 없이)**
-```bash
-npx claude-resonance
-```
-
-**방법 2: 전역 설치 (권장)**
-```bash
-# 전역 설치
-npm install -g claude-resonance
-
-# 설치 실행
-resonance
-```
-
-설치 시 언어를 선택할 수 있습니다 (한국어/English).
-
-> **npx vs npm -g 차이:**
-> - `npx`: 매번 최신 버전 다운로드 후 실행 (느리지만 항상 최신)
-> - `npm -g`: 한 번 설치 후 빠르게 실행 (수동 업데이트 필요)
-
-**시스템 요구사항:**
-
-- **macOS 전용** (macOS 15.5+에서 테스트됨)
-- **Claude Code**가 기본 위치(`~/.claude/`)에 설치되어 있어야 함
-- npm/npx 사용 가능한 터미널
-
-### 🔧 수동 설치 (대안)
-
-#### macOS
-
-```bash
-# 레포지토리 클론
-git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
-cd Resonance--for-Claude-Code
-
-# 설치 및 활성화
-./activate-simple.sh
-```
-
-#### Windows (WSL)
-
-**중요**: 모든 명령어는 WSL 터미널에서 실행해야 합니다. PowerShell이나 CMD가 아닙니다.
-
-```bash
-# WSL 터미널 열기 (Ubuntu/Debian 권장)
-# 레포지토리 클론
-git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
-cd Resonance--for-Claude-Code
-
-# Claude Code 디렉토리에 커맨드 파일 복사
-# 영어 버전:
-cp commands\(en\)/*.md ~/.claude/commands/
-
-# 한국어 버전:
-cp commands\(ko\)/*.md ~/.claude/commands/
-
-# Claude Code 재시작
-```
-
-### 🚨 호환성 안내
-
-- **macOS**: 자동 설치 완벽 지원
-- **Windows**: 수동 설치만 가능 (WSL 필수)
-- **Linux**: 수동 설치 (곧 지원 예정)
-- **Claude Code**가 `~/.claude/commands/`에 설치되어 있어야 함
-- 설치 스크립트가 기존 파일을 자동으로 백업 (macOS만 해당)
 
 ## 🤝 협업 사례
 

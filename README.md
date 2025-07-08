@@ -134,6 +134,77 @@ Traditional AI Coding:           AI TDD Workflow:
                                  Verified & Refined!
 ```
 
+## 🚀 Quick Installation
+
+### ⚡ NPM Package
+
+**Option 1: Direct execution (no installation)**
+```bash
+npx claude-resonance
+```
+
+**Option 2: Global installation (recommended)**
+```bash
+# Install globally
+npm install -g claude-resonance
+
+# Run installation
+resonance
+```
+
+Choose your language during installation (English/한국어).
+
+> **npx vs npm -g:**
+> - `npx`: Downloads and runs latest version each time (slower, always up-to-date)
+> - `npm -g`: Installs once, runs faster (need to update manually)
+
+**System Requirements:**
+
+- **macOS only** (tested on macOS 15.5+)
+- **Claude Code** installed in standard location (`~/.claude/`)
+- Terminal with npm/npx access
+
+### 🔧 Manual Installation (Alternative)
+
+#### macOS
+
+```bash
+# Clone the repository
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# Install and activate
+./activate-simple.sh
+```
+
+#### Windows (WSL)
+
+**Important**: Run all commands inside WSL terminal, not PowerShell or CMD.
+
+```bash
+# Open WSL terminal (Ubuntu/Debian recommended)
+# Clone the repository
+git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
+cd Resonance--for-Claude-Code
+
+# Copy command files to Claude Code directory
+# For English:
+cp commands\(en\)/*.md ~/.claude/commands/
+
+# For Korean:
+cp commands\(ko\)/*.md ~/.claude/commands/
+
+# Restart Claude Code
+```
+
+### 🚨 Compatibility Notes
+
+- **macOS**: Full automatic installation support
+- **Windows**: Manual installation only (must use WSL)
+- **Linux**: Manual installation (coming soon)
+- **Requires Claude Code** to be installed in `~/.claude/commands/`
+- Installation script automatically backs up existing files (macOS only)
+
 ## 🚀 How to Use
 
 **📌 Important: You need to open 2 Claude Code sessions**
@@ -220,77 +291,6 @@ opus> /cycle-check
 # Critical code quality analysis
 # Provides improvement feedback
 ```
-
-## 🚀 Quick Installation
-
-### ⚡ NPM Package
-
-**Option 1: Direct execution (no installation)**
-```bash
-npx claude-resonance
-```
-
-**Option 2: Global installation (recommended)**
-```bash
-# Install globally
-npm install -g claude-resonance
-
-# Run installation
-resonance
-```
-
-Choose your language during installation (English/한국어).
-
-> **npx vs npm -g:**
-> - `npx`: Downloads and runs latest version each time (slower, always up-to-date)
-> - `npm -g`: Installs once, runs faster (need to update manually)
-
-**System Requirements:**
-
-- **macOS only** (tested on macOS 15.5+)
-- **Claude Code** installed in standard location (`~/.claude/`)
-- Terminal with npm/npx access
-
-### 🔧 Manual Installation (Alternative)
-
-#### macOS
-
-```bash
-# Clone the repository
-git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
-cd Resonance--for-Claude-Code
-
-# Install and activate
-./activate-simple.sh
-```
-
-#### Windows (WSL)
-
-**Important**: Run all commands inside WSL terminal, not PowerShell or CMD.
-
-```bash
-# Open WSL terminal (Ubuntu/Debian recommended)
-# Clone the repository
-git clone https://github.com/keepitmello/Resonance--for-Claude-Code.git
-cd Resonance--for-Claude-Code
-
-# Copy command files to Claude Code directory
-# For English:
-cp commands\(en\)/*.md ~/.claude/commands/
-
-# For Korean:
-cp commands\(ko\)/*.md ~/.claude/commands/
-
-# Restart Claude Code
-```
-
-### 🚨 Compatibility Notes
-
-- **macOS**: Full automatic installation support
-- **Windows**: Manual installation only (must use WSL)
-- **Linux**: Manual installation (coming soon)
-- **Requires Claude Code** to be installed in `~/.claude/commands/`
-- Installation script automatically backs up existing files (macOS only)
 
 ## 🤝 Real Collaboration, Not Templates
 
