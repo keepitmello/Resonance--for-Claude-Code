@@ -3,6 +3,9 @@
 # Resonance™ for Claude Code - Auto Start Script
 # Opens two terminal windows with Opus and Sonnet sessions
 
+# Debug mode (set to 1 to enable)
+DEBUG=${DEBUG:-0}
+
 # Load language configuration
 CONFIG_FILE="$HOME/.claude/resonance-config.json"
 LANGUAGE="en"
@@ -85,6 +88,32 @@ echo "    │                      ✨ $MSG_STARTING ✨                    │"
 echo "    │                                                                 │"
 echo "    ╰─────────────────────────────────────────────────────────────────╯"
 echo ""
+
+# Show debug hint if needed
+if [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
+    if [[ "$LANGUAGE" == "ko" ]]; then
+        echo "사용법: resonance-start [옵션]"
+        echo ""
+        echo "옵션:"
+        echo "  --help, -h    이 도움말 표시"
+        echo ""
+        echo "디버그 모드:"
+        echo "  DEBUG=1 resonance-start"
+        echo ""
+        echo "Terminal.app에서 문제가 있다면 디버그 모드를 사용하세요."
+    else
+        echo "Usage: resonance-start [options]"
+        echo ""
+        echo "Options:"
+        echo "  --help, -h    Show this help"
+        echo ""
+        echo "Debug mode:"
+        echo "  DEBUG=1 resonance-start"
+        echo ""
+        echo "Use debug mode if you have issues with Terminal.app"
+    fi
+    exit 0
+fi
 
 # Find claude command dynamically
 find_claude() {
@@ -173,11 +202,37 @@ open_terminal() {
     # Check which terminal app is running
     if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] || [[ -z "$TERM_PROGRAM" ]]; then
         # Use Terminal.app
-        osascript <<EOF 2>/dev/null
+        if [[ $DEBUG -eq 1 ]]; then
+            echo "   [DEBUG] TERM_PROGRAM: '$TERM_PROGRAM'"
+            echo "   [DEBUG] Command: $command"
+            echo "   [DEBUG] Title: $title"
+        fi
+        
+        # Redirect stderr based on debug mode
+        local stderr_redirect="/dev/null"
+        [[ $DEBUG -eq 1 ]] && stderr_redirect="/dev/stderr"
+        
+        # Escape command for AppleScript
+        local escaped_command=$(printf '%s' "$command" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+        local escaped_title=$(printf '%s' "$title" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g')
+        
+        osascript <<EOF 2>$stderr_redirect
 tell application "Terminal"
-    do script "$command"
-    set current settings of front window to settings set "Pro"
-    set custom title of front window to "$title"
+    do script "$escaped_command"
+    try
+        -- Try to set theme (might fail if "Pro" doesn't exist)
+        set current settings of front window to settings set "Pro"
+    end try
+    try
+        -- Try to set custom title (syntax varies by macOS version)
+        set custom title of front window to "$escaped_title"
+    on error
+        -- Alternative method for older macOS versions
+        tell front window
+            set title displays custom title to true
+            set custom title to "$escaped_title"
+        end tell
+    end try
 end tell
 EOF
         if [[ $? -eq 0 ]]; then
@@ -185,6 +240,17 @@ EOF
             ((SUCCESS_COUNT++))
         else
             echo "   ⚠️  Failed to open Terminal window"
+            # Try simpler approach without settings
+            [[ $DEBUG -eq 1 ]] && echo "   [DEBUG] Trying basic mode..."
+            osascript <<EOF2 2>$stderr_redirect
+tell application "Terminal"
+    do script "$escaped_command"
+end tell
+EOF2
+            if [[ $? -eq 0 ]]; then
+                echo "   ✓ Terminal window opened (basic mode)"
+                ((SUCCESS_COUNT++))
+            fi
         fi
     elif [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
         # Use iTerm2
