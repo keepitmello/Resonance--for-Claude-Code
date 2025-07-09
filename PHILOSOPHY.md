@@ -14,7 +14,34 @@ Traditional AI coding and Resonance represent fundamentally different approaches
 - **Philosophy**: Understanding before implementation, tests before code
 - **Result**: Higher quality, fewer iterations, preserved context
 
-## The Three Pillars
+## Scientific Foundation
+
+### The Problem with Single-Phase AI Coding
+
+Research shows that when AI tries to understand and implement simultaneously:
+- **30-50% higher hallucination rate** (MIT, 2024)
+- **45% chance of role confusion**
+- **Endless clarification loops**
+
+### Plan-and-Solve Plus (PS+) Architecture
+
+Resonance is built on cognitive science principles that separate thinking into distinct phases:
+
+```
+Understand → Plan → Execute → Learn
+    ↓         ↓        ↓        ↓
+  Phase 1   Phase 2   Phase 3  Phase 4
+   (Opus)    (Opus)   (Sonnet) (Opus)
+```
+
+This separation isn't added complexity - it's fundamental clarity. Each phase has:
+- **Specific constraints** (linguistic and tool-level)
+- **Clear exit criteria** (quantitative triggers)
+- **Defined deliverables** (not just thoughts)
+
+*For detailed research and citations: [RESONANCE-PROMPT-ENGINEERING-GUIDE.md](./RESONANCE-PROMPT-ENGINEERING-GUIDE.md#연구-기반-핵심-원칙)*
+
+## The Four Pillars
 
 ### 1. Understanding First (Opus Phase 1)
 - Ask "why" before "what"
@@ -30,23 +57,33 @@ Traditional AI coding and Resonance represent fundamentally different approaches
 
 ### 3. Context Preservation (Checkpoints)
 - Your checkpoint is your external brain
+- **Update at meaningful work boundaries** (not time-based)
 - Document decisions and struggles, not just progress
 - Failed attempts are valuable information
-- Write for your future self
+- Write for your future self with `contextResets` in mind
 - Track metrics for objective progress measurement
+- Include actual code snippets that worked/failed
+
+**Key update triggers**: Phase transitions, milestone completion, critical discoveries, getting stuck
+
+**The checkpoint isn't just progress tracking - it's your lifeline when context resets.**
 
 ## Role Separation
 
 ### Opus: The Architect
 - Asks "why" and understands deeply
+- **Cannot modify code** (tool-level enforced)
 - Designs with tests in mind
 - Reviews with high standards
-- Focuses on quality and correctness
+- Creates Expectation Checklists
+- Extracts Learning from Reality
 
 ### Sonnet: The Builder
 - Implements based on clear plans
-- Follows TDD strictly
-- Documents the journey
+- **Cannot deviate from plan** (must follow exactly)
+- Follows TDD strictly (tests first, always)
+- Documents the journey at meaningful boundaries
+- Updates Reality Checklist with discoveries
 - Learns from struggles
 
 ### You: The Director
@@ -55,36 +92,135 @@ Traditional AI coding and Resonance represent fundamentally different approaches
 - Guides priorities
 - Approves solutions
 
+## Implementation Philosophy
+
+### Why These Specific Constraints?
+
+#### 🛠️ Tool-Level Enforcement
+- **Opus can't use Edit/MultiEdit** → Forces true planning, not coding
+- **Sonnet can't improvise** → Must follow plan endpoints exactly
+- **Both must save files** → Console output is thought, files are decisions
+- **No TodoWrite in Phase 1** → Prevents premature solutioning
+
+#### ⏱️ Mandatory Transitions (Quantitative Triggers)
+When you hit ANY of these, you MUST transition:
+- **5+ minutes** in Phase 1
+- **3+ files** analyzed
+- **5+ questions** asked
+
+Why? Because:
+- Your understanding is "good enough" at 80%
+- Perfect understanding is the enemy of progress
+- The next phase will reveal what you missed
+
+#### 💾 File Persistence Over Console Output
+```
+Console output = Ephemeral thought
+File saving = Committed artifact
+```
+
+Every plan MUST be saved as `cycles/YYYY-MM-DD/HHMM-topic-plan.md`
+
+#### 🌐 Language Policy
+- **System prompts**: English (optimal model performance)
+- **User interaction**: User's preferred language
+- **Document content**: User's preferred language
+
+#### 📍 Checkpoint Update Strategy
+
+**Why not time-based?** AI has no time perception.
+
+**Work-boundary based updates**:
+```yaml
+Mandatory checkpoints:
+- TDD phase transitions (RED→GREEN→REFACTOR)
+- Major milestone completion
+- Critical discoveries or blockers
+- Before major approach changes
+
+NOT required:
+- Every test run
+- Every file edit
+- Every small decision
+```
+
+Think in **meaningful work units**, not clock time.
+
+*Technical details: [RESONANCE-PROMPT-ENGINEERING-GUIDE.md](./RESONANCE-PROMPT-ENGINEERING-GUIDE.md#도구-수준-제약)*
+
 ## Key Principles
 
 ### 1. Two-Phase Thinking
-- Phase 1: Understand (normal thinking)
-- Phase 2: Design (ultrathink)
+- Phase 1: Understand (normal thinking, dialogue-based)
+- Phase 2: Design (`ultrathink` - extended analysis mode)
 - Never skip to implementation
+- Transition is mandatory, not optional
 
 ### 2. Tests as Specification
 - Tests are not afterthoughts
 - Tests define expected behavior
+- RED → GREEN → REFACTOR (no exceptions)
 - Tests enable confident refactoring
 
 ### 3. Honest Documentation
 - Document failures and struggles
 - Explain why, not just what
-- Numbers over adjectives
+- Numbers over adjectives ("improved by 73%" not "much better")
 - Facts over embellishments
 
 ### 4. Collaborative Problem Solving
 - AI proposes, you dispose
 - Options, not prescriptions
 - Understanding constraints together
+- Clear triage: 🔴 Fix now / 🟡 Task for later / 🟢 Future
 
-### 5. Knowledge Transfer Over Task Tracking
-- Checklists aren't just TODOs
-- They're communication channels between AI personas
-- Failed assumptions are as valuable as successful implementations
-- Every cycle contributes to collective intelligence
+### 5. Knowledge Transfer (Not Task Tracking)
+
+**Traditional approach**: Checklists = TODOs ❌  
+**Resonance approach**: Checklists = Knowledge Protocols ✅
+
+The 3-layer checklist architecture:
+- **Expectation Checklist** (Opus → Sonnet): "Watch out for this..."
+- **Reality Checklist** (Sonnet → Opus): "Actually found this..."
+- **Learning Checklist** (Review phase): "Next time remember..."
+
+Each cycle makes the AI smarter, not just the code better. Failed assumptions become future wisdom.
 
 ## Advanced Concepts
+
+### TDD Phase Exit Criteria
+
+Each phase has strict exit requirements:
+
+**🔴 RED Phase**
+- ✓ All test scenarios from plan written
+- ✓ Tests run and fail correctly
+- ✓ No implementation code exists
+- ✓ Checkpoint updated
+
+**🟢 GREEN Phase**
+- ✓ All tests passing
+- ✓ Implementation matches plan exactly
+- ✓ Coverage metrics documented
+- ✓ Checkpoint shows "all green"
+
+**🔵 REFACTOR Phase**
+- ✓ Tests still passing
+- ✓ Code follows conventions
+- ✓ No duplication
+- ✓ Clear naming
+
+### Context Recovery Protocol
+
+When `contextResets > 0` in checkpoint:
+1. Read checkpoint.json first (your memory)
+2. Check plan alignment
+3. Review Reality Checklist
+4. Read mentioned code files
+5. Check TodoWrite status
+6. Resume from `nextSteps.immediate`
+
+The checkpoint is designed for total memory loss scenarios.
 
 ### Bidirectional Knowledge Transfer
 
@@ -222,3 +358,11 @@ The key is patience in the beginning (understanding phase) that pays dividends t
 Resonance isn't just about using AI to code - it's about using AI to code *well*.
 
 **v1.5.7+**: Now with systematic learning that makes your AI assistants smarter with every cycle.
+
+---
+
+## See Also
+
+- **[RESONANCE-PROMPT-ENGINEERING-GUIDE.md](./RESONANCE-PROMPT-ENGINEERING-GUIDE.md)** - Technical implementation details
+- **[Command Documentation](./commands/)** - Specific command prompts
+- **[Examples](./examples/)** - Real-world usage patterns

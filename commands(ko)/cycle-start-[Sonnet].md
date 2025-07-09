@@ -134,7 +134,7 @@ TDD ensures quality through test-first development.
 
 **Your checkpoint = Your external brain**
 
-Write checkpoints as if you'll have complete memory loss in 30 minutes.
+Write checkpoints as if you'll have complete memory loss at any moment.
 
 **Focus on**:
 - WHY you made decisions (not just what)
@@ -168,14 +168,15 @@ Write checkpoints as if you'll have complete memory loss in 30 minutes.
 - Helps future estimation
 
 **Update Frequency (MANDATORY)**:
-- **Every 20-30 minutes** regardless of progress
-- **After each test** (pass or fail)
-- **After each TDD phase transition**
-- **Before trying new approach**
-- **After any "aha!" moment**
-- **When stuck for >10 minutes**
-- **After 2-3 file edits**
-- **Before any risky change**
+- **After TDD phase transitions** (RED→GREEN, GREEN→REFACTOR)
+- **After completing test groups** (3-5 related tests)
+- **After major milestones** from the plan
+- **When reality differs from expectations**
+- **Before trying new approach** (especially after failures)
+- **When blocked or stuck**
+- **After critical decisions or discoveries**
+
+**NOT every test, NOT every file - think in meaningful chunks!**
 
 **What to Document (BE SPECIFIC)**:
 ```json
