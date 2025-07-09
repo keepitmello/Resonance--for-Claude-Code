@@ -48,6 +48,4 @@ Thumbs.db
 !examples/**/*-log.md
 
 # Research documents (internal use)
-multi-phase-prompt-research.md
-resonance-prompt-architecture.md
-PROMPT-ENGINEERING-QUICK-REF.md
+# (통합 문서 RESONANCE-PROMPT-ENGINEERING-GUIDE.md는 제외하지 않음)

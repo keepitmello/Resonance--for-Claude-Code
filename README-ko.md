@@ -14,7 +14,7 @@
 
 **Opus-Sonnet-그리고 당신, 3인 협업 체계.**
 
-[English](./README.md) | [한국어](./README-ko.md) | [철학](./PHILOSOPHY.md) | [문서](./docs/README-ko.md)
+[English](./README.md) | [한국어](./README-ko.md) | [철학](./PHILOSOPHY.md) | [프롬프트 엔지니어링 가이드](./RESONANCE-PROMPT-ENGINEERING-GUIDE.md) | [문서](./docs/README-ko.md)
 
 </div>
 

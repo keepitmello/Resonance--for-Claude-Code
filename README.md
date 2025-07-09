@@ -14,7 +14,7 @@
 
 **Opus-Sonnet-and You, 3-person collaboration system.**
 
-[English](./README.md) | [한국어](./README-ko.md) | [Philosophy](./PHILOSOPHY.md) | [Documentation](./docs/README.md)
+[English](./README.md) | [한국어](./README-ko.md) | [Philosophy](./PHILOSOPHY.md) | [Prompt Engineering Guide](./RESONANCE-PROMPT-ENGINEERING-GUIDE.md) | [Documentation](./docs/README.md)
 
 </div>
 
