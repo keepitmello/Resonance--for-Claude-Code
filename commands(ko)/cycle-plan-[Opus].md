@@ -240,7 +240,54 @@ Phase 2 Quality:
 - Implementation clarity: XX%
 ```
 
-### 6. 파일 저장 (절대 생략 금지!)
+### 7. Checkpoint Template (NEW - CRITICAL)
+**Create structured checkpoint template for Sonnet**:
+```json
+{
+  "checkpointTemplate": {
+    "projectMeta": {
+      "planRef": "cycles/YYYY-MM-DD/HHMM-topic-plan.md",
+      "createdAt": "2025-01-09T14:30:00",
+      "expectedPhases": ["RED", "GREEN", "REFACTOR"],
+      "criticalTests": ["list", "critical", "test", "names"],
+      "planEndpoints": {
+        "POST /api/payment": "idempotent payment processing",
+        "GET /api/payment/:id": "retrieve payment status"
+      }
+    },
+    "requiredTracking": {
+      "decisions": {},
+      "struggles": {},
+      "codeSnippets": {},
+      "metrics": {
+        "testsWritten": 0,
+        "testsPassed": 0,
+        "coveragePercent": 0,
+        "tddCyclesCompleted": 0
+      }
+    },
+    "milestones": [
+      "All test scenarios written and failing (RED complete)",
+      "Core functionality tests passing (GREEN 50%)",
+      "All tests passing (GREEN complete)",
+      "Code refactored and clean (REFACTOR complete)"
+    ],
+    "criticalConstraints": [
+      "Must use exact endpoints from plan",
+      "Must follow TDD cycle strictly",
+      "Must update metrics after each phase"
+    ]
+  }
+}
+```
+
+**Why include template?** (78% error reduction - AWS research)
+- Ensures plan-implementation alignment
+- Standardizes progress tracking
+- Preserves critical decisions
+- Enables consistent handoff
+
+### 8. 파일 저장 (절대 생략 금지!)
 **MUST DO FIRST**: Use Bash to get current date/time:
 ```bash
 date '+%Y-%m-%d %H:%M:%S'
