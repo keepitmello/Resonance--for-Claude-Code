@@ -46,3 +46,8 @@ Thumbs.db
 !examples/**/*-plan.md
 !examples/**/*-checkpoint.json
 !examples/**/*-log.md
+
+# Research documents (internal use)
+multi-phase-prompt-research.md
+resonance-prompt-architecture.md
+PROMPT-ENGINEERING-QUICK-REF.md
