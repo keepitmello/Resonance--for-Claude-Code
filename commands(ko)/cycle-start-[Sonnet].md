@@ -66,6 +66,11 @@ TDD ensures quality through test-first development.
    - Critical tests identified?
    - Plan endpoints documented?
    - Milestones clear?
+   - **Expectation checklist extracted?**
+7. **Review Expectation Checklist** (CRITICAL):
+   - Read Opus's assumptions carefully
+   - Note validation methods suggested
+   - Prepare to track reality vs expectations
 
 ### 2. 🔴 RED Phase - Write Tests First!
 **DO NOT WRITE IMPLEMENTATION CODE YET!**
@@ -129,7 +134,7 @@ TDD ensures quality through test-first development.
 
 **Your checkpoint = Your external brain**
 
-Write checkpoints as if you'll have complete memory loss in 30 minutes.
+Write checkpoints as if you'll have complete memory loss at any moment.
 
 **Focus on**:
 - WHY you made decisions (not just what)
@@ -163,14 +168,15 @@ Write checkpoints as if you'll have complete memory loss in 30 minutes.
 - Helps future estimation
 
 **Update Frequency (MANDATORY)**:
-- **Every 20-30 minutes** regardless of progress
-- **After each test** (pass or fail)
-- **After each TDD phase transition**
-- **Before trying new approach**
-- **After any "aha!" moment**
-- **When stuck for >10 minutes**
-- **After 2-3 file edits**
-- **Before any risky change**
+- **After TDD phase transitions** (RED→GREEN, GREEN→REFACTOR)
+- **After completing test groups** (3-5 related tests)
+- **After major milestones** from the plan
+- **When reality differs from expectations**
+- **Before trying new approach** (especially after failures)
+- **When blocked or stuck**
+- **After critical decisions or discoveries**
+
+**NOT every test, NOT every file - think in meaningful chunks!**
 
 **What to Document (BE SPECIFIC)**:
 ```json
@@ -196,7 +202,58 @@ Write checkpoints as if you'll have complete memory loss in 30 minutes.
 }
 ```
 
+**Reality Checklist Tracking** (NEW - CRITICAL):
+Update this continuously as you discover reality differs from expectations:
+```json
+"realityChecklist": {
+  "assumptionValidations": [
+    {
+      "opusAssumption": "Copy from expectationChecklist",
+      "realityFound": "What actually happened",
+      "impact": "How this changes implementation", 
+      "solution": "What you did instead"
+    }
+  ],
+  "unexpectedDiscoveries": [
+    {
+      "discovery": "Something Opus didn't anticipate",
+      "category": "API/Performance/Security/Business Logic",
+      "severity": "HIGH/MEDIUM/LOW",
+      "resolution": "How you handled it"
+    }
+  ],
+  "implementationInsights": [
+    "Patterns that emerged during coding",
+    "Better approaches discovered",
+    "Tool/library limitations found"
+  ]
+}
+```
+
+**Example Reality Update**:
+```json
+"realityChecklist": {
+  "assumptionValidations": [
+    {
+      "opusAssumption": "Webhooks arrive in chronological order",
+      "realityFound": "Network delays cause out-of-order delivery",
+      "impact": "Can't process events sequentially",
+      "solution": "Implemented event reordering using created_at timestamp"
+    }
+  ],
+  "unexpectedDiscoveries": [
+    {
+      "discovery": "Stripe limits idempotency key to 255 chars",
+      "category": "API",
+      "severity": "HIGH", 
+      "resolution": "Switched from SHA256 to SHA1 for shorter hash"
+    }
+  ]
+}
+```
+
 *See examples/checkpoint-examples.md for detailed structure*
+*See examples/bidirectional-checklist-example.md for checklist examples*
 
 
 
@@ -208,11 +265,15 @@ If starting after context reset:
    - planRef matches current plan?
    - criticalTests still relevant?
    - milestones progress accurate?
-3. Check current TDD phase from metrics
-4. Read mentioned code files
-5. Check TodoWrite status against milestones
-6. Resume from nextSteps.immediate
-7. **If template missing**: Re-read plan to extract
+3. **Review Reality Checklist**:
+   - What assumptions were invalidated?
+   - What unexpected issues emerged?
+   - Any pending validations?
+4. Check current TDD phase from metrics
+5. Read mentioned code files
+6. Check TodoWrite status against milestones
+7. Resume from nextSteps.immediate
+8. **If template missing**: Re-read plan to extract
 
 ## KEY REMINDERS
 
@@ -232,6 +293,7 @@ If starting after context reset:
 - Include failed attempts
 - Add actual code snippets
 - Update after each phase
+- **Track reality vs expectations continuously**
 
 **Success formula**:
 Accurate plan following + Good tests + Frequent checkpoints = Quality code
