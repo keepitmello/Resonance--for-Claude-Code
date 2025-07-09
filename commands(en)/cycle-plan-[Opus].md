@@ -203,6 +203,7 @@ Design comprehensive tests that enforce TDD:
 - Performance considerations
 
 *See examples/test-scenarios.md for patterns*
+*See examples/bidirectional-checklist-example.md for checklist examples*
 
 ### 2. Implementation Strategy
 - Architecture decisions
@@ -213,16 +214,77 @@ Design comprehensive tests that enforce TDD:
 - Trade-offs considered
 - Chosen approach and why
 
-### 4. TDD Action Items
+### 4. Expectation Checklist (CRITICAL - Knowledge Transfer)
+**Share your assumptions and concerns with Sonnet**:
+```json
+{
+  "criticalAssumptions": [
+    {
+      "assumption": "What you believe to be true",
+      "confidence": "HIGH/MEDIUM/LOW",
+      "validateHow": "How Sonnet should verify this",
+      "ifWrong": "What to do if assumption is incorrect"
+    }
+  ],
+  "anticipatedChallenges": [
+    {
+      "challenge": "Specific difficulty you foresee",
+      "likelihood": "HIGH/MEDIUM/LOW", 
+      "suggestion": "Your recommended approach",
+      "alternativeIf": "Backup plan if primary approach fails"
+    }
+  ],
+  "hiddenConstraints": [
+    "Non-obvious limitations from your investigation",
+    "Business rules that might not be documented",
+    "Performance requirements discovered in Phase 1"
+  ],
+  "implementationGotchas": [
+    {
+      "area": "Where to be extra careful",
+      "reason": "Why this is tricky",
+      "recommendation": "Specific guidance"
+    }
+  ]
+}
+```
+
+**Example**:
+```json
+{
+  "criticalAssumptions": [
+    {
+      "assumption": "Webhooks arrive in chronological order",
+      "confidence": "LOW",
+      "validateHow": "Log actual webhook timestamps in test environment",
+      "ifWrong": "Implement event reordering based on event.created timestamp"
+    }
+  ],
+  "anticipatedChallenges": [
+    {
+      "challenge": "Concurrent webhook processing causing race conditions",
+      "likelihood": "HIGH",
+      "suggestion": "Use database transaction or distributed lock",
+      "alternativeIf": "If DB locks too slow, consider Redis-based locking"
+    }
+  ],
+  "hiddenConstraints": [
+    "Payment provider has undocumented 3-second timeout",
+    "Refunds only support partial amounts, not full reversal"
+  ]
+}
+```
+
+### 5. TDD Action Items
 🔴 **RED Phase**: Write failing tests first
 🟢 **GREEN Phase**: Minimal code to pass
 🔵 **REFACTOR Phase**: Improve while keeping tests green
 
-### 5. Risks & Mitigations
+### 6. Risks & Mitigations
 - What could go wrong
 - Backup plans
 
-### 6. Phase Validation Report
+### 7. Phase Validation Report
 **Self-Assessment** (include in plan):
 ```
 Phase 1 Metrics:
@@ -237,7 +299,7 @@ Phase 2 Quality:
 - Implementation clarity: XX%
 ```
 
-### 7. Checkpoint Template (NEW - CRITICAL)
+### 8. Checkpoint Template (NEW - CRITICAL)
 **Create structured checkpoint template for Sonnet**:
 ```json
 {
@@ -252,6 +314,13 @@ Phase 2 Quality:
         "GET /api/payment/:id": "retrieve payment status"
       }
     },
+    "expectationChecklist": {
+      // Copy from section 4 above
+      "criticalAssumptions": [],
+      "anticipatedChallenges": [],
+      "hiddenConstraints": [],
+      "implementationGotchas": []
+    },
     "requiredTracking": {
       "decisions": {},
       "struggles": {},
@@ -261,6 +330,11 @@ Phase 2 Quality:
         "testsPassed": 0,
         "coveragePercent": 0,
         "tddCyclesCompleted": 0
+      },
+      "realityChecklist": {
+        "assumptionValidations": [],
+        "unexpectedDiscoveries": [],
+        "implementationInsights": []
       }
     },
     "milestones": [
@@ -283,8 +357,9 @@ Phase 2 Quality:
 - Standardizes progress tracking
 - Preserves critical decisions
 - Enables consistent handoff
+- **NEW**: Bidirectional knowledge transfer via checklists
 
-### 8. File Saving (CRITICAL - NEVER SKIP!)
+### 9. File Saving (CRITICAL - NEVER SKIP!)
 **MUST DO FIRST**: Use Bash to get current date/time:
 ```bash
 date '+%Y-%m-%d %H:%M:%S'
