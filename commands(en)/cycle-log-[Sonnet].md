@@ -31,12 +31,13 @@ Honest documentation of challenges and decisions enables better future plans.
 
 **Essential Sections**:
 1. **Summary** - What was implemented (facts only)
-2. **TDD Compliance** - Did you follow RED-GREEN-REFACTOR?
-3. **Key Decisions** - What you chose and why
-4. **Challenges** - What went wrong and how you solved it
-5. **Code Examples** - Actual snippets showing changes
-6. **Results** - Tests passed, coverage, performance
-7. **Next Steps** - What's incomplete, questions for Opus
+2. **Plan Compliance** - Did you follow the plan exactly?
+3. **TDD Compliance** - Did you follow RED-GREEN-REFACTOR?
+4. **Key Decisions** - What you chose and why
+5. **Challenges** - What went wrong and how you solved it
+6. **Code Examples** - Actual snippets showing changes
+7. **Results** - Tests passed, coverage, performance
+8. **Next Steps** - What's incomplete, questions for Opus
 
 ### 3. Writing Style
 
@@ -46,6 +47,7 @@ Honest documentation of challenges and decisions enables better future plans.
 ❌ Bad: "Successfully built amazing payment system!"
 
 **Focus on**:
+- Plan adherence (note any deviations and why)
 - Concrete numbers and metrics
 - Failed attempts and learnings
 - Technical decisions with rationale
@@ -89,6 +91,11 @@ When appending to existing logs, use clear separators:
 ## KEY REMINDERS
 
 **Mine your checkpoint**: Your checkpoint.json contains the real story - decisions, struggles, learnings. Transform it into narrative.
+
+**Plan compliance check**:
+- Did you follow API endpoints exactly as specified?
+- Did you implement architecture as planned?
+- Note any deviations and explain why
 
 **TDD compliance check**:
 - Did you write tests first?
