@@ -1,6 +1,6 @@
 # 🚀 Resonance™ for Claude Code
 
-> **⚠️ IMPORTANT UPDATE (January 8, 2025)**: Version 1.4.0 released! Major improvements to command structure. Update with `npm update -g claude-resonance` or use `npx claude-resonance` for the latest version.
+> **⚠️ IMPORTANT UPDATE (July 10, 2025)**: Major improvements to command structure. Update with `npm update -g claude-resonance` or use `npx claude-resonance` for the latest version.
 
 > Lost context from Auto-Compact? Stuck in endless bug fixing?  
 > **Solve it with the systematic Resonance™ workflow.**
