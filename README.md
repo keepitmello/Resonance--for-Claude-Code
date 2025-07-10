@@ -301,6 +301,24 @@ opus> /cycle-check
 # Provides improvement feedback
 ```
 
+### 📝 /wrap (Either Session)
+
+Manually wrap up your work session with a comprehensive log and commit all changes together. This command is useful when you want to conclude your work without going through the full cycle workflow.
+
+```bash
+# In any session (Opus or Sonnet)
+> /wrap
+# Creates comprehensive work session log
+# Documents all accomplishments and changes
+# Commits everything in a single clean commit
+# Saves to cycles/YYYY-MM-DD/HHMM-topic-wrap.md
+```
+
+Use this when:
+- Finishing a work session outside of the cycle workflow
+- Need to commit all work with proper documentation
+- Want to create a session summary for future reference
+
 ## 🤝 Real Collaboration, Not Templates
 
 <details>
