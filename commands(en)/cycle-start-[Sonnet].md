@@ -55,8 +55,8 @@ TDD ensures quality through test-first development.
    // If new: initialize from template
    {
      ...checkpointTemplate,  // From plan
-     "sessionStart": "current timestamp",
-     "contextResets": 0
+     "contextResets": 0,
+     "currentTddPhase": "not_started"
    }
    ```
 5. Set up TodoWrite for TDD phases based on milestones
@@ -144,18 +144,27 @@ Write checkpoints as if you'll have complete memory loss at any moment.
 **QUANTITATIVE METRICS TRACKING** (Required in every checkpoint):
 ```json
 "metrics": {
-  "startTime": "2025-01-09T14:30:00",
-  "currentTime": "2025-01-09T15:15:00", 
-  "timeElapsed": "45 minutes",
-  "tddPhase": "GREEN",
-  "testsWritten": 8,
-  "testsPassed": 5,
-  "testsFailed": 3,
-  "coveragePercent": 75,
-  "filesModified": 4,
-  "tddCyclesCompleted": 1,
-  "linesOfTestCode": 156,
-  "linesOfImplementationCode": 89
+  "currentTddPhase": "GREEN",  // RED, GREEN, or REFACTOR
+  "tests": {
+    "written": 8,
+    "passing": 5,
+    "failing": 3
+  },
+  "files": {
+    "modified": 4,
+    "created": 2,
+    "deleted": 0
+  },
+  "implementation": {
+    "tddCyclesCompleted": 1,
+    "refactorRounds": 0,
+    "failedApproaches": 1
+  },
+  "codeVolume": {
+    "testLines": 156,
+    "implementationLines": 89,
+    "testToCodeRatio": 1.75
+  }
 }
 ```
 

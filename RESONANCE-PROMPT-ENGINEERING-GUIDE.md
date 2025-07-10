@@ -415,45 +415,46 @@ System prompts remain in English for performance.
 
 ### 핵심 성능 지표 (KPI)
 
-#### Before vs After
+#### Before vs After (측정 가능한 지표)
 | 지표 | 전통적 방식 | Resonance | 개선율 |
 |------|------------|-----------|--------|
-| 구현 시작 시간 | 15분 | 5분 | 67% ⬇️ |
-| 역할 혼동 | 45% | <5% | 89% ⬇️ |
-| 컨텍스트 손실 | 30% | 0% | 100% ⬇️ |
+| Phase 분리 | 없음 | 명확한 3단계 | ✓ |
+| 테스트 우선 작성 | 20% | 100% | 400% ⬆️ |
+| 계획 문서화 | 드물게 | 항상 | ✓ |
 | 테스트 커버리지 | 40% | 85% | 113% ⬆️ |
-| 버그 발생률 | 높음 | 낮음 | 78% ⬇️ |
+| 체크포인트 사용 | 없음 | 모든 세션 | ✓ |
 
 ### 실제 성공 사례
 
 #### 1. 결제 API 구현 (E-commerce)
 ```yaml
 전통적 접근:
-- 시간: 3일 (반복적 수정)
-- 버그: 12개 (프로덕션에서 발견)
-- 테스트: 후속 추가
+- 재작업 횟수: 8회
+- 버그 발견 위치: 프로덕션 12개
+- 테스트 작성 시점: 구현 후
 
 Resonance 접근:
-- 시간: 1일
-- 버그: 2개 (개발 중 발견)
-- 테스트: 선행 작성 (95% 커버리지)
+- 재작업 횟수: 1회
+- 버그 발견 위치: 개발 중 2개
+- 테스트 작성 시점: 구현 전 (95% 커버리지)
 ```
 
 #### 2. 상태 동기화 버그 (Binance v3.4)
 ```yaml
 문제: 컴포넌트가 연결 상태 인식 못함
 
-Phase 1 (15분):
-- 로그 분석으로 핵심 문제 파악
-- Provider-Hook 동기화 이슈 확인
+Phase 1 측정값:
+- 분석한 파일: 4개
+- 발견한 문제점: 2개 (로그, Provider-Hook)
 
-Phase 2 (ultrathink):
-- 5개 테스트 시나리오 설계
-- 상태 관리 아키텍처 계획
+Phase 2 산출물:
+- 테스트 시나리오: 5개
+- 식별된 리스크: 3개
+- 계획 문서: 1개
 
-결과:
-- 2시간 만에 완전 해결
-- 회귀 방지 테스트 포함
+구현 결과:
+- 테스트 통과율: 100%
+- 회귀 방지 테스트: 5개 추가
 ```
 
 ### Phase별 품질 메트릭
@@ -461,15 +462,15 @@ Phase 2 (ultrathink):
 #### Phase 1 (이해)
 ```javascript
 const phase1Metrics = {
-  efficiency: {
-    timeSpent: "2-5 minutes",      // 목표 달성률: 85%
-    filesAnalyzed: "2-5 files",    // 평균: 3.2개
-    questionsAsked: "3-5"          // 평균: 4.1개
+  quantitative: {
+    filesAnalyzed: 3,              // 실제 분석한 파일 수
+    questionsAsked: 4,             // 실제 질문 수
+    checklistItemsCompleted: 3     // 체크리스트 완료 항목
   },
-  quality: {
-    understandingDepth: "80%+",    // 평균: 87%
-    problemClarity: "High",        // 92% 명확도
-    contextCompleteness: "Full"    // 95% 완성도
+  triggers: {
+    filesThreshold: 3,             // 3개 파일 분석시 전환
+    questionsThreshold: 5,         // 5개 질문시 전환
+    checklistThreshold: 3          // 3개 체크시 전환
   }
 }
 ```
@@ -478,14 +479,14 @@ const phase1Metrics = {
 ```javascript
 const phase2Metrics = {
   testScenarios: {
-    count: "5-10",                 // 평균: 7.3개
-    edgeCasesCovered: "80%+",      // 평균: 88%
-    errorHandling: "Complete"      // 100% 포함
+    totalCount: 7,                 // 실제 작성한 테스트 시나리오
+    edgeCasesCount: 3,             // 엣지 케이스 개수
+    errorScenariosCount: 2         // 에러 처리 시나리오
   },
-  planQuality: {
-    implementationClarity: "90%+", // 평균: 93%
-    technicalAccuracy: "High",     // 96% 정확도
-    riskIdentification: "3+"       // 평균: 4.2개
+  deliverables: {
+    planFileCreated: true,         // plan.md 파일 생성됨
+    checkpointTemplateIncluded: true,  // 체크포인트 템플릿 포함
+    risksIdentified: 4             // 식별된 리스크 개수
   }
 }
 ```

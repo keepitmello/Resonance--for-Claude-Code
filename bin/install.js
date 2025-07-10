@@ -13,6 +13,20 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+// Helper functions for better UX
+async function waitForEnter(message) {
+  return new Promise((resolve) => {
+    const prompt = message || "계속하려면 Enter를 누르세요... / Press Enter to continue...";
+    rl.question(`\n${prompt} `, () => resolve());
+  });
+}
+
+function showProgress(current, total, message) {
+  const percent = Math.round((current / total) * 100);
+  process.stdout.write(`\r${message} [${current}/${total}] ${percent}%`);
+  if (current === total) console.log(" ✅");
+}
+
 // Show banner with ASCII art
 console.log("");
 console.log(
@@ -127,12 +141,6 @@ function performMigration(language) {
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
   const migrationBackupDir = path.join(COMMANDS_DIR, "backup", `migration-v1.2-${timestamp}`);
   
-  console.log(
-    language === "ko" 
-      ? "\n🔄 레거시 버전에서 마이그레이션 중..."
-      : "\n🔄 Migrating from legacy version..."
-  );
-  
   // Create migration backup directory
   fs.mkdirSync(migrationBackupDir, { recursive: true });
   
@@ -148,7 +156,6 @@ function performMigration(language) {
         // Move legacy file to backup
         fs.renameSync(filePath, path.join(migrationBackupDir, file));
         migratedCount++;
-        console.log(`  📦 ${file} → migration backup`);
       }
     } catch (err) {
       // Skip files that can't be processed
@@ -156,11 +163,11 @@ function performMigration(language) {
     }
   }
   
-  console.log(
-    language === "ko"
-      ? `\n✅ ${migratedCount}개 레거시 파일을 백업했습니다: ${migrationBackupDir}`
-      : `\n✅ Backed up ${migratedCount} legacy files to: ${migrationBackupDir}`
-  );
+  if (migratedCount > 0) {
+    console.log(
+      `   → ${migratedCount}개 레거시 파일 마이그레이션 완료`
+    );
+  }
 }
 
 async function install() {
@@ -173,53 +180,57 @@ async function install() {
   );
 
   console.log(
-    "\n" +
-      (language === "ko"
-        ? "설치를 시작합니다..."
-        : "Starting installation...") +
-      "\n"
+    language === "ko"
+      ? "\n설치를 시작합니다..."
+      : "\nStarting installation..."
   );
 
-  // Check for legacy version and perform migration if needed
-  if (isLegacyVersion()) {
-    console.log(
-      language === "ko"
-        ? "\n⚠️  레거시 버전이 감지되었습니다!"
-        : "\n⚠️  Legacy version detected!"
-    );
-    console.log(
-      language === "ko"
-        ? "   git worktree 기반에서 간단한 폴더 구조로 업그레이드합니다."
-        : "   Upgrading from git worktree-based to simple folder structure."
-    );
-    
-    performMigration(language);
-  }
+  // Step 1: 환경 확인
+  console.log(
+    language === "ko"
+      ? "\n1단계: 환경 확인"
+      : "\nStep 1: Checking environment"
+  );
 
-  // Claude Code가 설치되어 있는지 확인
+  // Claude Code 확인
   if (!fs.existsSync(path.join(os.homedir(), ".claude"))) {
-    if (language === "ko") {
-      console.error("❌ Claude Code가 설치되어 있지 않습니다!");
-      console.error(
-        "   Claude Code를 먼저 설치해주세요: https://claude.ai/code"
-      );
-    } else {
-      console.error("❌ Claude Code is not installed!");
-      console.error(
-        "   Please install Claude Code first: https://claude.ai/code"
-      );
-    }
+    console.error(
+      language === "ko"
+        ? "❌ Claude Code가 설치되어 있지 않습니다!"
+        : "❌ Claude Code is not installed!"
+    );
+    console.error("   https://claude.ai/code");
     rl.close();
     process.exit(1);
   }
 
-  // commands 폴더 생성 (없다면)
-  if (!fs.existsSync(CLAUDE_COMMANDS_DIR)) {
+  // Legacy version check
+  if (isLegacyVersion()) {
     console.log(
       language === "ko"
-        ? "📁 .claude/commands 폴더 생성 중..."
-        : "📁 Creating .claude/commands directory..."
+        ? "⚠️  레거시 버전 감지 → 마이그레이션 진행"
+        : "⚠️  Legacy version detected → Migrating"
     );
+    performMigration(language);
+  }
+
+  console.log("✅ " + (language === "ko" ? "환경 확인 완료" : "Environment ready"));
+  
+  await waitForEnter(
+    language === "ko" 
+      ? "계속하려면 Enter를 누르세요..." 
+      : "Press Enter to continue..."
+  );
+
+  // Step 2: 디렉토리 준비
+  console.log(
+    language === "ko"
+      ? "\n2단계: 디렉토리 준비"
+      : "\nStep 2: Preparing directories"
+  );
+
+  // commands 폴더 생성 (없다면)
+  if (!fs.existsSync(CLAUDE_COMMANDS_DIR)) {
     fs.mkdirSync(CLAUDE_COMMANDS_DIR, { recursive: true });
   }
 
@@ -229,11 +240,6 @@ async function install() {
   }
 
   // 기존 Resonance 파일들 백업
-  console.log(
-    language === "ko"
-      ? "💾 기존 파일 백업 중..."
-      : "💾 Backing up existing files..."
-  );
   const resonanceFiles = [
     "cycle-plan-[Opus].md",
     "cycle-start-[Sonnet].md",
@@ -245,49 +251,50 @@ async function install() {
     .toISOString()
     .replace(/[:.]/g, "-")
     .split("T")[0];
+  
+  let backupCount = 0;
   resonanceFiles.forEach((file) => {
     const sourcePath = path.join(CLAUDE_COMMANDS_DIR, file);
     if (fs.existsSync(sourcePath)) {
       const backupPath = path.join(BACKUP_DIR, `${file}.backup.${timestamp}`);
       fs.copyFileSync(sourcePath, backupPath);
-      console.log(`  ✅ ${file} → backup/`);
+      backupCount++;
     }
   });
+  
+  if (backupCount > 0) {
+    console.log(`✅ ${backupCount}개 파일 백업 완료`);
+  }
 
-  // Resonance commands 복사
+  // Step 3: 파일 설치
   console.log(
     language === "ko"
-      ? "\n📋 Resonance commands 설치 중..."
-      : "\n📋 Installing Resonance commands..."
+      ? "\n3단계: 파일 설치"
+      : "\nStep 3: Installing files"
   );
+  
   const commandFiles = fs
     .readdirSync(SOURCE_DIR)
     .filter((file) => file.endsWith(".md"));
 
-  commandFiles.forEach((file) => {
+  commandFiles.forEach((file, index) => {
     const sourcePath = path.join(SOURCE_DIR, file);
     const destPath = path.join(CLAUDE_COMMANDS_DIR, file);
 
     fs.copyFileSync(sourcePath, destPath);
-    console.log(
-      `  ✅ ${file} ${language === "ko" ? "설치 완료" : "installed"}`
+    showProgress(
+      index + 1, 
+      commandFiles.length, 
+      language === "ko" ? "설치 진행" : "Installing"
     );
   });
 
-  // Save language configuration with version update
-  console.log(
-    language === "ko"
-      ? "\n⚙️  언어 설정 저장 중..."
-      : "\n⚙️  Saving language configuration..."
-  );
-  
-  // Read existing config to preserve migration history
+  // Save language configuration
   let existingConfig = {};
   if (fs.existsSync(CONFIG_FILE)) {
     try {
       existingConfig = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
     } catch (err) {
-      // If config is corrupted, start fresh
       existingConfig = {};
     }
   }
@@ -296,7 +303,7 @@ async function install() {
   const config = {
     language: language,
     installedAt: new Date().toISOString(),
-    version: "1.5.0", // Updated to current version
+    version: "1.5.9",
     ...(wasLegacy && {
       migration: {
         from: existingConfig.version || "1.1.x",
@@ -315,23 +322,23 @@ async function install() {
 
   // Show success banner
   console.log(
-    "+===============================================================+"
+    "+================================================================+"
   );
   console.log(
-    "|                                                                 |"
+    "|                                                                |"
   );
   if (language === "ko") {
     console.log(
       "|                    💡 사용법                                    |"
     );
     console.log(
-      "|                                                               |"
+      "|                                                                |"
     );
     console.log(
       "|  Claude Code에서:                                              |"
     );
     console.log(
-      "|                                                               |"
+      "|                                                                |"
     );
     console.log(
       "|  opus> /cycle-plan      (작업 계획 수립)                          |"
@@ -353,13 +360,13 @@ async function install() {
       "|                     💡 Usage                                   |"
     );
     console.log(
-      "|                                                               |"
+      "|                                                                |"
     );
     console.log(
       "|  In Claude Code:                                              |"
     );
     console.log(
-      "|                                                               |"
+      "|                                                                |"
     );
     console.log(
       "|  opus> /cycle-plan      (Plan your work)                      |"
@@ -374,11 +381,11 @@ async function install() {
       "|  opus> /cycle-check     (Quality review)                      |"
     );
     console.log(
-      "|                                                               |"
+      "|                                                                |"
     );
   }
   console.log(
-    "+===============================================================+"
+    "+================================================================+"
   );
 
   if (language === "ko") {
