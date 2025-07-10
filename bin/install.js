@@ -7,417 +7,285 @@ const readline = require("readline");
 
 const CLAUDE_COMMANDS_DIR = path.join(os.homedir(), ".claude", "commands");
 const BACKUP_DIR = path.join(CLAUDE_COMMANDS_DIR, "backup");
+const GLOBAL_CLAUDE_MD = path.join(os.homedir(), ".claude", "CLAUDE.md");
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-// Helper functions for better UX
-async function waitForEnter(message) {
+// Helper: 사용자 확인 대기
+async function waitForEnter(message = "") {
   return new Promise((resolve) => {
-    const prompt = message || "계속하려면 Enter를 누르세요... / Press Enter to continue...";
+    const prompt = message || "계속하려면 Enter를 누르세요...";
     rl.question(`\n${prompt} `, () => resolve());
   });
 }
 
+// Helper: Y/N 질문
+async function askYesNo(question, defaultYes = true) {
+  return new Promise((resolve) => {
+    const defaultText = defaultYes ? "Y/n" : "y/N";
+    rl.question(`${question} (${defaultText}): `, (answer) => {
+      const response = answer.trim().toLowerCase();
+      if (response === "") {
+        resolve(defaultYes);
+      } else {
+        resolve(response === "y" || response === "yes");
+      }
+    });
+  });
+}
+
+// Helper: 진행률 표시
 function showProgress(current, total, message) {
   const percent = Math.round((current / total) * 100);
   process.stdout.write(`\r${message} [${current}/${total}] ${percent}%`);
   if (current === total) console.log(" ✅");
 }
 
-// Show banner with ASCII art
-console.log("");
-console.log(
-  "    +----------------------------------------------------------------+"
-);
-console.log(
-  "    |                                                                |"
-);
-console.log(
-  "    |    ____  _____ ____   ___  _   _    _    _   _  ____ _____     |"
-);
-console.log(
-  "    |   |  _ \\| ____/ ___| / _ \\| \\ | |  / \\  | \\ | |/ ___| ____|    |"
-);
-console.log(
-  "    |   | |_) |  _| \\___ \\| | | |  \\| | / _ \\ |  \\| | |   |  _|      |"
-);
-console.log(
-  "    |   |  _ <| |___ ___) | |_| | |\\  |/ ___ \\| |\\  | |___| |___     |"
-);
-console.log(
-  "    |   |_| \\_\\_____|____/ \\___/|_| \\_/_/   \\_\\_| \\_|\\____|_____|    |"
-);
-console.log(
-  "    |                                                                |"
-);
-console.log(
-  "    |                      for Claude Code                           |"
-);
-console.log(
-  "    |                                                                |"
-);
-console.log(
-  "    |              AI TDD workflow with Opus-Sonnet-You              |"
-);
-console.log(
-  "    |                                                                |"
-);
-console.log(
-  "    +----------------------------------------------------------------+"
-);
-console.log("");
+// 배너 표시
+function showBanner() {
+  console.log("");
+  console.log(
+    "    +----------------------------------------------------------------+"
+  );
+  console.log(
+    "    |                                                                |"
+  );
+  console.log(
+    "    |    ____  _____ ____   ___  _   _    _    _   _  ____ _____     |"
+  );
+  console.log(
+    "    |   |  _ \\| ____/ ___| / _ \\| \\ | |  / \\  | \\ | |/ ___| ____|    |"
+  );
+  console.log(
+    "    |   | |_) |  _| \\___ \\| | | |  \\| | / _ \\ |  \\| | |   |  _|      |"
+  );
+  console.log(
+    "    |   |  _ <| |___ ___) | |_| | |\\  |/ ___ \\| |\\  | |___| |___     |"
+  );
+  console.log(
+    "    |   |_| \\_\\_____|____/ \\___/|_| \\_/_/   \\_\\_| \\_|\\____|_____|    |"
+  );
+  console.log(
+    "    |                                                                |"
+  );
+  console.log(
+    "    |                      for Claude Code                           |"
+  );
+  console.log(
+    "    |                                                                |"
+  );
+  console.log(
+    "    |              AI TDD workflow with Opus-Sonnet-You              |"
+  );
+  console.log(
+    "    |                                                                |"
+  );
+  console.log(
+    "    +----------------------------------------------------------------+"
+  );
+  console.log("");
+}
 
-// Language selection
-function selectLanguage() {
+// 언어 선택
+async function selectLanguage() {
   return new Promise((resolve) => {
-    console.log("Select your language / 언어를 선택하세요:\n");
+    console.log("언어 선택 / Select Language:");
     console.log("  1) English");
-    console.log("  2) 한국어 (Korean)\n");
+    console.log("  2) 한국어\n");
 
-    rl.question("Enter your choice (1 or 2): ", (answer) => {
+    rl.question("선택 (1/2): ", (answer) => {
       const choice = answer.trim();
-      if (choice === "1") {
-        resolve("en");
-      } else if (choice === "2") {
-        resolve("ko");
-      } else {
-        console.log("\n❌ Invalid choice. Please enter 1 or 2.\n");
+      if (choice === "1") resolve("en");
+      else if (choice === "2") resolve("ko");
+      else {
+        console.log("잘못된 선택입니다.\n");
         selectLanguage().then(resolve);
       }
     });
   });
 }
 
-// Version checking and migration logic
-function isLegacyVersion() {
-  const CONFIG_FILE = path.join(os.homedir(), ".claude", "resonance-config.json");
-  const COMMANDS_DIR = path.join(os.homedir(), ".claude", "commands");
+// 전역 CLAUDE.md 업데이트 함수
+async function updateGlobalClaudeMd(language) {
+  console.log(language === "ko" ? "\n3. 전역 설정 업데이트" : "\n3. Global settings update");
   
-  try {
-    // Check if commands directory exists
-    if (!fs.existsSync(COMMANDS_DIR)) return false;
-    
-    // Check for worktree artifacts in command files
-    const commandFiles = fs.readdirSync(COMMANDS_DIR).filter(file => file.endsWith('.md'));
-    for (const file of commandFiles) {
-      const filePath = path.join(COMMANDS_DIR, file);
-      try {
-        const content = fs.readFileSync(filePath, 'utf8');
-        // Look for git worktree specific patterns
-        if (/(git worktree|\.git\/worktrees|worktree.*checkout|branch.*worktree)/i.test(content)) {
-          return true;
-        }
-      } catch (err) {
-        // Skip files that can't be read
-        continue;
-      }
-    }
-    
-    // Check config version if exists
-    if (fs.existsSync(CONFIG_FILE)) {
-      try {
-        const config = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
-        // If version is less than 1.2.0, it's legacy
-        if (config.version && config.version.startsWith('1.0') || config.version.startsWith('1.1')) {
-          return true;
-        }
-      } catch (err) {
-        // If config is corrupted, assume legacy
-        return true;
-      }
-    }
-    
-    return false;
-  } catch (err) {
-    return false;
+  // Resonance CLAUDE.md 내용 읽기
+  const resonanceClaudeMdPath = path.join(__dirname, "..", `commands(${language})`, "CLAUDE.md");
+  if (!fs.existsSync(resonanceClaudeMdPath)) {
+    console.log("   ⚠️  " + (language === "ko" ? "Resonance CLAUDE.md 파일을 찾을 수 없습니다." : "Resonance CLAUDE.md file not found."));
+    return;
   }
-}
-
-function performMigration(language) {
-  const COMMANDS_DIR = path.join(os.homedir(), ".claude", "commands");
-  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
-  const migrationBackupDir = path.join(COMMANDS_DIR, "backup", `migration-v1.2-${timestamp}`);
   
-  // Create migration backup directory
-  fs.mkdirSync(migrationBackupDir, { recursive: true });
+  const resonanceContent = fs.readFileSync(resonanceClaudeMdPath, "utf8");
   
-  // Move legacy command files to migration backup
-  const commandFiles = fs.readdirSync(COMMANDS_DIR).filter(file => file.endsWith('.md'));
-  let migratedCount = 0;
+  // OPUS_SONNET_WORKFLOW 섹션 추출
+  const workflowMatch = resonanceContent.match(/# OPUS_SONNET_WORKFLOW[\s\S]*?(?=\n# |$)/);
+  if (!workflowMatch) {
+    console.log("   ⚠️  " + (language === "ko" ? "OPUS_SONNET_WORKFLOW 섹션을 찾을 수 없습니다." : "OPUS_SONNET_WORKFLOW section not found."));
+    return;
+  }
   
-  for (const file of commandFiles) {
-    const filePath = path.join(COMMANDS_DIR, file);
-    try {
-      const content = fs.readFileSync(filePath, 'utf8');
-      if (/(git worktree|\.git\/worktrees|worktree.*checkout|branch.*worktree)/i.test(content)) {
-        // Move legacy file to backup
-        fs.renameSync(filePath, path.join(migrationBackupDir, file));
-        migratedCount++;
+  const workflowSection = workflowMatch[0].trim();
+  
+  // 전역 CLAUDE.md 확인
+  let existingContent = "";
+  let hasResonance = false;
+  
+  if (fs.existsSync(GLOBAL_CLAUDE_MD)) {
+    existingContent = fs.readFileSync(GLOBAL_CLAUDE_MD, "utf8");
+    hasResonance = existingContent.includes("OPUS_SONNET_WORKFLOW");
+    
+    if (hasResonance) {
+      console.log("   ℹ️  " + (language === "ko" ? "이미 Resonance 설정이 있습니다." : "Resonance settings already exist."));
+      
+      const shouldUpdate = await askYesNo(
+        language === "ko" 
+          ? "   기존 설정을 업데이트할까요?" 
+          : "   Update existing settings?"
+      );
+      
+      if (!shouldUpdate) {
+        console.log("   ✅ " + (language === "ko" ? "전역 설정 유지" : "Global settings kept"));
+        return;
       }
-    } catch (err) {
-      // Skip files that can't be processed
-      continue;
+      
+      // 백업 생성
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
+      const backupPath = path.join(os.path.dirname(GLOBAL_CLAUDE_MD), `CLAUDE.md.backup.${timestamp}`);
+      fs.copyFileSync(GLOBAL_CLAUDE_MD, backupPath);
+      console.log("   📁 " + (language === "ko" ? `백업 생성: ${backupPath}` : `Backup created: ${backupPath}`));
+      
+      // 기존 OPUS_SONNET_WORKFLOW 섹션 교체
+      const updatedContent = existingContent.replace(
+        /# OPUS_SONNET_WORKFLOW[\s\S]*?(?=\n# |$)/,
+        workflowSection + "\n"
+      );
+      
+      fs.writeFileSync(GLOBAL_CLAUDE_MD, updatedContent);
+      console.log("   ✅ " + (language === "ko" ? "전역 설정 업데이트 완료" : "Global settings updated"));
     }
   }
   
-  if (migratedCount > 0) {
-    console.log(
-      `   → ${migratedCount}개 레거시 파일 마이그레이션 완료`
+  if (!hasResonance) {
+    const shouldAdd = await askYesNo(
+      language === "ko" 
+        ? "   전역 CLAUDE.md에 Resonance 설정을 추가할까요? (권장)" 
+        : "   Add Resonance settings to global CLAUDE.md? (recommended)",
+      true
     );
+    
+    if (!shouldAdd) {
+      console.log("   ⏭️  " + (language === "ko" ? "전역 설정 건너뛰기" : "Skipping global settings"));
+      return;
+    }
+    
+    // 백업 생성 (파일이 있는 경우)
+    if (existingContent) {
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
+      const backupPath = path.join(os.path.dirname(GLOBAL_CLAUDE_MD), `CLAUDE.md.backup.${timestamp}`);
+      fs.copyFileSync(GLOBAL_CLAUDE_MD, backupPath);
+      console.log("   📁 " + (language === "ko" ? `백업 생성: ${backupPath}` : `Backup created: ${backupPath}`));
+    }
+    
+    // 새 내용 추가
+    const newContent = existingContent 
+      ? existingContent.trim() + "\n\n" + workflowSection + "\n"
+      : workflowSection + "\n";
+    
+    fs.writeFileSync(GLOBAL_CLAUDE_MD, newContent);
+    console.log("   ✅ " + (language === "ko" ? "전역 설정 추가 완료" : "Global settings added"));
   }
 }
 
+// 메인 설치 로직
 async function install() {
+  showBanner();
+  
   const language = await selectLanguage();
   const SOURCE_DIR = path.join(__dirname, "..", `commands(${language})`);
-  const CONFIG_FILE = path.join(
-    os.homedir(),
-    ".claude",
-    "resonance-config.json"
-  );
-
-  console.log(
-    language === "ko"
-      ? "\n설치를 시작합니다..."
-      : "\nStarting installation..."
-  );
-
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").split("T")[0];
+  
+  console.log(language === "ko" ? "\n설치를 시작합니다..." : "\nStarting installation...");
+  
   // Step 1: 환경 확인
-  console.log(
-    language === "ko"
-      ? "\n1단계: 환경 확인"
-      : "\nStep 1: Checking environment"
-  );
-
-  // Claude Code 확인
+  console.log(language === "ko" ? "\n1. 환경 확인 중..." : "\n1. Checking environment...");
+  
   if (!fs.existsSync(path.join(os.homedir(), ".claude"))) {
-    console.error(
-      language === "ko"
-        ? "❌ Claude Code가 설치되어 있지 않습니다!"
-        : "❌ Claude Code is not installed!"
-    );
-    console.error("   https://claude.ai/code");
+    console.error(language === "ko" 
+      ? "❌ Claude Code가 설치되어 있지 않습니다!" 
+      : "❌ Claude Code is not installed!");
     rl.close();
     process.exit(1);
   }
-
-  // Legacy version check
-  if (isLegacyVersion()) {
-    console.log(
-      language === "ko"
-        ? "⚠️  레거시 버전 감지 → 마이그레이션 진행"
-        : "⚠️  Legacy version detected → Migrating"
-    );
-    performMigration(language);
-  }
-
-  console.log("✅ " + (language === "ko" ? "환경 확인 완료" : "Environment ready"));
   
-  await waitForEnter(
-    language === "ko" 
-      ? "계속하려면 Enter를 누르세요..." 
-      : "Press Enter to continue..."
-  );
-
-  // Step 2: 디렉토리 준비
-  console.log(
-    language === "ko"
-      ? "\n2단계: 디렉토리 준비"
-      : "\nStep 2: Preparing directories"
-  );
-
-  // commands 폴더 생성 (없다면)
+  // 디렉토리 생성
   if (!fs.existsSync(CLAUDE_COMMANDS_DIR)) {
     fs.mkdirSync(CLAUDE_COMMANDS_DIR, { recursive: true });
   }
-
-  // 백업 폴더 생성
   if (!fs.existsSync(BACKUP_DIR)) {
     fs.mkdirSync(BACKUP_DIR, { recursive: true });
   }
-
-  // 기존 Resonance 파일들 백업
-  const resonanceFiles = [
-    "cycle-plan-[Opus].md",
-    "cycle-start-[Sonnet].md",
-    "cycle-check-[Opus].md",
-    "cycle-log-[Sonnet].md",
-  ];
-
-  const timestamp = new Date()
-    .toISOString()
-    .replace(/[:.]/g, "-")
-    .split("T")[0];
   
-  let backupCount = 0;
-  resonanceFiles.forEach((file) => {
-    const sourcePath = path.join(CLAUDE_COMMANDS_DIR, file);
-    if (fs.existsSync(sourcePath)) {
-      const backupPath = path.join(BACKUP_DIR, `${file}.backup.${timestamp}`);
-      fs.copyFileSync(sourcePath, backupPath);
-      backupCount++;
-    }
-  });
+  console.log("   ✅ " + (language === "ko" ? "환경 확인 완료" : "Environment ready"));
   
-  if (backupCount > 0) {
-    console.log(`✅ ${backupCount}개 파일 백업 완료`);
-  }
-
-  // Step 3: 파일 설치
-  console.log(
-    language === "ko"
-      ? "\n3단계: 파일 설치"
-      : "\nStep 3: Installing files"
-  );
+  await waitForEnter();
   
-  const commandFiles = fs
-    .readdirSync(SOURCE_DIR)
-    .filter((file) => file.endsWith(".md"));
-
+  // Step 2: 파일 설치
+  console.log(language === "ko" ? "\n2. 파일 설치 중..." : "\n2. Installing files...");
+  
+  const commandFiles = fs.readdirSync(SOURCE_DIR).filter(file => file.endsWith(".md"));
+  const total = commandFiles.length;
+  
   commandFiles.forEach((file, index) => {
     const sourcePath = path.join(SOURCE_DIR, file);
     const destPath = path.join(CLAUDE_COMMANDS_DIR, file);
-
-    fs.copyFileSync(sourcePath, destPath);
-    showProgress(
-      index + 1, 
-      commandFiles.length, 
-      language === "ko" ? "설치 진행" : "Installing"
-    );
-  });
-
-  // Save language configuration
-  let existingConfig = {};
-  if (fs.existsSync(CONFIG_FILE)) {
-    try {
-      existingConfig = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
-    } catch (err) {
-      existingConfig = {};
+    
+    // 백업이 필요한 경우
+    if (fs.existsSync(destPath)) {
+      const backupPath = path.join(BACKUP_DIR, `${file}.backup.${timestamp}`);
+      fs.copyFileSync(destPath, backupPath);
     }
-  }
+    
+    fs.copyFileSync(sourcePath, destPath);
+    showProgress(index + 1, total, "   설치 진행");
+  });
   
-  const wasLegacy = isLegacyVersion();
+  // Step 3: 전역 CLAUDE.md 업데이트
+  await updateGlobalClaudeMd(language);
+  
+  // Step 4: 설정 저장
+  const CONFIG_FILE = path.join(os.homedir(), ".claude", "resonance-config.json");
   const config = {
     language: language,
     installedAt: new Date().toISOString(),
-    version: "1.5.9",
-    ...(wasLegacy && {
-      migration: {
-        from: existingConfig.version || "1.1.x",
-        timestamp: new Date().toISOString(),
-        type: "worktree-to-simple"
-      }
-    })
+    version: "1.5.9"
   };
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2));
-
-  console.log(
-    language === "ko"
-      ? "\n🎉 Resonance™ 설치 완료!\n"
-      : "\n🎉 Resonance™ installation complete!\n"
-  );
-
-  // Show success banner
-  console.log(
-    "+================================================================+"
-  );
-  console.log(
-    "|                                                                |"
-  );
-  if (language === "ko") {
-    console.log(
-      "|                    💡 사용법                                    |"
-    );
-    console.log(
-      "|                                                                |"
-    );
-    console.log(
-      "|  Claude Code에서:                                              |"
-    );
-    console.log(
-      "|                                                                |"
-    );
-    console.log(
-      "|  opus> /cycle-plan      (작업 계획 수립)                          |"
-    );
-    console.log(
-      "|  sonnet> /cycle-start   (테스트 기반 구현)                        |"
-    );
-    console.log(
-      "|  sonnet> /cycle-log     (작업 내용 문서화)                        |"
-    );
-    console.log(
-      "|  opus> /cycle-check     (코드 품질 검토)                          |"
-    );
-    console.log(
-      "|                                                                |"
-    );
-  } else {
-    console.log(
-      "|                     💡 Usage                                   |"
-    );
-    console.log(
-      "|                                                                |"
-    );
-    console.log(
-      "|  In Claude Code:                                              |"
-    );
-    console.log(
-      "|                                                                |"
-    );
-    console.log(
-      "|  opus> /cycle-plan      (Plan your work)                      |"
-    );
-    console.log(
-      "|  sonnet> /cycle-start   (Test-driven implementation)          |"
-    );
-    console.log(
-      "|  sonnet> /cycle-log     (Document your work)                  |"
-    );
-    console.log(
-      "|  opus> /cycle-check     (Quality review)                      |"
-    );
-    console.log(
-      "|                                                                |"
-    );
-  }
-  console.log(
-    "+================================================================+"
-  );
-
-  if (language === "ko") {
-    console.log(
-      "\n✨ Opus가 질문하고, Sonnet이 구현하는 AI TDD 워크플로우를 경험해보세요!"
-    );
-    console.log("\n📌 중요: Claude Code 세션을 2개 열어야 합니다:");
-    console.log("   - 세션 1: Opus 모드 (계획/리뷰)");
-    console.log("   - 세션 2: Sonnet 모드 (구현)");
-    console.log(
-      "\n🔄 재시작: Claude Code를 재시작하면 명령어를 사용할 수 있습니다."
-    );
-  } else {
-    console.log(
-      "\n✨ Experience AI TDD workflow with Opus asking and Sonnet implementing!"
-    );
-    console.log("\n📌 Important: You need to open 2 Claude Code sessions:");
-    console.log("   - Session 1: Opus mode (planning/review)");
-    console.log("   - Session 2: Sonnet mode (implementation)");
-    console.log("\n🔄 Restart: Restart Claude Code to use the commands.");
-  }
-
-  console.log(
-    language === "ko"
-      ? "\n📚 자세한 사용법: https://github.com/keepitmello/Resonance--for-Claude-Code"
-      : "\n📚 Documentation: https://github.com/keepitmello/Resonance--for-Claude-Code"
-  );
-
+  
+  // 완료 요약
+  console.log("\n" + "=".repeat(50));
+  console.log(language === "ko" ? "✅ 설치 완료!" : "✅ Installation Complete!");
+  console.log("=".repeat(50));
+  
+  console.log(language === "ko" ? "\n📋 빠른 시작:" : "\n📋 Quick Start:");
+  console.log("   opus> /cycle-plan    " + (language === "ko" ? "(계획)" : "(Plan)"));
+  console.log("   sonnet> /cycle-start " + (language === "ko" ? "(구현)" : "(Implement)"));
+  
+  console.log(language === "ko" ? "\n📚 더 알아보기:" : "\n📚 Learn More:");
+  console.log("   - " + (language === "ko" ? "전체 명령어" : "All commands") + ": ~/.claude/commands/");
+  console.log("   - GitHub: https://github.com/keepitmello/Resonance--for-Claude-Code");
+  
+  console.log(language === "ko" 
+    ? "\n💡 팁: Claude Code를 재시작하면 명령어를 사용할 수 있습니다."
+    : "\n💡 Tip: Restart Claude Code to use the commands.");
+  
   rl.close();
 }
 
-// Start installation
+// 실행
 install().catch((err) => {
   console.error("Installation failed:", err);
   rl.close();

@@ -20,6 +20,21 @@ Context unclear → Check `cycles/*/HHMM-topic-checkpoint.json`:
 - Triggers: "continue working", sudden file opens, /cycle-start
 
 # OPUS_SONNET_WORKFLOW
-Cycle commands → auto role separation (separate from plan mode):
-- **Opus** (`/cycle-plan`, `/cycle-check`): Design/review only, no code
-- **Sonnet** (`/cycle-start`, `/cycle-log`): Implement from HHMM-topic-plan.md, use checkpoints
+TDD cycle commands enforce strict role separation via tool constraints:
+
+**Opus** (`/cycle-plan`, `/cycle-check`):
+- Architect who asks "why" before "what"
+- Phase 1: Understand via dialogue (~5min) – NO TodoWrite allowed
+- Phase 2: Design with `ultrathink` (mandatory) – check docs with Context7/MCP
+- 🚫 CANNOT use Edit/MultiEdit tools (enforced constraint)
+- Creates Expectation Checklist of assumptions/concerns
+- Must save plan to `cycles/YYYY-MM-DD/HHMM-topic-plan.md`
+
+**Sonnet** (`/cycle-start`, `/cycle-log`):
+- Builder who implements plan EXACTLY (no improvisation)
+- Strict TDD: 🔴RED (tests first) → 🟢GREEN (pass) → 🔵REFACTOR
+- Must extract checkpoint template from plan
+- Updates Reality Checklist with actual findings vs expectations
+- Checkpoint at phase transitions to `HHMM-topic-checkpoint.json`
+
+**Knowledge Transfer**: Expectation→Reality→Learning checklists enable AI improvement each cycle
