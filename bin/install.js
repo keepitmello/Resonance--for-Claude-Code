@@ -121,14 +121,18 @@ async function updateGlobalClaudeMd(language) {
   
   const resonanceContent = fs.readFileSync(resonanceClaudeMdPath, "utf8");
   
-  // OPUS_SONNET_WORKFLOW 섹션 추출
+  // CHECKPOINT_RECOVERY와 OPUS_SONNET_WORKFLOW 섹션 추출
+  const checkpointMatch = resonanceContent.match(/# CHECKPOINT_RECOVERY[\s\S]*?(?=\n# |$)/);
   const workflowMatch = resonanceContent.match(/# OPUS_SONNET_WORKFLOW[\s\S]*?(?=\n# |$)/);
-  if (!workflowMatch) {
-    console.log("   ⚠️  " + (language === "ko" ? "OPUS_SONNET_WORKFLOW 섹션을 찾을 수 없습니다." : "OPUS_SONNET_WORKFLOW section not found."));
+  
+  if (!checkpointMatch || !workflowMatch) {
+    console.log("   ⚠️  " + (language === "ko" ? "필수 섹션을 찾을 수 없습니다." : "Required sections not found."));
     return;
   }
   
+  const checkpointSection = checkpointMatch[0].trim();
   const workflowSection = workflowMatch[0].trim();
+  const resonanceSections = checkpointSection + "\n\n" + workflowSection;
   
   // 전역 CLAUDE.md 확인
   let existingContent = "";
@@ -136,7 +140,7 @@ async function updateGlobalClaudeMd(language) {
   
   if (fs.existsSync(GLOBAL_CLAUDE_MD)) {
     existingContent = fs.readFileSync(GLOBAL_CLAUDE_MD, "utf8");
-    hasResonance = existingContent.includes("OPUS_SONNET_WORKFLOW");
+    hasResonance = existingContent.includes("OPUS_SONNET_WORKFLOW") || existingContent.includes("CHECKPOINT_RECOVERY");
     
     if (hasResonance) {
       console.log("   ℹ️  " + (language === "ko" ? "이미 Resonance 설정이 있습니다." : "Resonance settings already exist."));
@@ -158,8 +162,25 @@ async function updateGlobalClaudeMd(language) {
       fs.copyFileSync(GLOBAL_CLAUDE_MD, backupPath);
       console.log("   📁 " + (language === "ko" ? `백업 생성: ${backupPath}` : `Backup created: ${backupPath}`));
       
-      // 기존 OPUS_SONNET_WORKFLOW 섹션 교체
-      const updatedContent = existingContent.replace(
+      // 기존 섹션들 교체
+      let updatedContent = existingContent;
+      
+      // CHECKPOINT_RECOVERY 섹션 교체/추가
+      if (existingContent.includes("CHECKPOINT_RECOVERY")) {
+        updatedContent = updatedContent.replace(
+          /# CHECKPOINT_RECOVERY[\s\S]*?(?=\n# |$)/,
+          checkpointSection + "\n"
+        );
+      } else {
+        // OPUS_SONNET_WORKFLOW 전에 삽입
+        updatedContent = updatedContent.replace(
+          /# OPUS_SONNET_WORKFLOW/,
+          checkpointSection + "\n\n# OPUS_SONNET_WORKFLOW"
+        );
+      }
+      
+      // OPUS_SONNET_WORKFLOW 섹션 교체
+      updatedContent = updatedContent.replace(
         /# OPUS_SONNET_WORKFLOW[\s\S]*?(?=\n# |$)/,
         workflowSection + "\n"
       );
@@ -192,8 +213,8 @@ async function updateGlobalClaudeMd(language) {
     
     // 새 내용 추가
     const newContent = existingContent 
-      ? existingContent.trim() + "\n\n" + workflowSection + "\n"
-      : workflowSection + "\n";
+      ? existingContent.trim() + "\n\n" + resonanceSections + "\n"
+      : resonanceSections + "\n";
     
     fs.writeFileSync(GLOBAL_CLAUDE_MD, newContent);
     console.log("   ✅ " + (language === "ko" ? "전역 설정 추가 완료" : "Global settings added"));
